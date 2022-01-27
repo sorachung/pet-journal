@@ -1,10 +1,9 @@
 import React from "react";
 
-
-export const Navbar = () => {
+export const Register = () => {
     return (
         <>
-            Navbar
+            Register
         </>
     )
 }

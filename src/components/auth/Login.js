@@ -1,10 +1,9 @@
 import React from "react";
 
-
-export const Navbar = () => {
+export const Login = () => {
     return (
         <>
-            Navbar
+            Login
         </>
     )
 }
