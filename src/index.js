@@ -3,10 +3,13 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { PetJournal } from './components/PetJournal';
+import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PetJournal />
+    <BrowserRouter>
+      <PetJournal />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
