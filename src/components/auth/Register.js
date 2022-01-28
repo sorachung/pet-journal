@@ -7,8 +7,7 @@ export const Register = () => {
     const [credentials, syncAuth] = useState({
         firstName: "",
         lastName: "",
-        email: "",
-        employee: false
+        email: ""
     })
     const { register } = useSimpleAuth()
     const history = useHistory()
@@ -19,7 +18,6 @@ export const Register = () => {
         const newUser = {
             name: `${credentials.firstName} ${credentials.lastName}`,
             email: credentials.email,
-            employee: credentials.employee
         }
 
         register(newUser).then(() => {
@@ -61,24 +59,6 @@ export const Register = () => {
                         className="form-control"
                         placeholder="Email address"
                         required />
-                </fieldset>
-                <fieldset>
-                    <input
-                        onChange={
-                            (event) => {
-                                const copy = { ...credentials }
-                                if (event.target.value === "on") {
-                                    copy.employee = true
-                                }
-                                else {
-                                    copy.employee = false
-                                }
-                                syncAuth(copy)
-                            }
-                        }
-                        defaultChecked={credentials.employee}
-                        type="checkbox" name="employee" id="employee" />
-                    <label htmlFor="employee"> Employee account? </label>
                 </fieldset>
 
                 <fieldset>
