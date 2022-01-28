@@ -2,18 +2,19 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { ApplicationView } from "./ApplicationView";
-import { Login } from "./auth/Login";
+import Login from "./auth/Login";
 import { Register } from "./auth/Register";
 import { Navbar } from "./nav/Navbar";
 import { Sidebar } from "./nav/Sidebar";
+import useSimpleAuth from "../hooks/ui/useSimpleAuth";
 
 
 export const PetJournal = () => {
-    const istAuthenticated = true;
+    const { isAuthenticated } = useSimpleAuth()
     return (
         <>
             <Route render={() => {
-                if (istAuthenticated) {
+                if (isAuthenticated()) {
                     return (
                         <>
                             <Navbar/>
