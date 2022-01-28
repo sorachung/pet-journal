@@ -1,4 +1,5 @@
 import Settings from "../../repositories/Settings"
+import { Buffer } from "buffer"
 
 
 const useSimpleAuth = () => {
