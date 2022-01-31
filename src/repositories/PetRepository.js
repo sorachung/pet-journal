@@ -25,5 +25,11 @@ export default {
     },
     async getAll() {
         return await fetchIt(`${Settings.remoteURL}/pets`)
+    },
+    
+    async getSpecies() {
+        return await fetchIt(`${Settings.remoteURL}/species`)
     }
+
+
 }
