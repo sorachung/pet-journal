@@ -26,7 +26,7 @@ export default {
     async getAllEmbedPets() {
         return await fetchIt(`${Settings.remoteURL}/users&_embed=pets`)
     },
-    async getAllEmContacts() {
+    async getAllEmbedContacts() {
         return await fetchIt(`${Settings.remoteURL}/users&_embed=contacts`)
     }
 }
