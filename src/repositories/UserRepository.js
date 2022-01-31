@@ -14,6 +14,9 @@ export default {
     async createAccount(user) {
         return await fetchIt(`${Settings.remoteURL}/users`, "POST", JSON.stringify(user))
     },
+    async editAccount(user) {
+        return await fetchIt(`${Settings.remoteURL}/users`, "PUT", JSON.stringify(user))
+    },
     async findUser(un) {
         return await fetchIt(`${Settings.remoteURL}/users?email=${un}`)
     },
