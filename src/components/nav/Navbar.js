@@ -146,7 +146,7 @@ export const Navbar = () => {
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <AppBar position="fixed" open={open}>
+            <AppBar position="sticky" open={open}>
                 <Toolbar>
                     <IconButton
                         color="inherit"
