@@ -2,10 +2,10 @@ import React from "react";
 import { AddPetForm } from "./AddPetForm";
 import { EditPetForm } from "./EditPetForm";
 
-export const Pet = () => {
+export const Pet = ({pet}) => {
     return (
         <>
-            Pet
+            {pet.name}
             <AddPetForm />
             <EditPetForm />
         </>
