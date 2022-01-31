@@ -26,6 +26,9 @@ export default {
     async getAll() {
         return await fetchIt(`${Settings.remoteURL}/pets`)
     },
+    async getAllExpandAllByUser(userId) {
+        return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}&_expand=specie&_expand=user&_expand_photo`)
+    },
 
     async getSpecies() {
         return await fetchIt(`${Settings.remoteURL}/species`)
