@@ -6,10 +6,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/users/${id}`)
     },
     async getEmbedPets(id) {
-        return await fetchIt(`${Settings.remoteURL}/users/${id}&_embed=pets`)
+        return await fetchIt(`${Settings.remoteURL}/users/${id}?_embed=pets`)
     },
     async getEmbedContacts(id) {
-        return await fetchIt(`${Settings.remoteURL}/users/${id}&_embed=contacts`)
+        return await fetchIt(`${Settings.remoteURL}/users/${id}?_embed=contacts`)
     },
     async createAccount(user) {
         return await fetchIt(`${Settings.remoteURL}/users`, "POST", JSON.stringify(user))
@@ -27,9 +27,9 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/users`)
     },
     async getAllEmbedPets() {
-        return await fetchIt(`${Settings.remoteURL}/users&_embed=pets`)
+        return await fetchIt(`${Settings.remoteURL}/users?_embed=pets`)
     },
     async getAllEmbedContacts() {
-        return await fetchIt(`${Settings.remoteURL}/users&_embed=contacts`)
+        return await fetchIt(`${Settings.remoteURL}/users?_embed=contacts`)
     }
 }
