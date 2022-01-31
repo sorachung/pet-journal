@@ -7,7 +7,7 @@ import { Register } from "./auth/Register";
 import { Navbar } from "./nav/Navbar";
 import { Sidebar } from "./nav/Sidebar";
 import useSimpleAuth from "../hooks/ui/useSimpleAuth";
-
+import "./PetJournal.css"
 
 export const PetJournal = () => {
     const { isAuthenticated } = useSimpleAuth()
