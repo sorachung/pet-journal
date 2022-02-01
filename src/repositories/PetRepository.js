@@ -15,7 +15,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/pets`, "POST", JSON.stringify(pet))
     },
     async editPet(pet) {
-        return await fetchIt(`${Settings.remoteURL}/pets`, "PUT", JSON.stringify(pet))
+        return await fetchIt(`${Settings.remoteURL}/pets/${pet.id}`, "PUT", JSON.stringify(pet))
     },
     async findPetByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}`)
