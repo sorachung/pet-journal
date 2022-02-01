@@ -38,11 +38,10 @@ export const Pet = ({ pet }) => {
                     <Typography gutterBottom variant="h2" fontSize="1.5em" component="div">
                         {currentPet.name}
                     </Typography>
-                    <Typography variant="body1" color="text.secondary">
+                    <Typography variant="string" color="text.secondary">
                         <p>Species: {currentPet.specie?.type}</p>
                         <p>Breed: {currentPet.breed}</p>
                         <p>Sex: {currentPet.sex}</p>
-                        <p>Colors: {currentPet.primaryColor}/{currentPet.secondaryColor}</p>
                         <p>Birthdate: {currentPet.birthdate}</p>
                         <p>Bio: {currentPet.bioText}</p>
 
