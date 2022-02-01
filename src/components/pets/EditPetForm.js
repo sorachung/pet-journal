@@ -31,13 +31,18 @@ export const EditPetForm = () => {
     }, []);
 
     useEffect(() => {
-        updateEditedPet(currentPet);
+        const copy = {...currentPet};
+        delete copy.specie;
+        delete copy.user;
+        delete copy.sex;
+        updateEditedPet(copy);
     }, [currentPet]);
 
     const editPet = (event) => {
         event.preventDefault();
-        PetRepository.editPet(editedPet);
-        history.push("/mypets");
+        PetRepository.editPet(editedPet).then(() => {
+            history.push("/mypets");
+        });
     };
 
     return (

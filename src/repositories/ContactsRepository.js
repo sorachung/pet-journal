@@ -12,10 +12,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/contacts`, "POST", JSON.stringify(contact))
     },
     async editContact(contact) {
-        return await fetchIt(`${Settings.remoteURL}/contacts`, "PUT", JSON.stringify(contact))
+        return await fetchIt(`${Settings.remoteURL}/contacts/${contact.id}`, "PUT", JSON.stringify(contact))
     },
     async findContactsByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/contacts?userId=${userId}`)
+        return await fetchIt(`${Settings.remoteURL}/contacts?userId=${userId}&_expand=contactsType`)
     },
     async delete(id) {
         return await fetchIt(`${Settings.remoteURL}/contacts/${id}`, "DELETE")
@@ -25,5 +25,9 @@ export default {
     },
     async getAllExpandAll() {
         return await fetchIt(`${Settings.remoteURL}/contacts?_expand=user&_expand=contactsType`)
-    }
+    },
+
+    async getContactsTypes() {
+        return await fetchIt(`${Settings.remoteURL}/contactsTypes`)
+    },
 }
