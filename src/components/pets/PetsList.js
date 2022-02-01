@@ -43,7 +43,7 @@ export const PetsList = () => {
             <Grid container spacing={2} sx={{justifyContent:"center"}}>
                 {myPets.map(pet => 
                     <Grid item sm={6} key={`pet--${pet.id}`}>
-                        <Pet pet={pet}/>
+                        <Pet pet={pet} setMyPets={setMyPets}/>
                     </Grid>
                 )}
             </Grid>

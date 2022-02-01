@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useResourceResolver from "../../hooks/resource/useResourceResolver"
 import PetRepository from "../../repositories/PetRepository";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth"
 
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
@@ -12,10 +13,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useHistory } from "react-router-dom";
 
-export const Pet = ({ pet }) => {
+export const Pet = ({ pet, setMyPets }) => {
     const { resolveResource, resource: currentPet } = useResourceResolver();
     const { petId } = useParams();
     const history = useHistory()
+    const { getCurrentUser } = useSimpleAuth();
 
     useEffect(() => {
         resolveResource(pet, petId, PetRepository.getExpandAll);
@@ -25,8 +27,23 @@ export const Pet = ({ pet }) => {
         return "";
     };
 
-    const editPet = (event) => {
-        history.push(`/mypets/${event.target.id}/edit`)
+    const editPet = () => {
+        history.push(`/mypets/${currentPet.id}/edit`)
+    }
+
+    const deletePet = () => {
+        PetRepository.delete(currentPet.id)
+            .then( () => {
+                PetRepository.getAllExpandAllByUser(getCurrentUser().id)
+                    .then(data => {
+                        const regex = new RegExp("[0-9]+$");
+                        if(history.location.pathname.search(regex) !== -1) {
+                            history.push("/mypets")
+                        } else {
+                            setMyPets(data)
+                        }
+                    });
+            })
     }
 
     return (
@@ -52,7 +69,8 @@ export const Pet = ({ pet }) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small" id={currentPet.id} onClick={editPet}>Edit</Button>
+                    <Button size="small" onClick={editPet}>Edit</Button>
+                    <Button size="small" onClick={deletePet}>Remove</Button>
                 </CardActions>
                 
             </Card>
