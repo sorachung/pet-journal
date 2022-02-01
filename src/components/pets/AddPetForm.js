@@ -19,7 +19,7 @@ export const AddPetForm = () => {
         name: "",
         specieId: "",
         breed: "",
-        sex: "",
+        sexId: 0,
         birthdate: "",
         bioText: "",
         userId: getCurrentUser().id,
@@ -36,19 +36,7 @@ export const AddPetForm = () => {
 
     const addNewPet = (event) => {
         event.preventDefault();
-        const copy = { ...newPet };
-        switch (newPet.sex) {
-            case 1:
-                copy.sex = "female";
-                break;
-            case 2:
-                copy.sex = "male";
-                break;
-            case 3:
-                copy.sex = "other";
-                break;
-        }
-        PetRepository.addPet(copy);
+        PetRepository.addPet(newPet);
         history.push("/mypets");
     };
 
@@ -111,11 +99,11 @@ export const AddPetForm = () => {
                     <Select
                         labelId="sex-label"
                         id="sex"
-                        value={newPet.sex}
+                        value={newPet.sexId}
                         label="Sex"
                         onChange={(event) => {
                             const copy = { ...newPet };
-                            copy.sex = parseInt(event.target.value);
+                            copy.sexId = parseInt(event.target.value);
                             updateNewPet(copy);
                         }}
                     >

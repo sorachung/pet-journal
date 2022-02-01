@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import { AddPetForm } from "./AddPetForm";
-import { EditPetForm } from "./EditPetForm";
+import useResourceResolver from "../../hooks/resource/useResourceResolver"
 import PetRepository from "../../repositories/PetRepository";
 
 import Container from "@mui/material/Container";
@@ -12,10 +10,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useHistory } from "react-router-dom";
 
 export const Pet = ({ pet }) => {
     const { resolveResource, resource: currentPet } = useResourceResolver();
     const { petId } = useParams();
+    const history = useHistory()
 
     useEffect(() => {
         resolveResource(pet, petId, PetRepository.getExpandAll);
@@ -24,6 +24,10 @@ export const Pet = ({ pet }) => {
     const uploadPhoto = () => {
         return "";
     };
+
+    const editPet = (event) => {
+        history.push(`/mypets/${event.target.id}/edit`)
+    }
 
     return (
         <Container maxWidth="md">
@@ -41,14 +45,14 @@ export const Pet = ({ pet }) => {
                     <Typography variant="string" color="text.secondary">
                         <p>Species: {currentPet.specie?.type}</p>
                         <p>Breed: {currentPet.breed}</p>
-                        <p>Sex: {currentPet.sex}</p>
+                        <p>Sex: {currentPet.sex?.label}</p>
                         <p>Birthdate: {currentPet.birthdate}</p>
                         <p>Bio: {currentPet.bioText}</p>
 
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Edit</Button>
+                    <Button size="small" id={currentPet.id} onClick={editPet}>Edit</Button>
                 </CardActions>
                 
             </Card>

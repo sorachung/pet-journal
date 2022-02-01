@@ -6,7 +6,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/pets/${id}`)
     },
     async getExpandAll(id) {
-        return await fetchIt(`${Settings.remoteURL}/pets/${id}?_expand=specie&_expand=user&_expand_photo`)
+        return await fetchIt(`${Settings.remoteURL}/pets/${id}?_expand=specie&_expand=user&_expand_photo&_expand=sex`)
     },
     async getEmbedMedical(id) {
         return await fetchIt(`${Settings.remoteURL}/pets/${id}?_embed=vetVisits&_embed=petVaccinations&_embed=petMedications&_embed=petAllergies`)
@@ -15,7 +15,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/pets`, "POST", JSON.stringify(pet))
     },
     async editPet(pet) {
-        return await fetchIt(`${Settings.remoteURL}/pets`, "PUT", JSON.stringify(pet))
+        return await fetchIt(`${Settings.remoteURL}/pets/${pet.id}`, "PUT", JSON.stringify(pet))
     },
     async findPetByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}`)
@@ -27,7 +27,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/pets`)
     },
     async getAllExpandAllByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}&_expand=specie&_expand=user&_expand_photo`)
+        return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}&_expand=specie&_expand=user&_expand_photo&_expand=sex`)
     },
 
     async getSpecies() {
