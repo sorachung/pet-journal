@@ -45,7 +45,7 @@ export const Pet = ({ pet }) => {
                     <Typography variant="string" color="text.secondary">
                         <p>Species: {currentPet.specie?.type}</p>
                         <p>Breed: {currentPet.breed}</p>
-                        <p>Sex: {currentPet.sex}</p>
+                        <p>Sex: {currentPet.sex?.label}</p>
                         <p>Birthdate: {currentPet.birthdate}</p>
                         <p>Bio: {currentPet.bioText}</p>
 
