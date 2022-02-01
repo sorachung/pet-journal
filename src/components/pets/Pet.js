@@ -10,10 +10,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { useHistory } from "react-router-dom";
 
 export const Pet = ({ pet }) => {
     const { resolveResource, resource: currentPet } = useResourceResolver();
     const { petId } = useParams();
+    const history = useHistory()
 
     useEffect(() => {
         resolveResource(pet, petId, PetRepository.getExpandAll);
@@ -22,6 +24,10 @@ export const Pet = ({ pet }) => {
     const uploadPhoto = () => {
         return "";
     };
+
+    const editPet = (event) => {
+        history.push(`/mypets/${event.target.id}/edit`)
+    }
 
     return (
         <Container maxWidth="md">
@@ -46,7 +52,7 @@ export const Pet = ({ pet }) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="small">Edit</Button>
+                    <Button size="small" id={currentPet.id} onClick={editPet}>Edit</Button>
                 </CardActions>
                 
             </Card>
