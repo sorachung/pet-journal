@@ -25,5 +25,9 @@ export default {
     },
     async getAllExpandAll() {
         return await fetchIt(`${Settings.remoteURL}/contacts?_expand=user&_expand=contactsType`)
-    }
+    },
+
+    async getContactsTypes() {
+        return await fetchIt(`${Settings.remoteURL}/contactsTypes`)
+    },
 }
