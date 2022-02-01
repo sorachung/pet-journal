@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import { AddPetForm } from "./AddPetForm";
-import { EditPetForm } from "./EditPetForm";
+import useResourceResolver from "../../hooks/resource/useResourceResolver"
 import PetRepository from "../../repositories/PetRepository";
 
 import Container from "@mui/material/Container";
