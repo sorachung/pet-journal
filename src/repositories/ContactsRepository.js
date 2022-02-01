@@ -6,7 +6,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/contacts/${id}`)
     },
     async getExpandAll(id) {
-        return await fetchIt(`${Settings.remoteURL}/contacts/${id}&_expand=user&_expand=contactsType`)
+        return await fetchIt(`${Settings.remoteURL}/contacts/${id}?_expand=user&_expand=contactsType`)
     },
     async addContact(contact) {
         return await fetchIt(`${Settings.remoteURL}/contacts`, "POST", JSON.stringify(contact))
@@ -24,6 +24,6 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/contacts`)
     },
     async getAllExpandAll() {
-        return await fetchIt(`${Settings.remoteURL}/contacts&_expand=user&_expand=contactsType`)
+        return await fetchIt(`${Settings.remoteURL}/contacts?_expand=user&_expand=contactsType`)
     }
 }

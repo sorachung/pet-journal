@@ -187,13 +187,13 @@ export const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {profilePages.map(([page]) => (
+                            {profilePages.map((page) => (
                                 <MenuItem
-                                    key={[page]}
+                                    key={page}
                                     onClick={handleCloseUserMenu}
                                 >
                                     <Typography textAlign="center">
-                                        {[page]}
+                                        {page}
                                     </Typography>
                                 </MenuItem>
                             ))}
@@ -224,13 +224,13 @@ export const Navbar = () => {
                             open={Boolean(anchorElPet)}
                             onClose={handleClosePetMenu}
                         >
-                            {petPages.map(([page]) => (
+                            {petPages.map((page) => (
                                 <MenuItem
-                                    key={[page]}
+                                    key={page}
                                     onClick={handleClosePetMenu}
                                 >
                                     <Typography textAlign="center">
-                                        {[page]}
+                                        {page}
                                     </Typography>
                                 </MenuItem>
                             ))}
@@ -263,7 +263,7 @@ export const Navbar = () => {
                 <Divider />
                 <List>
                     <ListItem button key={"Dashboard"}>
-                        <ListItemIcon>
+                        <ListItemIcon >
                             <GridViewIcon />
                         </ListItemIcon>
                         <ListItemText primary={<Link to="/">Dashboard</Link>} />
@@ -272,65 +272,51 @@ export const Navbar = () => {
                 <Divider />
                 <List>
                     <ListItem button key={"My pets"}>
-                        <ListItemIcon>
+                        <ListItemIcon >
                             <PetsIcon />
                         </ListItemIcon>
                         <ListItemText
                             primary={<Link to="/mypets">My pets</Link>}
                         />
                     </ListItem>
-                </List>
-                <List>
                     <ListItem button key={"Medical"} onClick={handleClick}>
-                        <ListItemIcon>
+                        <ListItemIcon >
                             <HealingIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Medical"} />
                     </ListItem>
-                </List>
-                <Collapse in={openSub} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText
-                                primary={<Link to="/medical">All medical</Link>}
-                            />
-                        </ListItemButton>
-                    </List>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText
-                                primary={<Link to="/medical/bio">Bio</Link>}
-                            />
-                        </ListItemButton>
-                    </List>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Link to="/medical/incidents">
-                                        Incidents
-                                    </Link>
-                                }
-                            />
-                        </ListItemButton>
-                    </List>
-                    <List component="div" disablePadding>
-                        <ListItemButton sx={{ pl: 4 }}>
-                            <ListItemIcon></ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <Link to="medical/vetvisits">
-                                        Vet visits
-                                    </Link>
-                                }
-                            />
-                        </ListItemButton>
-                    </List>
-                </Collapse>
-                <List>
+                    <Collapse in={openSub} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                    primary={<Link to="/medical">All medical</Link>}
+                                />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                    primary={<Link to="/medical/bio">Bio</Link>}
+                                />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                    primary={
+                                        <Link to="/medical/incidents">
+                                            Incidents
+                                        </Link>
+                                    }
+                                />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                    primary={
+                                        <Link to="medical/vetvisits">
+                                            Vet visits
+                                        </Link>
+                                    }
+                                />
+                            </ListItemButton>
+                        </List>
+                    </Collapse>
                     <ListItem button key={"Contacts"}>
                         <ListItemIcon>
                             <ContactsIcon />
@@ -339,8 +325,8 @@ export const Navbar = () => {
                             primary={<Link to="/contacts">Contacts</Link>}
                         />
                     </ListItem>
-                </List>
-            </Drawer>
+                    </List>
+                </Drawer>
             <Main open={open}></Main>
         </Box>
     );
