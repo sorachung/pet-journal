@@ -18,13 +18,14 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
+
 export const ContactList = () => {
     const [myContacts, setMyContacts] = useState([]);
     const [contactsTypes, setContactsTypes] = useState([]);
     const { getCurrentUser } = useSimpleAuth();
-    const [newContact, setNewContact] = useState({ contactsTypeId: "", userId: getCurrentUser().id});
+    const [newContact, setNewContact] = useState({ contactsTypeId: "", userId: getCurrentUser().id, starred: false});
     const [expanded, setExpanded] = useState(false);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         ContactsRepository.findContactsByUser(getCurrentUser().id).then(
@@ -186,6 +187,8 @@ export const ContactList = () => {
                             handleChange={handleChange}
                             expanded={expanded}
                             key={contact.id}
+                            setMyContacts={setMyContacts}
+                            contactsTypes={contactsTypes}
                         />
                     );
                 })}
