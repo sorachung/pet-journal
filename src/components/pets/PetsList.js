@@ -26,7 +26,16 @@ export const PetsList = () => {
 
     useEffect( () => {
         PetRepository.getAllExpandAllByUser(getCurrentUser().id)
-            .then(data => setMyPets(data));
+            .then(data => {
+                data.sort((el1) => {
+                    if (el1.id === getCurrentUser().defaultPetId) {
+                        return -1;
+                    }
+                })
+                console.log(getCurrentUser())
+                console.log(data)
+                setMyPets(data)}
+            );
     }, [])
 
     const addPet = () => {
