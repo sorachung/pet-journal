@@ -60,18 +60,19 @@ export const ViewMedical = () => {
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
                 {defaultPet?.name}'s Medical
             </Typography>
-
-            <Grid container spacing={4} direction="column">
-                <Grid item xs={4} key={`medicalBio`}>
-                    <PetMedicalBio pet={defaultPet}/>
+            {(defaultPet) ?
+                <Grid container spacing={4} direction="column">
+                    <Grid item xs={4} key={`medicalBio`}>
+                        <PetMedicalBio pet={defaultPet}/>
+                    </Grid>
+                    <Grid item xs={4} key={`incidentsList`}>
+                        <IncidentsList pet={defaultPet}/>
+                    </Grid>
+                    <Grid item xs={4} key={`vetVisitsList`}>
+                        <VetVisitsList pet={defaultPet}/>
+                    </Grid>
                 </Grid>
-                <Grid item xs={4} key={`incidentsList`}>
-                    <IncidentsList pet={defaultPet}/>
-                </Grid>
-                <Grid item xs={4} key={`vetVisitsList`}>
-                    <VetVisitsList pet={defaultPet}/>
-                </Grid>
-            </Grid>
+            : ""}
         </Container>
     );
 };
