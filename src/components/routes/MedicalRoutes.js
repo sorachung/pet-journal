@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import UserRepository from "../../repositories/UserRepository";
+import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import PetRepository from "../../repositories/PetRepository";
+import { useHistory } from "react-router-dom";
 import { Route } from "react-router-dom";
 import { ViewMedical } from "../medicals/ViewMedical";
 import { PetMedicalBio } from "../medicals/PetMedicalBio"
@@ -8,22 +12,57 @@ import { VetVisitsList } from "../medicals/VetVisitsList";
 import { VetVisit } from "../medicals/VetVisit";
 
 export const MedicalRoutes = () => {
+    const [user, updateUser] = useState({});
+    const [pet, setPet] = useState({});
+    const { getCurrentUser } = useSimpleAuth();
+    const history = useHistory()
+    
+    const syncPet = () => {
+        if(user.defaultPetId) {
+            PetRepository.getExpandAll(user.defaultPetId).then(
+                (data) => {
+                    setPet(data);
+                }
+            );
+        }
+    };
+
+    const syncUser = () => {
+        UserRepository.get(getCurrentUser().id).then((data) => {
+            updateUser(data)
+        });
+    };
+
+    useEffect(() => {
+        syncPet()
+    },[user])
+
+    useEffect(() => {
+        syncUser();
+    }, []);
+
+    useEffect(() => {
+        UserRepository.get(getCurrentUser().id).then((data) => {
+            updateUser(data);
+        });
+    }, [history.location.state]);
+
     return (
         <>
             <Route exact path="/medical">
-                <ViewMedical />
+                <ViewMedical pet={pet}/>
             </Route>
-            <Route path="/medical/bio">
-                <PetMedicalBio />
+            <Route exact path="/medical/bio">
+                <PetMedicalBio pet={pet}/>
             </Route>
-            <Route path="/medical/incidents ">
-                <IncidentsList />
+            <Route exact path="/medical/incidents">
+                <IncidentsList pet={pet}/>
             </Route>
             {/* <Route path="/medical/incidents/:incidentId(\d+)">
                 <Incident />
             </Route> */}
-            <Route path="/medical/vetvisits ">
-                <VetVisitsList />
+            <Route exact path="/medical/vetvisits">
+                <VetVisitsList pet={pet}/>
             </Route>
             {/* <Route path="/medical/vetvisits/:vetVisitId(\d+)">
                 <VetVisit />
