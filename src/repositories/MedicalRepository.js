@@ -2,9 +2,16 @@ import Settings from "./Settings"
 import { fetchIt } from "./Fetch"
 import ContactsRepository from "./ContactsRepository"
 
-const expandVetInVetVisits = (vetVisit) => {
-    vetVisit.vet = ContactsRepository.get(vetVisit.vetId);
-    return vetVisit;
+const expandVetInVetVisits = (vetVisits) => {
+    console.log("vetvisit", vetVisits)
+    if(vetVisits.length > 0) {
+        vetVisits.map(vetVisit => {
+            ContactsRepository.get(vetVisit.vetId)
+                .then(data => vetVisit.vet = data)
+            
+        })
+    }
+    return vetVisits;
 
 }
 
@@ -74,6 +81,14 @@ export default {
     async getAllVetVisits() {
         return await fetchIt(`${Settings.remoteURL}/vetVisits?_expand=pet&_expand=incident&_expand=petMedication`)
             .then(data => expandVetInVetVisits(data))
+    },
+    async getAllVetVisitsByPet(petId) {
+        console.log("petId", petId)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}&_expand=incident&_expand=petMedication`)
+            .then(data => {
+                console.log(data)
+                return expandVetInVetVisits(data)
+            })
     },
     async addVetVisit(vetVisit) {
         return await fetchIt(`${Settings.remoteURL}/vetVisits`, "POST", JSON.stringify(vetVisit))
