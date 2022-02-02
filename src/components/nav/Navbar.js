@@ -134,7 +134,6 @@ export const Navbar = () => {
                 }
             });
             setMyPets(data);
-            console.log("pet synced");
         });
     };
 
@@ -148,7 +147,6 @@ export const Navbar = () => {
 
     const changeDefaultPet = (event) => {
         const copy = { ...user };
-        console.log(event.target.id);
         copy.defaultPetId = parseInt(event.target.id);
         UserRepository.editAccount(copy).then(() => syncUser());
     };
@@ -271,9 +269,7 @@ export const Navbar = () => {
                                         changeDefaultPet(event);
                                     }}
                                 >
-                                    <Typography textAlign="center">
                                         {pet.name}
-                                    </Typography>
                                 </MenuItem>
                             ))}
                         </Menu>
