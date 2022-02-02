@@ -19,15 +19,15 @@ export const MedicalRoutes = () => {
             <Route path="/medical/incidents ">
                 <IncidentsList />
             </Route>
-            <Route path="/medical/incidents/:incidentId(\d+)">
+            {/* <Route path="/medical/incidents/:incidentId(\d+)">
                 <Incident />
-            </Route>
+            </Route> */}
             <Route path="/medical/vetvisits ">
                 <VetVisitsList />
             </Route>
-            <Route path="/medical/vetvisits/:vetVisitId(\d+)">
+            {/* <Route path="/medical/vetvisits/:vetVisitId(\d+)">
                 <VetVisit />
-            </Route>
+            </Route> */}
        
 
 
