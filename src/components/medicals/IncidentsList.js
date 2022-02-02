@@ -15,26 +15,21 @@ import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
 
 export const IncidentsList = ({pet}) => {
-    const { resolveResource, resource: chosenPet } = useResourceResolver();
     const [ myPetsIncidents, setMyPetsIncidents ] = useState([])
     const { petId } = useParams();
     const [expanded, setExpanded] = useState(false);
 
     const syncIncidents = () => {
-        MedicalRepository.getAllIncidentsByPet(chosenPet.id)
+        MedicalRepository.getAllIncidentsByPet(pet.id)
             .then((data) => setMyPetsIncidents(data))
     }
-
-    useEffect(() => {
-        resolveResource(pet, petId, PetRepository.getExpandAll);
-    }, []);
 
     useEffect(() => {
         syncIncidents()
         return () => {
             setMyPetsIncidents([])
         }
-    }, [chosenPet]);
+    }, [pet]);
     
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -53,7 +48,7 @@ export const IncidentsList = ({pet}) => {
                             fontSize="1em"
                             component="div"
                         >
-                            {chosenPet.name}
+                            {pet.name}
                         </Typography>
                         {myPetsIncidents.map(incident => 
                             <Incident key={incident.id} incident={incident} syncIncidents={syncIncidents} handleChange={handleChange} expanded={expanded}/>
