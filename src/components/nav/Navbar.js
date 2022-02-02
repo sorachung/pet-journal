@@ -349,7 +349,7 @@ export const Navbar = () => {
                             <ListItemButton sx={{ pl: 8 }}>
                                 <ListItemText
                                     primary={
-                                        <Link to="medical/vetvisits">
+                                        <Link to="/medical/vetvisits">
                                             Vet visits
                                         </Link>
                                     }
