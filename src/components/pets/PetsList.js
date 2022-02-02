@@ -46,7 +46,6 @@ export const PetsList = () => {
 
     useEffect(() => {
         syncUser();
-        
     }, []);
 
     useEffect(() => {

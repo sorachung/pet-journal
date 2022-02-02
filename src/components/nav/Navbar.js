@@ -121,7 +121,7 @@ export const Navbar = () => {
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data)
+            updateUser(data);
             history.push(history.location.pathname, data);
         });
     };
@@ -134,8 +134,17 @@ export const Navbar = () => {
                 }
             });
             setMyPets(data);
+            console.log("pet synced");
         });
     };
+
+    useEffect(() => {
+        syncUser();
+    }, []);
+
+    useEffect(() => {
+        syncPets();
+    }, [user]);
 
     const changeDefaultPet = (event) => {
         const copy = { ...user };
@@ -143,15 +152,6 @@ export const Navbar = () => {
         copy.defaultPetId = parseInt(event.target.id);
         UserRepository.editAccount(copy).then(() => syncUser());
     };
-
-    useEffect(() => {
-        syncUser();
-        syncPets();
-    }, []);
-
-    useEffect(() => {
-        syncPets();
-    }, [user]);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -271,7 +271,7 @@ export const Navbar = () => {
                                         changeDefaultPet(event);
                                     }}
                                 >
-                                    <Typography textAlign="center" >
+                                    <Typography textAlign="center">
                                         {pet.name}
                                     </Typography>
                                 </MenuItem>
