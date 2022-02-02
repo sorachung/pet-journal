@@ -36,8 +36,10 @@ export const AddPetForm = () => {
 
     const addNewPet = (event) => {
         event.preventDefault();
-        PetRepository.addPet(newPet);
-        history.push("/mypets");
+        PetRepository.addPet(newPet)
+            .then( () => {
+                history.push("/mypets");
+            })
     };
 
     return (
