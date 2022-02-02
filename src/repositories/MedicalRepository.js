@@ -38,7 +38,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/petMedications?_expand=pet&_embed=vetvisits`)
     },
     async getMedicationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}_expand=pet&_embed=vetvisits`)
+        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}&_expand=pet&_embed=vetvisits`)
     },
     async addPetMedication(petMedication) {
         return await fetchIt(`${Settings.remoteURL}/petMedications`, "POST", JSON.stringify(petMedication))
@@ -97,6 +97,9 @@ export default {
     },
     async getAllIncidentsByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=pet`)
+    },
+    async getChronicIllnessesByPet(petId) {
+        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&incidentTypeId=3&_expand=pet`)
     },
     async addIncident(incident) {
         return await fetchIt(`${Settings.remoteURL}/incidents`, "POST", JSON.stringify(incident))
