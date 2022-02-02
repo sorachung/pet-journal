@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PetRepository from "../../repositories/PetRepository";
+import UserRepository from "../../repositories/UserRepository";
 import { Link } from "react-router-dom";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import { styled, useTheme } from "@mui/material/styles";
@@ -24,14 +26,13 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import HealingIcon from "@mui/icons-material/Healing";
 import ContactsIcon from "@mui/icons-material/Contacts";
 import Avatar from "@mui/material/Avatar";
-import Menu from '@mui/material/Menu';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-
+import Menu from "@mui/material/Menu";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
-const profilePages = ['Profile', 'Settings', 'Logout'];
-const petPages = ['Pet1', 'Pet2', 'Pet3'];
+const profilePages = ["Profile", "Settings", "Logout"];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -109,11 +110,48 @@ function stringAvatar(name) {
 
 export const Navbar = () => {
     const { isAuthenticated, logout, getCurrentUser } = useSimpleAuth();
+    const [user, updateUser] = useState({});
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [openSub, setOpenSub] = useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [anchorElPet, setAnchorElPet] = React.useState(null);
+    const [myPets, setMyPets] = useState([]);
+    const history = useHistory();
+
+    const syncUser = () => {
+        UserRepository.get(getCurrentUser().id).then((data) => {
+            updateUser(data)
+            history.push(history.location.pathname, data);
+        });
+    };
+
+    const syncPets = () => {
+        PetRepository.getAllExpandAllByUser(user.id).then((data) => {
+            data.sort((el1) => {
+                if (el1.id === user.defaultPetId) {
+                    return -1;
+                }
+            });
+            setMyPets(data);
+        });
+    };
+
+    const changeDefaultPet = (event) => {
+        const copy = { ...user };
+        console.log(event.target.id);
+        copy.defaultPetId = parseInt(event.target.id);
+        UserRepository.editAccount(copy).then(() => syncUser());
+    };
+
+    useEffect(() => {
+        syncUser();
+        syncPets();
+    }, []);
+
+    useEffect(() => {
+        syncPets();
+    }, [user]);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -205,7 +243,7 @@ export const Navbar = () => {
                                 onClick={handleOpenPetMenu}
                                 sx={{ p: 0 }}
                             >
-                               <PetsIcon />
+                                <PetsIcon />
                             </IconButton>
                         </Tooltip>
                         <Menu
@@ -224,13 +262,17 @@ export const Navbar = () => {
                             open={Boolean(anchorElPet)}
                             onClose={handleClosePetMenu}
                         >
-                            {petPages.map((page) => (
+                            {myPets.map((pet) => (
                                 <MenuItem
-                                    key={page}
-                                    onClick={handleClosePetMenu}
+                                    key={pet.name}
+                                    id={pet.id}
+                                    onClick={(event) => {
+                                        handleClosePetMenu();
+                                        changeDefaultPet(event);
+                                    }}
                                 >
-                                    <Typography textAlign="center">
-                                        {page}
+                                    <Typography textAlign="center" >
+                                        {pet.name}
                                     </Typography>
                                 </MenuItem>
                             ))}
@@ -263,7 +305,7 @@ export const Navbar = () => {
                 <Divider />
                 <List>
                     <ListItem button key={"Dashboard"}>
-                        <ListItemIcon >
+                        <ListItemIcon>
                             <GridViewIcon />
                         </ListItemIcon>
                         <ListItemText primary={<Link to="/">Dashboard</Link>} />
@@ -272,7 +314,7 @@ export const Navbar = () => {
                 <Divider />
                 <List>
                     <ListItem button key={"My pets"}>
-                        <ListItemIcon >
+                        <ListItemIcon>
                             <PetsIcon />
                         </ListItemIcon>
                         <ListItemText
@@ -280,7 +322,7 @@ export const Navbar = () => {
                         />
                     </ListItem>
                     <ListItem button key={"Medical"} onClick={handleClick}>
-                        <ListItemIcon >
+                        <ListItemIcon>
                             <HealingIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Medical"} />
@@ -289,7 +331,9 @@ export const Navbar = () => {
                         <List component="div" disablePadding>
                             <ListItemButton sx={{ pl: 8 }}>
                                 <ListItemText
-                                    primary={<Link to="/medical">All medical</Link>}
+                                    primary={
+                                        <Link to="/medical">All medical</Link>
+                                    }
                                 />
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 8 }}>
@@ -325,8 +369,8 @@ export const Navbar = () => {
                             primary={<Link to="/contacts">Contacts</Link>}
                         />
                     </ListItem>
-                    </List>
-                </Drawer>
+                </List>
+            </Drawer>
             <Main open={open}></Main>
         </Box>
     );
