@@ -89,11 +89,9 @@ export const Incident = ({ incident, syncIncidents, handleChange, expanded }) =>
                     </IconButton>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
                         <p>{incident.date}</p>
                         <p>{incident.description}</p>
                         <p>{incident.petMedicationId ? `${incident.petMedication.name} - ${incident.petMedication.dosage}` : ""}</p>
-                    </Typography>
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
