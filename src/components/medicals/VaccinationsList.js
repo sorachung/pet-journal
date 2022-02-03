@@ -13,6 +13,10 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
+import { VetVisit } from "./VetVisit";
+import { PetsRounded } from "@mui/icons-material";
+import { Vaccination } from "./Vaccination";
+import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -24,40 +28,38 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
 
-
-export const IncidentsList = ({pet}) => {
-    const [ myPetsIncidents, setMyPetsIncidents ] = useState([])
-    const [ incidentTypes, setIncidentTypes ] = useState([])
-    const [newPetIncident, setNewPetIncident] = useState({});
-    const { petId } = useParams();
+export const VaccinationsList = ({pet}) => {
+    const [newPetVax, setNewPetVax] = useState({})
+    const [myPetVax, setMyPetVax] = useState([]);
+    const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 
-    const syncIncidents = () => {
-        MedicalRepository.getAllIncidentsByPet(pet.id)
-            .then((data) => setMyPetsIncidents(data))
-    }
+    const syncPetVax = () => {
+        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) =>
+            setMyPetVax(data)
+        );
+    };
 
     useEffect(() => {
-        syncIncidents()
+        syncPetVax();
         return () => {
-            setMyPetsIncidents([])
-        }
+            setMyPetVax([]);
+        };
     }, [pet]);
 
     useEffect(() => {
-        MedicalRepository.getAllIncidentTypes()
-            .then(data => setIncidentTypes(data))
+        MedicalRepository.getAllVaccinations().then((data) =>
+            setVaccinations(data)
+        );
     }, []);
-    
-    const addPetIncident = () => {
-        const copy = {...newPetIncident}
+
+    const addPetVax = () => {
+        const copy = {...newPetVax}
         copy.petId = pet.id
-        copy.starred = false
-        MedicalRepository.addIncident(copy).then(() =>
-            syncIncidents()
+        MedicalRepository.addPetVaccination(copy).then((data) =>
+            syncPetVax(data)
         );
     };
 
@@ -65,7 +67,6 @@ export const IncidentsList = ({pet}) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -75,15 +76,14 @@ export const IncidentsList = ({pet}) => {
         setOpen(false);
     };
 
-
     return (
-        <Container >
+        <Container>
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
-                        <CardHeader title="Incidents" />
+                        <CardHeader title="Vaccinations" />
                         <Button variant="contained" onClick={handleClickOpen}>
-                            Add incident
+                            Add vaccination
                         </Button>
                         <Typography
                             gutterBottom
@@ -91,43 +91,23 @@ export const IncidentsList = ({pet}) => {
                             fontSize="1em"
                             component="div"
                         >
-                            {pet.name}
+                        {pet.name}
                         </Typography>
-                        {myPetsIncidents.map(incident => 
-                            <Incident key={incident.id} incident={incident} syncIncidents={syncIncidents} handleChange={handleChange} expanded={expanded} incidentTypes={incidentTypes}/>
-                        )}
+                        {myPetVax.map((petVax) => (
+                            <Vaccination
+                                key={petVax.id}
+                                petVax={petVax}
+                                syncPetVax={syncPetVax}
+                                handleChange={handleChange}
+                                expanded={expanded}
+                            />
+                        ))}
                     </CardContent>
-                    <CardActions>
-                    </CardActions>
                 </Card>
             </Box>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit incident-type Record</DialogTitle>
+                <DialogTitle>Edit Vaccination Record</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="name"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetIncident };
-                            copy.name = event.target.value;
-                            setNewPetIncident(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="description"
-                        label="description"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetIncident };
-                            copy.description = event.target.value;
-                            setNewPetIncident(copy);
-                        }}
-                    />
                     <TextField
                         margin="dense"
                         id="date"
@@ -135,32 +115,33 @@ export const IncidentsList = ({pet}) => {
                         required
                         type="date"
                         onChange={(event) => {
-                            const copy = { ...newPetIncident };
+                            const copy = { ...newPetVax };
                             copy.date = event.target.value;
-                            setNewPetIncident(copy);
+                            setNewPetVax(copy);
                         }}
                     />
-                   <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="shot-label">Incident type</InputLabel>
+
+                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="shot-label">Vaccination</InputLabel>
                         <Select
-                            labelId="incident-type-label"
-                            id="incident-type"
-                            value={newPetIncident.incidentTypeId}
-                            label="incident-type"
+                            labelId="Vaccination-label"
+                            id="Vaccination"
+                            value={newPetVax.vaccinationId}
+                            label="vaccination"
                             onChange={(event) => {
-                                const copy = { ...newPetIncident };
-                                copy.incidentTypeId = parseInt(
+                                const copy = { ...newPetVax };
+                                copy.vaccinationId = parseInt(
                                     event.target.value
                                 );
-                                setNewPetIncident(copy);
+                                setNewPetVax(copy);
                             }}
                         >
-                            {incidentTypes.map((type) => (
+                            {vaccinations.map((vax) => (
                                 <MenuItem
-                                    key={`incident-type--${type.id}`}
-                                    value={type.id}
+                                    key={`vaccination--${vax.id}`}
+                                    value={vax.id}
                                 >
-                                    {type.label}
+                                    {vax.shot}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -171,7 +152,7 @@ export const IncidentsList = ({pet}) => {
                     <Button
                         onClick={() => {
                             handleClose();
-                            addPetIncident();
+                            addPetVax();
                         }}
                     >
                         Save
@@ -180,4 +161,4 @@ export const IncidentsList = ({pet}) => {
             </Dialog>
         </Container>
     );
-}
+};

@@ -23,31 +23,33 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded, vets}) => {
-    const [editedVetVisit, setEditedVetVisit] = useState(vetVisit);
-    const { getCurrentUser } = useSimpleAuth();
+export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
+    const [editedPetVax, setEditedPetVax] = useState({});
+    const [vaccinations, setVaccinations] = useState([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setEditedVetVisit(vetVisit);
+        setEditedPetVax(petVax);
+    }, [petVax]);
+
+    useEffect(() => {
+        MedicalRepository.getAllVaccinations().then((data) =>
+            setVaccinations(data)
+        );
     }, []);
 
-    const starUnstar = () => {
-        const copy = { ...editedVetVisit };
-        copy.starred = !editedVetVisit.starred;
-        setEditedVetVisit(copy);
-        MedicalRepository.editVetVisit(copy);
-    };
-
-    const deleteVetVisit = () => {
-        MedicalRepository.deleteVetVisit(vetVisit.id).then(() =>
-            syncVetVisits()
+    const deletePetVax = () => {
+        MedicalRepository.deletePetVaccination(petVax.id).then(() =>
+            syncPetVax()
         );
     };
 
-    const editVetVisit = () => {
-        const copy = { ...editedVetVisit };
-        MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
+    const editPetVax = () => {
+        const copy = { ...editedPetVax };
+        delete copy.vaccination
+        MedicalRepository.editPetVaccination(copy).then(() =>
+            syncPetVax()
+        );
     };
 
     const handleClickOpen = () => {
@@ -62,88 +64,72 @@ export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded, vets}
         <>
             <Typography variant="string" color="text.secondary"></Typography>
             <Accordion
-                expanded={expanded === `panel${vetVisit.id}`}
-                onChange={handleChange(`panel${vetVisit.id}`)}
+                expanded={expanded === `panel${petVax.id}`}
+                onChange={handleChange(`panel${petVax.id}`)}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
-                    aria-controls={`panel${vetVisit.id}-content`}
-                    id={`panel${vetVisit.id}-header`}
+                    aria-controls={`panel${petVax.id}-content`}
+                    id={`panel${petVax.id}-header`}
                 >
                     <Typography sx={{ width: "15%", flexShrink: 0 }}>
-                        {vetVisit.date}
+                        {petVax.date}
                     </Typography>
-                    <Typography sx={{ width: "33%", flexShrink: 0, color: "text.secondary" }}>
-                        {vetVisit.vet?.name}
+                    <Typography
+                        sx={{
+                            width: "50%",
+                            flexShrink: 0,
+                            color: "text.secondary",
+                        }}
+                    >
+                        {petVax.vaccination?.shot}
                     </Typography>
-                    <IconButton onClick={starUnstar}>
-                        {editedVetVisit.starred ? (
-                            <StarIcon />
-                        ) : (
-                            <StarBorderIcon />
-                        )}
-                    </IconButton>
-                    <IconButton onClick={deleteVetVisit}>
+                    <IconButton onClick={deletePetVax}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                       {vetVisit.description}
-                    </Typography>
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit vet visit</DialogTitle>
+                <DialogTitle>Edit Vaccination Record</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"
                         id="date"
                         label="date"
-                        value={editedVetVisit.date}
+                        value={editedPetVax.date}
                         required
                         type="date"
                         onChange={(event) => {
-                            const copy = { ...editedVetVisit };
+                            const copy = { ...editedPetVax };
                             copy.date = event.target.value;
-                            setEditedVetVisit(copy);
+                            setEditedPetVax(copy);
                         }}
                     />
-                    <TextField
-                        margin="dense"
-                        id="description"
-                        label="description"
-                        value={editedVetVisit.description}
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...editedVetVisit };
-                            copy.description = event.target.value;
-                            setEditedVetVisit(copy);
-                        }}
-                    />
+
                     <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="shot-label">Vet location</InputLabel>
+                        <InputLabel id="shot-label">Vaccination</InputLabel>
                         <Select
-                            labelId="vet-label"
-                            id="vet"
-                            value={editedVetVisit.vetId}
-                            label="vet"
+                            labelId="Vaccination-label"
+                            id="Vaccination"
+                            value={editedPetVax.vaccinationId}
+                            label="vaccination"
                             onChange={(event) => {
-                                const copy = { ...editedVetVisit };
-                                copy.vetId = parseInt(
+                                const copy = { ...editedPetVax };
+                                copy.vaccinationId = parseInt(
                                     event.target.value
                                 );
-                                setEditedVetVisit(copy);
+                                setEditedPetVax(copy);
                             }}
                         >
-                            {vets.map((vet) => (
+                            {vaccinations.map((vax) => (
                                 <MenuItem
-                                    key={`incident-vet--${vet.id}`}
-                                    value={vet.id}
+                                    key={`vaccination--${vax.id}`}
+                                    value={editedPetVax.vaccinationId}
                                 >
-                                    {vet.name}
+                                    {vax.shot}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -154,7 +140,7 @@ export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded, vets}
                     <Button
                         onClick={() => {
                             handleClose();
-                            editVetVisit();
+                            editPetVax();
                         }}
                     >
                         Save
@@ -163,4 +149,4 @@ export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded, vets}
             </Dialog>
         </>
     );
-}
+};

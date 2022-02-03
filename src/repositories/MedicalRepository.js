@@ -18,14 +18,14 @@ const expandVetInVetVisits = (vetVisits) => {
 export default {
     // vaccinations
     async getVaccination(id) {
-        return await fetchIt(`${Settings.remoteURL}/vaccinations/${id}?_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/vaccinations/${id}`)
     },
     async getAllVaccinations() {
-        return await fetchIt(`${Settings.remoteURL}/vaccinations?_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/vaccinations`)
     },
 
     async getPetVaccinationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination`)
     },
     async addPetVaccination(petVaccination) {
         return await fetchIt(`${Settings.remoteURL}/petVaccinations`, "POST", JSON.stringify(petVaccination))
@@ -45,7 +45,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/petMedications?_expand=pet&_embed=vetvisits`)
     },
     async getMedicationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}&_expand=pet&_embed=vetvisits`)
+        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}`)
     },
     async addPetMedication(petMedication) {
         return await fetchIt(`${Settings.remoteURL}/petMedications`, "POST", JSON.stringify(petMedication))
@@ -76,15 +76,14 @@ export default {
 
     // vet visits
     async getVetVisit(id) {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits/${id}?_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits/${id}`)
     },
     async getAllVetVisits() {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?_expand=pet&_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits`)
             .then(data => expandVetInVetVisits(data))
     },
     async getAllVetVisitsByPet(petId) {
-        console.log("petId", petId)
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}&_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}`)
             .then(data => {
                 console.log(data)
                 return expandVetInVetVisits(data)
@@ -94,7 +93,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/vetVisits`, "POST", JSON.stringify(vetVisit))
     },
     async editVetVisit(vetVisit) {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits`, "PUT", JSON.stringify(vetVisit))
+        return await fetchIt(`${Settings.remoteURL}/vetVisits/${vetVisit.id}`, "PUT", JSON.stringify(vetVisit))
     },
     async deleteVetVisit(id) {
         return await fetchIt(`${Settings.remoteURL}/vetVisits/${id}`, "DELETE")
@@ -102,7 +101,7 @@ export default {
 
     // incidents
     async getIncident(id) {
-        return await fetchIt(`${Settings.remoteURL}/incidents/${id}?_expand=pet&_expand=petMedication&_expand=vetVisit`)
+        return await fetchIt(`${Settings.remoteURL}/incidents/${id}?_expand=pet`)
     },
     async editIncident(incident) {
         return await fetchIt(`${Settings.remoteURL}/incidents/${incident.id}`, "PUT", JSON.stringify(incident))
@@ -111,18 +110,21 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/incidents?_expand=pet`)
     },
     async getAllIncidentsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=petMedication&_expand=incidentType`)
+        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=incidentType`)
     },
     async getChronicIllnessesByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&incidentTypeId=3&_expand=pet`)
+        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&incidentTypeId=3`)
     },
     async addIncident(incident) {
         return await fetchIt(`${Settings.remoteURL}/incidents`, "POST", JSON.stringify(incident))
     },
     async editIncident(incident) {
-        return await fetchIt(`${Settings.remoteURL}/incidents`, "PUT", JSON.stringify(incident))
+        return await fetchIt(`${Settings.remoteURL}/incidents/${incident.id}`, "PUT", JSON.stringify(incident))
     },
     async deleteIncident(id) {
         return await fetchIt(`${Settings.remoteURL}/incidents/${id}`, "DELETE")
     },
+    async getAllIncidentTypes() {
+        return await fetchIt(`${Settings.remoteURL}/incidentTypes`)
+    }
 }

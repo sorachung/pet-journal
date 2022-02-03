@@ -339,6 +339,16 @@ export const Navbar = () => {
                             </ListItemButton>
                             <ListItemButton sx={{ pl: 8 }}>
                                 <ListItemText
+                                    primary={<Link to="/medical/vaccinations">Vaccinations</Link>}
+                                />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
+                                    primary={<Link to="/medical/medications">Medications</Link>}
+                                />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 8 }}>
+                                <ListItemText
                                     primary={
                                         <Link to="/medical/incidents">
                                             Incidents
@@ -349,7 +359,7 @@ export const Navbar = () => {
                             <ListItemButton sx={{ pl: 8 }}>
                                 <ListItemText
                                     primary={
-                                        <Link to="medical/vetvisits">
+                                        <Link to="/medical/vetvisits">
                                             Vet visits
                                         </Link>
                                     }
