@@ -76,15 +76,14 @@ export default {
 
     // vet visits
     async getVetVisit(id) {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits/${id}?_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits/${id}`)
     },
     async getAllVetVisits() {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?_expand=pet&_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits`)
             .then(data => expandVetInVetVisits(data))
     },
     async getAllVetVisitsByPet(petId) {
-        console.log("petId", petId)
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}&_expand=incident&_expand=petMedication`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}`)
             .then(data => {
                 console.log(data)
                 return expandVetInVetVisits(data)

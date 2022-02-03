@@ -23,14 +23,14 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded}) => {
-    const [editedVetVisit, setEditedVetVisit] = useState({});
+export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded, vets}) => {
+    const [editedVetVisit, setEditedVetVisit] = useState(vetVisit);
     const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setEditedVetVisit({});
-    }, [vetVisit]);
+        setEditedVetVisit(vetVisit);
+    }, []);
 
     const starUnstar = () => {
         const copy = { ...editedVetVisit };
@@ -46,9 +46,8 @@ export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded}) => {
     };
 
     const editVetVisit = () => {
-        MedicalRepository.editVetVisit(editedVetVisit).then(() =>
-            syncVetVisits()
-        );
+        const copy = { ...editedVetVisit };
+        MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
     };
 
     const handleClickOpen = () => {
@@ -95,6 +94,73 @@ export const VetVisit = ({vetVisit, syncVetVisits, handleChange, expanded}) => {
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit vet visit</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        id="date"
+                        label="date"
+                        value={editedVetVisit.date}
+                        required
+                        type="date"
+                        onChange={(event) => {
+                            const copy = { ...editedVetVisit };
+                            copy.date = event.target.value;
+                            setEditedVetVisit(copy);
+                        }}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="description"
+                        label="description"
+                        value={editedVetVisit.description}
+                        required
+                        type="text"
+                        onChange={(event) => {
+                            const copy = { ...editedVetVisit };
+                            copy.description = event.target.value;
+                            setEditedVetVisit(copy);
+                        }}
+                    />
+                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="shot-label">Vet location</InputLabel>
+                        <Select
+                            labelId="vet-label"
+                            id="vet"
+                            value={editedVetVisit.vetId}
+                            label="vet"
+                            onChange={(event) => {
+                                const copy = { ...editedVetVisit };
+                                copy.vetId = parseInt(
+                                    event.target.value
+                                );
+                                setEditedVetVisit(copy);
+                            }}
+                        >
+                            {vets.map((vet) => (
+                                <MenuItem
+                                    key={`incident-vet--${vet.id}`}
+                                    value={vet.id}
+                                >
+                                    {vet.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            handleClose();
+                            editVetVisit();
+                        }}
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 }
