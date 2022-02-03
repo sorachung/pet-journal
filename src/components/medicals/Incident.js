@@ -23,20 +23,23 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const Incident = ({ incident, syncIncidents, handleChange, expanded }) => {
-    const [editedIncident, setEditedIncident] = useState({});
+export const Incident = ({ incident, syncIncidents, handleChange, expanded, incidentTypes }) => {
+    const [editedIncident, setEditedIncident] = useState(incident);
     const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        setEditedIncident({});
-    }, [incident]);
+        setEditedIncident(incident);
+    }, []);
 
     const starUnstar = () => {
         const copy = { ...editedIncident };
         copy.starred = !editedIncident.starred;
+        delete copy.incidentType
         setEditedIncident(copy);
-        MedicalRepository.editIncident(copy);
+        MedicalRepository.editIncident(copy).then(() =>
+            syncIncidents()
+        );
     };
 
     const deleteIncident = () => {
@@ -45,8 +48,10 @@ export const Incident = ({ incident, syncIncidents, handleChange, expanded }) =>
         );
     };
 
-    const editIncident = () => {
-        MedicalRepository.editIncident(editedIncident).then(() =>
+    const editPetIncident = () => {
+        const copy = { ...editedIncident };
+        delete copy.incidentType
+        MedicalRepository.editIncident(copy).then(() =>
             syncIncidents()
         );
     };
@@ -78,7 +83,7 @@ export const Incident = ({ incident, syncIncidents, handleChange, expanded }) =>
                         {incident.incidentType?.label}
                     </Typography>
                     <IconButton onClick={starUnstar}>
-                        {editedIncident.starred ? (
+                        {incident.starred ? (
                             <StarIcon />
                         ) : (
                             <StarBorderIcon />
@@ -91,10 +96,90 @@ export const Incident = ({ incident, syncIncidents, handleChange, expanded }) =>
                 <AccordionDetails>
                         <p>{incident.date}</p>
                         <p>{incident.description}</p>
-                        <p>{incident.petMedicationId ? `${incident.petMedication.name} - ${incident.petMedication.dosage}` : ""}</p>
+                        {/* <p>{incident.petMedicationId ? `${incident.petMedication.name} - ${incident.petMedication.dosage}` : ""}</p> */}
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit incident-type Record</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        id="name"
+                        label="name"
+                        value={editedIncident.name}
+                        required
+                        type="text"
+                        onChange={(event) => {
+                            const copy = { ...editedIncident };
+                            copy.name = event.target.value;
+                            setEditedIncident(copy);
+                        }}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="description"
+                        label="description"
+                        value={editedIncident.description}
+                        required
+                        type="text"
+                        onChange={(event) => {
+                            const copy = { ...editedIncident };
+                            copy.description = event.target.value;
+                            setEditedIncident(copy);
+                        }}
+                    />
+                    <TextField
+                        margin="dense"
+                        id="date"
+                        label="date"
+                        value={editedIncident.date}
+                        required
+                        type="date"
+                        onChange={(event) => {
+                            const copy = { ...editedIncident };
+                            copy.date = event.target.value;
+                            setEditedIncident(copy);
+                        }}
+                    />
+                   <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="shot-label">Incident type</InputLabel>
+                        <Select
+                            labelId="incident-type-label"
+                            id="incident-type"
+                            value={editedIncident.incidentTypeId}
+                            label="incident-type"
+                            onChange={(event) => {
+                                const copy = { ...editedIncident };
+                                copy.incidentTypeId = parseInt(
+                                    event.target.value
+                                );
+                                setEditedIncident(copy);
+                            }}
+                        >
+                            {incidentTypes.map((type) => (
+                                <MenuItem
+                                    key={`incident-type--${type.id}`}
+                                    value={type.id}
+                                >
+                                    {type.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            handleClose();
+                            editPetIncident();
+                        }}
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };
