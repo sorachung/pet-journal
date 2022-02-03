@@ -10,6 +10,8 @@ import { IncidentsList } from "../medicals/IncidentsList"
 import { Incident } from "../medicals/Incident";
 import { VetVisitsList } from "../medicals/VetVisitsList";
 import { VetVisit } from "../medicals/VetVisit";
+import { VaccinationsList } from "../medicals/VaccinationsList";
+import { MedicationsList } from "../medicals/MedicationsList";
 
 export const MedicalRoutes = () => {
     const [user, updateUser] = useState({});
@@ -63,6 +65,12 @@ export const MedicalRoutes = () => {
             </Route> */}
             <Route exact path="/medical/vetvisits">
                 <VetVisitsList pet={pet}/>
+            </Route>
+            <Route exact path="/medical/vaccinations">
+                <VaccinationsList pet={pet}/>
+            </Route>
+            <Route exact path="/medical/medications">
+                <MedicationsList pet={pet}/>
             </Route>
             {/* <Route path="/medical/vetvisits/:vetVisitId(\d+)">
                 <VetVisit />

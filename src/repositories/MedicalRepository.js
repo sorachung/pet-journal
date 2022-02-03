@@ -18,14 +18,14 @@ const expandVetInVetVisits = (vetVisits) => {
 export default {
     // vaccinations
     async getVaccination(id) {
-        return await fetchIt(`${Settings.remoteURL}/vaccinations/${id}?_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/vaccinations/${id}`)
     },
     async getAllVaccinations() {
-        return await fetchIt(`${Settings.remoteURL}/vaccinations?_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/vaccinations`)
     },
 
     async getPetVaccinationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=pet&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination`)
     },
     async addPetVaccination(petVaccination) {
         return await fetchIt(`${Settings.remoteURL}/petVaccinations`, "POST", JSON.stringify(petVaccination))
@@ -45,7 +45,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/petMedications?_expand=pet&_embed=vetvisits`)
     },
     async getMedicationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}&_expand=pet&_embed=vetvisits`)
+        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}`)
     },
     async addPetMedication(petMedication) {
         return await fetchIt(`${Settings.remoteURL}/petMedications`, "POST", JSON.stringify(petMedication))

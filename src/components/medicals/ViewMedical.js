@@ -11,6 +11,8 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { MedicationsList } from "./MedicationsList";
+import { VaccinationsList } from "./VaccinationsList";
 
 export const ViewMedical = () => {
     const [user, updateUser] = useState({});
@@ -62,13 +64,19 @@ export const ViewMedical = () => {
             </Typography>
             {(defaultPet) ?
                 <Grid container spacing={4} direction="column">
-                    <Grid item xs={4} key={`medicalBio`}>
+                    <Grid item xs={12} key={`medicalBio`}>
                         <PetMedicalBio pet={defaultPet}/>
                     </Grid>
-                    <Grid item xs={4} key={`incidentsList`}>
+                    <Grid item xs={12} key={`medications`}>
+                        <MedicationsList pet={defaultPet}/>
+                    </Grid>
+                    <Grid item xs={12} key={`vaccinations`}>
+                        <VaccinationsList pet={defaultPet}/>
+                    </Grid>
+                    <Grid item xs={12} key={`incidentsList`}>
                         <IncidentsList pet={defaultPet}/>
                     </Grid>
-                    <Grid item xs={4} key={`vetVisitsList`}>
+                    <Grid item xs={12} key={`vetVisitsList`}>
                         <VetVisitsList pet={defaultPet}/>
                     </Grid>
                 </Grid>

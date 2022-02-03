@@ -12,25 +12,43 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
 
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+
 export const PetMedicalBio = ({ pet }) => {
     const [birthdate, setBirthdate] = useState("");
-    const [ petVax, setPetVax ] = useState([]);
-    const [ petMeds, setPetMeds ] = useState([]);
-    const [ chronicIllnesses, setChronicIllnesses ] = useState([]);
+    const [petVax, setPetVax] = useState([]);
+    const [petMeds, setPetMeds] = useState([]);
+    const [chronicIllnesses, setChronicIllnesses] = useState([]);
+    const [editedPet, setEditedPet] = useState(pet);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         setBirthdate(getAge(pet?.birthdate));
-        MedicalRepository.getMedicationsByPet(pet.id)
-            .then(data => setPetMeds(data))
-        MedicalRepository.getPetVaccinationsByPet(pet.id)
-            .then(data => setPetVax(data))
-        MedicalRepository.getChronicIllnessesByPet(pet.id)
-            .then(data => setChronicIllnesses(data))
+        MedicalRepository.getMedicationsByPet(pet.id).then((data) =>
+            setPetMeds(data)
+        );
+        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) =>
+            setPetVax(data)
+        );
+        MedicalRepository.getChronicIllnessesByPet(pet.id).then((data) =>
+            setChronicIllnesses(data)
+        );
 
         return () => {
-            setPetVax([])
-            setPetMeds([])
-        }
+            setPetVax([]);
+            setPetMeds([]);
+        };
     }, [pet]);
 
     const editBio = () => {};
@@ -47,9 +65,16 @@ export const PetMedicalBio = ({ pet }) => {
         ) {
             age--;
             month--;
-            
         }
         return age + " and " + ((12 + month) % 12) + " months";
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
@@ -70,32 +95,146 @@ export const PetMedicalBio = ({ pet }) => {
                             <p>Species: {pet?.specie?.type}</p>
                             <p>Breed: {pet?.breed}</p>
                             <p>Sex: {pet?.sex?.label}</p>
-                            <p>Birthdate: {pet?.birthdate} - {birthdate}</p>
+                            <p>
+                                Birthdate: {pet?.birthdate} - {birthdate}
+                            </p>
                             <p>Weight: {pet?.weight} lbs</p>
-                            <p>Microchip: {pet?.microchipNumber ? pet.microchipNumber : "none"}</p>
+                            <p>
+                                Microchip:{" "}
+                                {pet?.microchipNumber
+                                    ? pet.microchipNumber
+                                    : "none"}
+                            </p>
                             <p>Fixed: {pet?.isFixed ? "Yes" : "No"}</p>
-                            
+
                             <p>Current medications: </p>
                             <ul>
-                            {petMeds.map(med => <li key={med.id}>{med.name} at {med.dosage}</li>)}
+                                {petMeds.map((med) => (
+                                    <li key={med.id}>
+                                        {med.name} at {med.dosage}
+                                    </li>
+                                ))}
                             </ul>
                             <p>Latest vaccinations: </p>
                             <ul>
-                            {petVax.map(vax => <li key={vax.id}>{vax.vaccination.shot} on {vax.date}</li>)}
+                                {petVax.map((vax) => (
+                                    <li key={vax.id}>
+                                        {vax.vaccination.shot} on {vax.date}
+                                    </li>
+                                ))}
                             </ul>
                             <p>Chronic illnesses:</p>
                             <ul>
-                            {chronicIllnesses.map(ill => <li key={ill.id}>{ill.name}</li>)}
+                                {chronicIllnesses.map((ill) => (
+                                    <li key={ill.id}>{ill.name}</li>
+                                ))}
                             </ul>
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button size="small" onClick={editBio}>
+                        <Button size="small" onClick={handleClickOpen}>
                             Edit
                         </Button>
                     </CardActions>
                 </Card>
             </Box>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Add Contact</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        id="weight"
+                        label="Weight in lbs"
+                        value={editedPet.weight}
+                        required
+                        type="number"
+                        onChange={(event) => {
+                            const copy = { ...editedPet };
+                            copy.weight = parseInt(event.target.value);
+                            setEditedPet(copy);
+                        }}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="microchip"
+                        label="Microchip #"
+                        type="number"
+                        required
+                        value={editedPet.microchip ? editedPet.microchip : 0}
+                        fullWidth
+                        onChange={(event) => {
+                            const copy = { ...editedPet };
+                            if (event.target.value === "0") {
+                                copy.microchip = null;
+                            } else {
+                                copy.microchip = event.target.value;
+                            }
+                            setEditedPet(copy);
+                        }}
+                    />
+                    
+                    <FormControlLabel
+                        control={<Checkbox checked={editedPet.isFixed} onChange={(event) => {
+                            const copy = { ...editedPet };
+                            copy.isFixed = event.target.checked;
+                            setEditedPet(copy);
+                            
+                        }}/>}
+                        label="Is Fixed?"
+                    />
+                    <TextField
+                        margin="dense"
+                        id="phone"
+                        label="Phone Number"
+                        type="tel"
+                        required
+                        value={editedPet.phoneNumber}
+                        fullWidth
+                        onChange={(event) => {
+                            const copy = { ...editedPet };
+                            copy.phoneNumber = event.target.value;
+                            setEditedPet(copy);
+                        }}
+                    />
+                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="species-label">Contact type</InputLabel>
+                        <Select
+                            labelId="contact-type-label"
+                            id="contact-type"
+                            value={editedPet.contactsTypeId}
+                            label="contact-type"
+                            onChange={(event) => {
+                                const copy = { ...editedPet };
+                                copy.contactsTypeId = parseInt(
+                                    event.target.value
+                                );
+                                setEditedPet(copy);
+                            }}
+                        >
+                            {/* {contactsTypes.map((contactType) => (
+                                <MenuItem
+                                    key={`contactType--${contactType.id}`}
+                                    value={contactType.id}
+                                >
+                                    {contactType.type}
+                                </MenuItem>
+                            ))} */}
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button
+                        onClick={() => {
+                            handleClose();
+                            editBio();
+                        }}
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 };
