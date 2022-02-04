@@ -59,7 +59,8 @@ export const EditPetForm = () => {
                     required
                     id="name"
                     label="Name"
-                    defaultValue={editedPet.name}
+                    InputLabelProps={{ shrink: true }}
+                    value={editedPet.name}
                     onChange={(event) => {
                         const copy = { ...editedPet };
                         copy.name = event.target.value;
@@ -90,10 +91,12 @@ export const EditPetForm = () => {
                     </Select>
                 </FormControl>
                 <TextField
+                    autofocus
                     required
                     id="breed"
                     label="Breed"
-                    defaultValue={editedPet.breed}
+                    InputLabelProps={{ shrink: true }}
+                    value={editedPet.breed}
                     onChange={(event) => {
                         const copy = { ...editedPet };
                         copy.breed = event.target.value;
@@ -131,7 +134,7 @@ export const EditPetForm = () => {
                     <Input
                         required
                         type="date"
-                        defaultValue={editedPet.birthdate}
+                        value={editedPet.birthdate}
                         onChange={(event) => {
                             const copy = { ...editedPet };
                             copy.birthdate = event.target.value;
@@ -145,6 +148,7 @@ export const EditPetForm = () => {
                     label="Bio"
                     multiline
                     rows={3}
+                    InputLabelProps={{ shrink: true }}
                     defaultValue={editedPet.bioText}
                     onChangeCapture={(event) => {
                         const copy = { ...editedPet };
