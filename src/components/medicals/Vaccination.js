@@ -46,7 +46,9 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         );
     };
 
-    const editPetVax = () => {
+    const editPetVax = (event) => {
+        event.preventDefault();
+        handleClose();
         const copy = { ...editedPetVax };
         delete copy.vaccination;
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
@@ -108,59 +110,54 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                 </AccordionDetails>
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Vaccination Record</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="date"
-                        label="date"
-                        value={editedPetVax.date}
-                        required
-                        type="date"
-                        onChange={(event) => {
-                            const copy = { ...editedPetVax };
-                            copy.date = event.target.value;
-                            setEditedPetVax(copy);
-                        }}
-                    />
-
-                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="shot-label">Vaccination</InputLabel>
-                        <Select
-                            labelId="Vaccination-label"
-                            id="Vaccination"
-                            value={editedPetVax.vaccinationId}
-                            label="vaccination"
+                <form onSubmit={editPetVax}>
+                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            margin="dense"
+                            id="date"
+                            label="date"
+                            value={editedPetVax.date}
+                            required
+                            type="date"
                             onChange={(event) => {
                                 const copy = { ...editedPetVax };
-                                copy.vaccinationId = parseInt(
-                                    event.target.value
-                                );
+                                copy.date = event.target.value;
                                 setEditedPetVax(copy);
                             }}
-                        >
-                            {vaccinations.map((vax) => (
-                                <MenuItem
-                                    key={`vaccination--${vax.id}`}
-                                    value={editedPetVax.vaccinationId}
-                                >
-                                    {vax.shot}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                        onClick={() => {
-                            handleClose();
-                            editPetVax();
-                        }}
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
+                        />
+
+                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                            <InputLabel id="shot-label">Vaccination</InputLabel>
+                            <Select
+                                labelId="Vaccination-label"
+                                id="Vaccination"
+                                value={editedPetVax.vaccinationId}
+                                label="vaccination"
+                                onChange={(event) => {
+                                    const copy = { ...editedPetVax };
+                                    copy.vaccinationId = parseInt(
+                                        event.target.value
+                                    );
+                                    setEditedPetVax(copy);
+                                }}
+                            >
+                                {vaccinations.map((vax) => (
+                                    <MenuItem
+                                        key={`vaccination--${vax.id}`}
+                                        value={editedPetVax.vaccinationId}
+                                    >
+                                        {vax.shot}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button type="submit">Save</Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </>
     );
