@@ -60,9 +60,6 @@ export const MedicalRoutes = () => {
             <Route exact path="/medical/incidents">
                 <IncidentsList pet={pet}/>
             </Route>
-            {/* <Route path="/medical/incidents/:incidentId(\d+)">
-                <Incident />
-            </Route> */}
             <Route exact path="/medical/vetvisits">
                 <VetVisitsList pet={pet}/>
             </Route>
@@ -72,12 +69,6 @@ export const MedicalRoutes = () => {
             <Route exact path="/medical/medications">
                 <MedicationsList pet={pet}/>
             </Route>
-            {/* <Route path="/medical/vetvisits/:vetVisitId(\d+)">
-                <VetVisit />
-            </Route> */}
-       
-
-
         </>
     )
 }

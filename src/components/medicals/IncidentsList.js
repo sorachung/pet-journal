@@ -16,14 +16,11 @@ import CardHeader from "@mui/material/CardHeader";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
 
@@ -31,7 +28,6 @@ export const IncidentsList = ({pet, dashboardView}) => {
     const [ myPetsIncidents, setMyPetsIncidents ] = useState([])
     const [ incidentTypes, setIncidentTypes ] = useState([])
     const [newPetIncident, setNewPetIncident] = useState({});
-    const { petId } = useParams();
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 

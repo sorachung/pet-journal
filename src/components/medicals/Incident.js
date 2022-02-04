@@ -16,7 +16,6 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
@@ -25,7 +24,6 @@ import MenuItem from "@mui/material/MenuItem";
 
 export const Incident = ({ incident, syncIncidents, handleChange, expanded, incidentTypes }) => {
     const [editedIncident, setEditedIncident] = useState(incident);
-    const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
 
     useEffect(() => {

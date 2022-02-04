@@ -16,12 +16,7 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
@@ -32,7 +27,6 @@ export const Medication = ({
     expanded,
 }) => {
     const [editedMed, setEditedMed] = useState(myPetMed);
-    const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
 
     useEffect(() => {}, [myPetMed]);

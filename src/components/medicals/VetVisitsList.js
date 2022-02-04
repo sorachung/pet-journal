@@ -1,37 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import PetRepository from "../../repositories/PetRepository";
 import MedicalRepository from "../../repositories/MedicalRepository";
 import ContactsRepository from "../../repositories/ContactsRepository";
-import { Incident } from "./Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
 import { VetVisit } from "./VetVisit";
-import { PetsRounded } from "@mui/icons-material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
 export const VetVisitsList = ({ pet, dashboardView }) => {
     const [myPetVetVisits, setMyPetVetVisits] = useState([]);
-    const { petId } = useParams();
     const [newVetVisit, setNewVetVisit] = useState({});
     const [vets, setVets] = useState([]);
     const [expanded, setExpanded] = useState(false);

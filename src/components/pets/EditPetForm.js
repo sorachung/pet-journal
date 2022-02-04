@@ -17,7 +17,6 @@ import { useParams } from "react-router-dom";
 export const EditPetForm = () => {
     const { resolveResource, resource: currentPet } = useResourceResolver();
     const { petId } = useParams();
-    const { getCurrentUser } = useSimpleAuth();
     const [species, setSpecies] = useState([]);
     const [editedPet, updateEditedPet] = useState({});
     const history = useHistory();
