@@ -37,7 +37,9 @@ export const Medication = ({
         );
     };
 
-    const editPetMed = () => {
+    const editPetMed = (event) => {
+        event.preventDefault();
+        handleClose();
         MedicalRepository.editPetMedication(editedMed).then(() =>
             syncPetMedications()
         );
@@ -106,6 +108,7 @@ export const Medication = ({
                 </AccordionDetails>
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
+            <form onSubmit={editPetMed}>
                 <DialogTitle>Edit Vaccination Record</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -151,14 +154,12 @@ export const Medication = ({
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
                     <Button
-                        onClick={() => {
-                            handleClose();
-                            editPetMed();
-                        }}
+type="submit"
                     >
                         Save
                     </Button>
                 </DialogActions>
+                </form>
             </Dialog>
         </>
     );

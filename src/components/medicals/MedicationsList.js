@@ -21,16 +21,16 @@ import TextField from "@mui/material/TextField";
 
 export const MedicationsList = ({ pet, dashboardView }) => {
     const [myPetMedications, setMyPetMedications] = useState([]);
-    const [newPetMed, setNewPetMed] = useState({petId:pet.id});
+    const [newPetMed, setNewPetMed] = useState({ isCurrent: false });
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 
     const syncPetMedications = () => {
         MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
-            if(dashboardView) {
-                data = data.filter(petMed => petMed.starred)
+            if (dashboardView) {
+                data = data.filter((petMed) => petMed.starred);
             }
-            setMyPetMedications(data)
+            setMyPetMedications(data);
         });
     };
 
@@ -40,10 +40,13 @@ export const MedicationsList = ({ pet, dashboardView }) => {
             setMyPetMedications([]);
         };
     }, [pet]);
-    
-    const addPetMed = () => {
-        const copy = {...newPetMed}
+
+    const addPetMed = (event) => {
+        event.preventDefault();
+        handleClose();
+        const copy = { ...newPetMed };
         copy.starred = false;
+        copy.petId = pet.id;
         MedicalRepository.addPetMedication(copy).then(() =>
             syncPetMedications()
         );
@@ -57,11 +60,9 @@ export const MedicationsList = ({ pet, dashboardView }) => {
         setOpen(true);
     };
 
-    
     const handleClose = () => {
         setOpen(false);
     };
-
 
     return (
         <Container>
@@ -93,53 +94,51 @@ export const MedicationsList = ({ pet, dashboardView }) => {
                 </Card>
             </Box>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Vaccination Record</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="name"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetMed };
-                            copy.name = event.target.value;
-                            setNewPetMed(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="dosage"
-                        label="dosage"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetMed };
-                            copy.dosage = event.target.value;
-                            setNewPetMed(copy);
-                        }}
-                    />
-                    <FormControlLabel
-                        control={<Checkbox onChange={(event) => {
-                            const copy = { ...newPetMed };
-                            copy.isCurrent = event.target.checked;
-                            setNewPetMed(copy);
-                            
-                        }}/>}
-                        label="Is Current?"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                        onClick={() => {
-                            handleClose();
-                            addPetMed();
-                        }}
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
+                <form onSubmit={addPetMed}>
+                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            label="name"
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...newPetMed };
+                                copy.name = event.target.value;
+                                setNewPetMed(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="dosage"
+                            label="dosage"
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...newPetMed };
+                                copy.dosage = event.target.value;
+                                setNewPetMed(copy);
+                            }}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    onChange={(event) => {
+                                        const copy = { ...newPetMed };
+                                        copy.isCurrent = event.target.checked;
+                                        setNewPetMed(copy);
+                                    }}
+                                />
+                            }
+                            label="Is Current?"
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button type="submit">Save</Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </Container>
     );
