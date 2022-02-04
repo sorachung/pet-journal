@@ -56,6 +56,7 @@ export const PetsList = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
             updateUser(data);
         });
+        
     }, [history.location.state]);
 
     const addPet = () => {

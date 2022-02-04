@@ -10,7 +10,6 @@ import { VetVisitsList } from "./VetVisitsList";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import { MedicationsList } from "./MedicationsList";
 import { VaccinationsList } from "./VaccinationsList";
 
@@ -34,6 +33,7 @@ export const ViewMedical = ({dashboardView}) => {
             }
         );
     };
+    
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
@@ -51,21 +51,27 @@ export const ViewMedical = ({dashboardView}) => {
 
     useEffect(() => {
         setDefaultPet(myPets.find(pet => user.defaultPetId === pet.id))
+        return () => {
+            setDefaultPet({});
+        };
     }, [myPets])
 
     useEffect(() => {
         syncUser();
+        return () => {
+            syncUser({});
+        };
     }, [history.location.state]);
 
     return (
         <Container maxWidth="lg">
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
-                {defaultPet?.name}'s Medical
+                {defaultPet ? defaultPet.name + "'s " : ""} Medical
             </Typography>
             {(defaultPet) ?
                 <Grid container spacing={4} direction="column">
                     <Grid item xs={12} key={`medicalBio`}>
-                        <PetMedicalBio pet={defaultPet} dashboardView={dashboardView}/>
+                        <PetMedicalBio pet={defaultPet} dashboardView={dashboardView} syncPets={syncPets}/>
                     </Grid>
                     <Grid item xs={12} key={`medications`}>
                         <MedicationsList pet={defaultPet} dashboardView={dashboardView}/>

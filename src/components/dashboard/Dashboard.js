@@ -34,6 +34,10 @@ export const Dashboard = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
             setUser(data);
         });
+
+        return () => {
+            setUser({});
+        };
     }, [history.location.state]);
 
     const addPet = () => {

@@ -142,6 +142,9 @@ export const Navbar = () => {
 
     useEffect(() => {
         syncPets();
+        return () => {
+            setMyPets([]);
+        };
     }, [user]);
 
     const changeDefaultPet = (event) => {

@@ -84,7 +84,6 @@ export default {
     async getAllVetVisitsByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}`)
             .then(data => {
-                console.log(data)
                 return expandVetInVetVisits(data)
             })
     },

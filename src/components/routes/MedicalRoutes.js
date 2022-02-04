@@ -16,6 +16,8 @@ import { MedicationsList } from "../medicals/MedicationsList";
 export const MedicalRoutes = () => {
     const [user, updateUser] = useState({});
     const [pet, setPet] = useState({});
+    const [myPets, setMyPets] = useState([]);
+
     const { getCurrentUser } = useSimpleAuth();
     const history = useHistory()
     
@@ -29,6 +31,19 @@ export const MedicalRoutes = () => {
         }
     };
 
+    const syncPets = () => {
+        PetRepository.getAllExpandAllByUser(getCurrentUser().id).then(
+            (data) => {
+                data.sort((el1) => {
+                    if (el1.id === user.defaultPetId) {
+                        return -1;
+                    }
+                });
+                setMyPets(data);
+            }
+        );
+    };
+
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
             updateUser(data)
@@ -37,6 +52,7 @@ export const MedicalRoutes = () => {
 
     useEffect(() => {
         syncPet()
+        syncPets()
     },[user])
 
     useEffect(() => {
@@ -55,14 +71,11 @@ export const MedicalRoutes = () => {
                 <ViewMedical pet={pet}/>
             </Route>
             <Route exact path="/medical/bio">
-                <PetMedicalBio pet={pet}/>
+                <PetMedicalBio pet={pet} syncPets={syncPets}/>
             </Route>
             <Route exact path="/medical/incidents">
                 <IncidentsList pet={pet}/>
             </Route>
-            {/* <Route path="/medical/incidents/:incidentId(\d+)">
-                <Incident />
-            </Route> */}
             <Route exact path="/medical/vetvisits">
                 <VetVisitsList pet={pet}/>
             </Route>
@@ -72,12 +85,6 @@ export const MedicalRoutes = () => {
             <Route exact path="/medical/medications">
                 <MedicationsList pet={pet}/>
             </Route>
-            {/* <Route path="/medical/vetvisits/:vetVisitId(\d+)">
-                <VetVisit />
-            </Route> */}
-       
-
-
         </>
     )
 }

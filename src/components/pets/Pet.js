@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import PetRepository from "../../repositories/PetRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 
 import Container from "@mui/material/Container";
@@ -15,7 +12,6 @@ import { useHistory } from "react-router-dom";
 
 export const Pet = ({ pet, deletePet }) => {
     const history = useHistory();
-    const { getCurrentUser } = useSimpleAuth();
 
     const uploadPhoto = () => {
         return "";

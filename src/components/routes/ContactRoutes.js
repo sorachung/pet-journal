@@ -9,9 +9,6 @@ export const ContactRoutes = () => {
             <Route exact path="/contacts">
                 <ContactList />
             </Route>
-            {/* <Route path="/contacts/:contactId(\d+)">
-                <Contact />
-            </Route> */}
         </>
     )
 }
