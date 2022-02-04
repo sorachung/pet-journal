@@ -91,7 +91,7 @@ export const EditPetForm = () => {
                     </Select>
                 </FormControl>
                 <TextField
-                    autofocus
+                    autoFocus
                     required
                     id="breed"
                     label="Breed"
