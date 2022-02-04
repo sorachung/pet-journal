@@ -33,6 +33,7 @@ export const ViewMedical = ({dashboardView}) => {
             }
         );
     };
+    
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
@@ -70,7 +71,7 @@ export const ViewMedical = ({dashboardView}) => {
             {(defaultPet) ?
                 <Grid container spacing={4} direction="column">
                     <Grid item xs={12} key={`medicalBio`}>
-                        <PetMedicalBio pet={defaultPet} dashboardView={dashboardView}/>
+                        <PetMedicalBio pet={defaultPet} dashboardView={dashboardView} syncPets={syncPets}/>
                     </Grid>
                     <Grid item xs={12} key={`medications`}>
                         <MedicationsList pet={defaultPet} dashboardView={dashboardView}/>
