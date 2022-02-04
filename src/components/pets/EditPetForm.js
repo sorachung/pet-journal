@@ -30,7 +30,7 @@ export const EditPetForm = () => {
     }, []);
 
     useEffect(() => {
-        const copy = {...currentPet};
+        const copy = { ...currentPet };
         delete copy.specie;
         delete copy.user;
         delete copy.sex;
@@ -54,112 +54,118 @@ export const EditPetForm = () => {
             }}
             noValidate
         >
-            <form onSubmit={editPet}>
-                <TextField
-                    required
-                    id="name"
-                    label="Name"
-                    InputLabelProps={{ shrink: true }}
-                    value={editedPet.name}
-                    onChange={(event) => {
-                        const copy = { ...editedPet };
-                        copy.name = event.target.value;
-                        updateEditedPet(copy);
-                    }}
-                />
-                <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                    <InputLabel id="species-label">Species</InputLabel>
-                    <Select
-                        labelId="species-label"
-                        id="species"
-                        value={String(editedPet.specieId)}
-                        label="Species"
-                        onChange={(event) => {
-                            const copy = { ...editedPet };
-                            copy.specieId = parseInt(event.target.value);
-                            updateEditedPet(copy);
-                        }}
-                    >
-                        {species.map((specie) => (
-                            <MenuItem
-                                key={`specie--${specie.id}`}
-                                value={specie.id}
-                            >
-                                {specie.type}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-                <TextField
-                    autoFocus
-                    required
-                    id="breed"
-                    label="Breed"
-                    InputLabelProps={{ shrink: true }}
-                    value={editedPet.breed}
-                    onChange={(event) => {
-                        const copy = { ...editedPet };
-                        copy.breed = event.target.value;
-                        updateEditedPet(copy);
-                    }}
-                />
-                <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                    <InputLabel id="sex-label">Sex</InputLabel>
-                    <Select
-                        labelId="sex-label"
-                        id="sex"
-                        value={String(editedPet.sexId)}
-                        label="Sex"
-                        onChange={(event) => {
-                            const copy = { ...editedPet };
-                            copy.sex = parseInt(event.target.value);
-                            updateEditedPet(copy);
-                        }}
-                    >
-                        <MenuItem key={`female`} value={1}>
-                            Female
-                        </MenuItem>
-                        <MenuItem key={`male`} value={2}>
-                            Male
-                        </MenuItem>
-                        <MenuItem key={`other`} value={3}>
-                            Other
-                        </MenuItem>
-                    </Select>
-                </FormControl>
-                {/* <FormControl sx={{ m: 1, minWidth: 225 }}> */}
-                    <InputLabel shrink id="secondaryColor-label">
-                        Birthdate
-                    </InputLabel>
-                    <Input
+            {editedPet.hasOwnProperty("id") ? (
+                <form onSubmit={editPet}>
+                    <TextField
+                        autoFocus
                         required
-                        type="date"
-                        value={editedPet.birthdate}
+                        id="name"
+                        label="Name"
+                        InputLabelProps={{ shrink: true }}
+                        value={editedPet.name}
                         onChange={(event) => {
                             const copy = { ...editedPet };
-                            copy.birthdate = event.target.value;
+                            copy.name = event.target.value;
                             updateEditedPet(copy);
                         }}
                     />
-                {/* </FormControl> */}
-                <TextField
-                    required
-                    id="bioText"
-                    label="Bio"
-                    multiline
-                    rows={3}
-                    InputLabelProps={{ shrink: true }}
-                    defaultValue={editedPet.bioText}
-                    onChangeCapture={(event) => {
-                        const copy = { ...editedPet };
-                        copy.bioText = event.target.value;
-                        updateEditedPet(copy);
-                    }}
-                />
-                <Button variant="contained" type="submit">
-                    Save
-                </Button>
-            </form>
+                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="species-label">Species</InputLabel>
+                        <Select
+                            labelId="species-label"
+                            id="species-label"
+                            value={String(editedPet.specieId)}
+                            label="Species"
+                            onChange={(event) => {
+                                const copy = { ...editedPet };
+                                copy.specieId = parseInt(event.target.value);
+                                updateEditedPet(copy);
+                            }}
+                        >
+                            {species.map((specie) => (
+                                <MenuItem
+                                    key={`specie--${specie.id}`}
+                                    value={specie.id}
+                                >
+                                    {specie.type}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        autoFocus
+                        required
+                        id="breed"
+                        label="Breed"
+                        InputLabelProps={{ shrink: true }}
+                        value={editedPet.breed}
+                        onChange={(event) => {
+                            const copy = { ...editedPet };
+                            copy.breed = event.target.value;
+                            updateEditedPet(copy);
+                        }}
+                    />
+                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel id="sex-label">Sex</InputLabel>
+                        <Select
+                            labelId="sex-label"
+                            id="sex-label"
+                            value={String(editedPet.sexId)}
+                            label="Sex"
+                            onChange={(event) => {
+                                const copy = { ...editedPet };
+                                copy.sex = parseInt(event.target.value);
+                                updateEditedPet(copy);
+                            }}
+                        >
+                            <MenuItem key={`female`} value={1}>
+                                Female
+                            </MenuItem>
+                            <MenuItem key={`male`} value={2}>
+                                Male
+                            </MenuItem>
+                            <MenuItem key={`other`} value={3}>
+                                Other
+                            </MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl sx={{ m: 1, minWidth: 225 }}>
+                        <InputLabel shrink id="date-label">
+                            Birthdate
+                        </InputLabel>
+                        <Input
+                            id="date-label"
+                            required
+                            type="date"
+                            value={editedPet.birthdate}
+                            onChange={(event) => {
+                                const copy = { ...editedPet };
+                                copy.birthdate = event.target.value;
+                                updateEditedPet(copy);
+                            }}
+                        />
+                    </FormControl>
+                    <TextField
+                        required
+                        id="bioText"
+                        label="Bio"
+                        multiline
+                        rows={3}
+                        InputLabelProps={{ shrink: true }}
+                        value={editedPet.bioText}
+                        onChange={(event) => {
+                            const copy = { ...editedPet };
+                            copy.bioText = event.target.value;
+                            updateEditedPet(copy);
+                        }}
+                    />
+                    <Button variant="contained" type="submit">
+                        Save
+                    </Button>
+                </form>
+            ) : (
+                ""
+            )}
         </Box>
-    )
-}
+    );
+};
