@@ -29,7 +29,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
-export const MedicationsList = ({ pet }) => {
+export const MedicationsList = ({ pet, dashboardView }) => {
     const [myPetMedications, setMyPetMedications] = useState([]);
     const [newPetMed, setNewPetMed] = useState({petId:pet.id});
     const { petId } = useParams();
@@ -37,9 +37,12 @@ export const MedicationsList = ({ pet }) => {
     const [open, setOpen] = useState(false);
 
     const syncPetMedications = () => {
-        MedicalRepository.getMedicationsByPet(pet.id).then((data) =>
+        MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
+            if(dashboardView) {
+                data = data.filter(petMed => petMed.starred)
+            }
             setMyPetMedications(data)
-        );
+        });
     };
 
     useEffect(() => {
@@ -50,7 +53,9 @@ export const MedicationsList = ({ pet }) => {
     }, [pet]);
     
     const addPetMed = () => {
-        MedicalRepository.addPetMedication(newPetMed).then(() =>
+        const copy = {...newPetMed}
+        copy.starred = false;
+        MedicalRepository.addPetMedication(copy).then(() =>
             syncPetMedications()
         );
     };

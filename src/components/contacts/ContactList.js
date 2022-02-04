@@ -19,7 +19,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
 
-export const ContactList = () => {
+export const ContactList = ({dashboardView}) => {
     const [myContacts, setMyContacts] = useState([]);
     const [contactsTypes, setContactsTypes] = useState([]);
     const { getCurrentUser } = useSimpleAuth();
@@ -31,10 +31,16 @@ export const ContactList = () => {
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
     const history = useHistory(); 
-    
+
     useEffect(() => {
         ContactsRepository.findContactsByUser(getCurrentUser().id).then(
-            (data) => setMyContacts(data)
+            (data) => {
+                if (dashboardView) {
+                    setMyContacts(data.filter(contact => contact.starred))
+                } else {
+                    setMyContacts(data)
+                }
+            }
         );
         ContactsRepository.getContactsTypes().then((data) =>
             setContactsTypes(data)

@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import {ContactList} from "../contacts/ContactList"
+import {ViewMedical } from "../medicals/ViewMedical"
 import { Pet } from "../pets/Pet";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import UserRepository from "../../repositories/UserRepository";
@@ -14,6 +15,7 @@ export const Dashboard = () => {
     const [defaultPet, setDefaultPet] = useState()
     const { getCurrentUser } = useSimpleAuth()
     const history = useHistory();
+    const [dashboardView, setDashboardView] = useState(true);
 
     useEffect( () => {
         UserRepository.get(getCurrentUser().id)
@@ -41,9 +43,10 @@ export const Dashboard = () => {
                         <Pet pet={defaultPet}/>
                     </Grid>
                     <Grid item sm={6}>
+                        <ContactList dashboardView={dashboardView}/>
                     </Grid>
                     <Grid item sm={12}>
-                        <ContactList />
+                        <ViewMedical dashboardView={dashboardView}/>
                     </Grid>
             </Grid>
         </Container>

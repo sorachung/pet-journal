@@ -46,10 +46,16 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
 
     const editPetVax = () => {
         const copy = { ...editedPetVax };
-        delete copy.vaccination
-        MedicalRepository.editPetVaccination(copy).then(() =>
-            syncPetVax()
-        );
+        delete copy.vaccination;
+        MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
+    };
+
+    const starUnstar = () => {
+        const copy = { ...editedPetVax };
+        copy.starred = !editedPetVax.starred;
+        delete copy.incidentType;
+        setEditedPetVax(copy);
+        MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 
     const handleClickOpen = () => {
@@ -84,6 +90,13 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                     >
                         {petVax.vaccination?.shot}
                     </Typography>
+                    <IconButton onClick={starUnstar}>
+                        {editedPetVax.starred ? (
+                            <StarIcon />
+                        ) : (
+                            <StarBorderIcon />
+                        )}
+                    </IconButton>
                     <IconButton onClick={deletePetVax}>
                         <DeleteIcon />
                     </IconButton>
