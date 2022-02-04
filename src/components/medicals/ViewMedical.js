@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 import { MedicationsList } from "./MedicationsList";
 import { VaccinationsList } from "./VaccinationsList";
 
-export const ViewMedical = () => {
+export const ViewMedical = ({dashboardView}) => {
     const [user, updateUser] = useState({});
     const [myPets, setMyPets] = useState([]);
     const [defaultPet, setDefaultPet] = useState({})
@@ -65,19 +65,19 @@ export const ViewMedical = () => {
             {(defaultPet) ?
                 <Grid container spacing={4} direction="column">
                     <Grid item xs={12} key={`medicalBio`}>
-                        <PetMedicalBio pet={defaultPet}/>
+                        <PetMedicalBio pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
                     <Grid item xs={12} key={`medications`}>
-                        <MedicationsList pet={defaultPet}/>
+                        <MedicationsList pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
                     <Grid item xs={12} key={`vaccinations`}>
-                        <VaccinationsList pet={defaultPet}/>
+                        <VaccinationsList pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
                     <Grid item xs={12} key={`incidentsList`}>
-                        <IncidentsList pet={defaultPet}/>
+                        <IncidentsList pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
                     <Grid item xs={12} key={`vetVisitsList`}>
-                        <VetVisitsList pet={defaultPet}/>
+                        <VetVisitsList pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
                 </Grid>
             : ""}

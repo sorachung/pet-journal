@@ -29,7 +29,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
-export const VaccinationsList = ({pet}) => {
+export const VaccinationsList = ({pet, dashboardView}) => {
     const [newPetVax, setNewPetVax] = useState({})
     const [myPetVax, setMyPetVax] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
@@ -37,9 +37,12 @@ export const VaccinationsList = ({pet}) => {
     const [open, setOpen] = useState(false);
 
     const syncPetVax = () => {
-        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) =>
+        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
+            if(dashboardView) {
+                data = data.filter(petVax => petVax.starred)
+            }
             setMyPetVax(data)
-        );
+        });
     };
 
     useEffect(() => {
@@ -58,6 +61,7 @@ export const VaccinationsList = ({pet}) => {
     const addPetVax = () => {
         const copy = {...newPetVax}
         copy.petId = pet.id
+        copy.starred = false
         MedicalRepository.addPetVaccination(copy).then((data) =>
             syncPetVax(data)
         );

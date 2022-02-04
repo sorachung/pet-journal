@@ -3,7 +3,6 @@ import { fetchIt } from "./Fetch"
 import ContactsRepository from "./ContactsRepository"
 
 const expandVetInVetVisits = (vetVisits) => {
-    console.log("vetvisit", vetVisits)
     if(vetVisits.length > 0) {
         vetVisits.map(vetVisit => {
             ContactsRepository.get(vetVisit.vetId)

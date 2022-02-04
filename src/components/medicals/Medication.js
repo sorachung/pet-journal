@@ -35,8 +35,7 @@ export const Medication = ({
     const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-    }, [myPetMed]);
+    useEffect(() => {}, [myPetMed]);
 
     const deletePetMed = () => {
         MedicalRepository.deletePetMedication(myPetMed.id).then(() =>
@@ -46,6 +45,16 @@ export const Medication = ({
 
     const editPetMed = () => {
         MedicalRepository.editPetMedication(editedMed).then(() =>
+            syncPetMedications()
+        );
+    };
+
+    const starUnstar = () => {
+        const copy = { ...editedMed };
+        copy.starred = !editedMed.starred;
+        delete copy.incidentType;
+        setEditedMed(copy);
+        MedicalRepository.editPetMedication(copy).then(() =>
             syncPetMedications()
         );
     };
@@ -91,6 +100,9 @@ export const Medication = ({
                     >
                         Current? {myPetMed.isCurrent ? "Yes" : "No"}
                     </Typography>
+                    <IconButton onClick={starUnstar}>
+                        {editedMed.starred ? <StarIcon /> : <StarBorderIcon />}
+                    </IconButton>
                     <IconButton onClick={deletePetMed}>
                         <DeleteIcon />
                     </IconButton>
@@ -129,12 +141,16 @@ export const Medication = ({
                         }}
                     />
                     <FormControlLabel
-                        control={<Checkbox checked={editedMed.isCurrent} onChange={(event) => {
-                            const copy = { ...editedMed };
-                            copy.isCurrent = event.target.checked;
-                            setEditedMed(copy);
-                            
-                        }}/>}
+                        control={
+                            <Checkbox
+                                checked={editedMed.isCurrent}
+                                onChange={(event) => {
+                                    const copy = { ...editedMed };
+                                    copy.isCurrent = event.target.checked;
+                                    setEditedMed(copy);
+                                }}
+                            />
+                        }
                         label="Is Current?"
                     />
                 </DialogContent>

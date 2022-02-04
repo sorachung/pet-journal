@@ -29,7 +29,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
-export const VetVisitsList = ({ pet }) => {
+export const VetVisitsList = ({ pet, dashboardView }) => {
     const [myPetVetVisits, setMyPetVetVisits] = useState([]);
     const { petId } = useParams();
     const [newVetVisit, setNewVetVisit] = useState({});
@@ -38,14 +38,17 @@ export const VetVisitsList = ({ pet }) => {
     const [open, setOpen] = useState(false);
 
     const syncVetVisits = () => {
-        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) =>
-            setMyPetVetVisits(data)
-        );
+        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+            if (dashboardView) {
+                data = data.filter(vetVisit => vetVisit.starred)
+                setMyPetVetVisits(data)
+            } else {
+            setMyPetVetVisits(data);
+        }});
     };
 
     useEffect(() => {
-        ContactsRepository.getVetContacts()
-            .then(data => setVets(data))
+        ContactsRepository.getVetContacts().then((data) => setVets(data));
         syncVetVisits();
         return () => {
             setMyPetVetVisits([]);
@@ -138,9 +141,7 @@ export const VetVisitsList = ({ pet }) => {
                             label="vet"
                             onChange={(event) => {
                                 const copy = { ...newVetVisit };
-                                copy.vetId = parseInt(
-                                    event.target.value
-                                );
+                                copy.vetId = parseInt(event.target.value);
                                 setNewVetVisit(copy);
                             }}
                         >

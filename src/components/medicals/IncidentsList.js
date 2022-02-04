@@ -27,7 +27,7 @@ import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
 
-export const IncidentsList = ({pet}) => {
+export const IncidentsList = ({pet, dashboardView}) => {
     const [ myPetsIncidents, setMyPetsIncidents ] = useState([])
     const [ incidentTypes, setIncidentTypes ] = useState([])
     const [newPetIncident, setNewPetIncident] = useState({});
@@ -37,7 +37,12 @@ export const IncidentsList = ({pet}) => {
 
     const syncIncidents = () => {
         MedicalRepository.getAllIncidentsByPet(pet.id)
-            .then((data) => setMyPetsIncidents(data))
+            .then((data) => {
+                if(dashboardView) {
+                    data = data.filter(incident => incident.starred)
+                }
+                setMyPetsIncidents(data)
+            })
     }
 
     useEffect(() => {
