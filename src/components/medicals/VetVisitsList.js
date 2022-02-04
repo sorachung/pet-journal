@@ -101,12 +101,13 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addVetVisit}>
-                    <DialogTitle>Add vet visit</DialogTitle>
+                    <DialogTitle>Add Vet Visit</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
                             id="date"
                             label="date"
+                            InputLabelProps={{ shrink: true }}
                             required
                             type="date"
                             onChange={(event) => {

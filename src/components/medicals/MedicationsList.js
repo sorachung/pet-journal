@@ -95,7 +95,7 @@ export const MedicationsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetMed}>
-                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogTitle>Add Medication Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

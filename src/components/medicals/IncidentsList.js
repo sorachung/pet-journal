@@ -106,7 +106,7 @@ export const IncidentsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetIncident}>
-                    <DialogTitle>Edit incident-type Record</DialogTitle>
+                    <DialogTitle>Add Incident Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

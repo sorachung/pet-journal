@@ -106,7 +106,7 @@ export const Incident = ({
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editPetIncident}>
-                    <DialogTitle>Edit incident-type Record</DialogTitle>
+                    <DialogTitle>Edit Incident Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

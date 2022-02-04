@@ -131,7 +131,7 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editBio}>
-                    <DialogTitle>Add Contact</DialogTitle>
+                    <DialogTitle>Edit Bio</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

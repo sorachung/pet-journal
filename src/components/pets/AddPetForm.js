@@ -19,7 +19,7 @@ export const AddPetForm = () => {
         name: "",
         specieId: "",
         breed: "",
-        sexId: 0,
+        sexId: "",
         birthdate: "",
         bioText: "",
         userId: getCurrentUser().id,

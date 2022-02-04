@@ -106,7 +106,7 @@ export const VetVisit = ({
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editVetVisit}>
-                    <DialogTitle>Edit vet visit</DialogTitle>
+                    <DialogTitle>Edit Vet Visit</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

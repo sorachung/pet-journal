@@ -109,7 +109,7 @@ export const Medication = ({
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
             <form onSubmit={editPetMed}>
-                <DialogTitle>Edit Vaccination Record</DialogTitle>
+                <DialogTitle>Edit Medication Record</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"

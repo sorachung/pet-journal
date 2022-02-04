@@ -24,7 +24,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 export const VaccinationsList = ({ pet, dashboardView }) => {
-    const [newPetVax, setNewPetVax] = useState({});
+    const [newPetVax, setNewPetVax] = useState({vaccinationId: ""});
     const [myPetVax, setMyPetVax] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
@@ -106,13 +106,14 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetVax}>
-                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogTitle>Add Vaccination Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
                             id="date"
                             label="date"
                             required
+                            InputLabelProps={{ shrink: true }}
                             type="date"
                             onChange={(event) => {
                                 const copy = { ...newPetVax };
