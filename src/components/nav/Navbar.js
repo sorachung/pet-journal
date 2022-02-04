@@ -32,7 +32,6 @@ import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
-const profilePages = ["Profile", "Settings", "Logout"];
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
     ({ theme, open }) => ({
@@ -109,7 +108,7 @@ function stringAvatar(name) {
 }
 
 export const Navbar = () => {
-    const { isAuthenticated, logout, getCurrentUser } = useSimpleAuth();
+    const { logout, getCurrentUser } = useSimpleAuth();
     const [user, updateUser] = useState({});
     const theme = useTheme();
     const [open, setOpen] = useState(false);
@@ -223,16 +222,18 @@ export const Navbar = () => {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {profilePages.map((page) => (
-                                <MenuItem
-                                    key={page}
-                                    onClick={handleCloseUserMenu}
-                                >
-                                    <Typography textAlign="center">
-                                        {page}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem
+                                key="logout"
+                                onClick={() => {
+                                    handleCloseUserMenu()
+                                    logout();
+                                    history.push("/login")
+                                }}
+                            >
+                                <Typography textAlign="center">
+                                    Logout
+                                </Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
