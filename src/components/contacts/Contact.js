@@ -59,14 +59,16 @@ export const Contact = ({
         });
     }, [currentContact]);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedContact };
         copy.starred = !editedContact.starred;
         setEditedContact(copy);
         ContactsRepository.editContact(copy);
     };
 
-    const deleteContact = () => {
+    const deleteContact = (event) => {
+        event.stopPropagation();
         ContactsRepository.delete(parseInt(currentContact.id)).then(() =>
             ContactsRepository.findContactsByUser(getCurrentUser().id).then(
                 (data) => setMyContacts(data)
