@@ -17,16 +17,21 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-
+import { useHistory } from "react-router-dom";
 
 export const ContactList = () => {
     const [myContacts, setMyContacts] = useState([]);
     const [contactsTypes, setContactsTypes] = useState([]);
     const { getCurrentUser } = useSimpleAuth();
-    const [newContact, setNewContact] = useState({ contactsTypeId: "", userId: getCurrentUser().id, starred: false});
+    const [newContact, setNewContact] = useState({
+        contactsTypeId: "",
+        userId: getCurrentUser().id,
+        starred: false,
+    });
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
-
+    const history = useHistory(); 
+    
     useEffect(() => {
         ContactsRepository.findContactsByUser(getCurrentUser().id).then(
             (data) => setMyContacts(data)
@@ -49,9 +54,11 @@ export const ContactList = () => {
     };
 
     const addContact = () => {
-        ContactsRepository.addContact(newContact)
-            .then(() => ContactsRepository.findContactsByUser(getCurrentUser().id)
-                        .then( (data) => setMyContacts(data)))
+        ContactsRepository.addContact(newContact).then(() =>
+            ContactsRepository.findContactsByUser(getCurrentUser().id).then(
+                (data) => setMyContacts(data)
+            )
+        );
     };
 
     return (
@@ -59,9 +66,13 @@ export const ContactList = () => {
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
                 My Contacts
             </Typography>
-            <Button variant="contained" onClick={handleClickOpen}>
-                Add Contact
-            </Button>
+            {history.location.pathname === "/" ? (
+                ""
+            ) : (
+                <Button variant="contained" onClick={handleClickOpen}>
+                    Add Contact
+                </Button>
+            )}
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add Contact</DialogTitle>
                 <DialogContent>

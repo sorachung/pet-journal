@@ -60,7 +60,18 @@ export const PetsList = () => {
 
     const addPet = () => {
         history.push("/mypets/add");
-    };
+    }
+   
+    
+    const deletePet = (pet) => {
+        PetRepository.delete(pet.id)
+            .then( () => {
+                PetRepository.getAllExpandAllByUser(getCurrentUser().id)
+                    .then(data => {
+                            setMyPets(data)
+                    });
+            })
+    }
 
     return (
         <Container maxWidth="lg">
@@ -74,7 +85,7 @@ export const PetsList = () => {
             <Grid container spacing={2} sx={{ justifyContent: "center" }}>
                 {myPets.map((pet) => (
                     <Grid item sm={6} key={`pet--${pet.id}`}>
-                        <Pet pet={pet} setMyPets={setMyPets} />
+                        <Pet pet={pet} deletePet={deletePet}/>
                     </Grid>
                 ))}
             </Grid>
