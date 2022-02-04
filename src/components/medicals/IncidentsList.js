@@ -74,22 +74,14 @@ export const IncidentsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Incidents" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add incident
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetsIncidents.map((incident) => (
                             <Incident
                                 key={incident.id}
@@ -106,7 +98,7 @@ export const IncidentsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetIncident}>
-                    <DialogTitle>Edit incident-type Record</DialogTitle>
+                    <DialogTitle>Add Incident Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

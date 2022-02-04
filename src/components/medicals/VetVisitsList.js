@@ -70,22 +70,14 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Vet Visits" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add vet visit
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetVetVisits.map((vetVisit) => (
                             <VetVisit
                                 key={vetVisit.id}
@@ -101,12 +93,13 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addVetVisit}>
-                    <DialogTitle>Add vet visit</DialogTitle>
+                    <DialogTitle>Add Vet Visit</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
                             id="date"
                             label="date"
+                            InputLabelProps={{ shrink: true }}
                             required
                             type="date"
                             onChange={(event) => {

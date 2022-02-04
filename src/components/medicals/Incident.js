@@ -36,7 +36,8 @@ export const Incident = ({
         setEditedIncident(incident);
     }, []);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedIncident };
         copy.starred = !editedIncident.starred;
         delete copy.incidentType;
@@ -44,7 +45,8 @@ export const Incident = ({
         MedicalRepository.editIncident(copy).then(() => syncIncidents());
     };
 
-    const deleteIncident = () => {
+    const deleteIncident = (event) => {
+        event.stopPropagation();
         MedicalRepository.deleteIncident(incident.id).then(() =>
             syncIncidents()
         );
@@ -78,12 +80,15 @@ export const Incident = ({
                     aria-controls={`panel${incident.id}-content`}
                     id={`panel${incident.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                        {incident.date}
+                    </Typography>
+                    <Typography sx={{ width: "50%", flexShrink: 0 }}>
                         {incident.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "20%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -93,20 +98,18 @@ export const Incident = ({
                     <IconButton onClick={starUnstar}>
                         {incident.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deleteIncident}>
+                    <IconButton onClick={deleteIncident} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <p>{incident.date}</p>
                     <p>{incident.description}</p>
-                    {/* <p>{incident.petMedicationId ? `${incident.petMedication.name} - ${incident.petMedication.dosage}` : ""}</p> */}
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editPetIncident}>
-                    <DialogTitle>Edit incident-type Record</DialogTitle>
+                    <DialogTitle>Edit Incident Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

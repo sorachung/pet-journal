@@ -65,22 +65,14 @@ export const MedicationsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Medications" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add med
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetMedications.map((myPetMed) => (
                             <Medication
                                 key={myPetMed.id}
@@ -95,7 +87,7 @@ export const MedicationsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetMed}>
-                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogTitle>Add Medication Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

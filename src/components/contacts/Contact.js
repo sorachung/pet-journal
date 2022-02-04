@@ -59,14 +59,16 @@ export const Contact = ({
         });
     }, [currentContact]);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedContact };
         copy.starred = !editedContact.starred;
         setEditedContact(copy);
         ContactsRepository.editContact(copy);
     };
 
-    const deleteContact = () => {
+    const deleteContact = (event) => {
+        event.stopPropagation();
         ContactsRepository.delete(parseInt(currentContact.id)).then(() =>
             ContactsRepository.findContactsByUser(getCurrentUser().id).then(
                 (data) => setMyContacts(data)
@@ -106,20 +108,20 @@ export const Contact = ({
                     <Typography sx={{ width: "15%", flexShrink: 0 }}>
                         {currentContact.contactsType?.type}
                     </Typography>
-                    <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "50%", flexShrink: 0 }}>
                         {currentContact.name}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary" }}>
+                    <Typography sx={{ color: "text.secondary", width: "25%"}}>
                         {currentContact.phoneNumber}
                     </Typography>
-                    <IconButton onClick={starUnstar}>
+                    <IconButton onClick={starUnstar} >
                         {editedContact.starred ? (
                             <StarIcon />
                         ) : (
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deleteContact}>
+                    <IconButton onClick={deleteContact} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

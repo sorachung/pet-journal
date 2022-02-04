@@ -30,6 +30,8 @@ import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const drawerWidth = 240;
 
@@ -116,6 +118,7 @@ export const Navbar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [anchorElPet, setAnchorElPet] = React.useState(null);
     const [myPets, setMyPets] = useState([]);
+    const [defaultPet, setDefaultPet] = useState({});
     const history = useHistory();
 
     const syncUser = () => {
@@ -146,6 +149,13 @@ export const Navbar = () => {
             setMyPets([]);
         };
     }, [user]);
+
+    useEffect(() => {
+        setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
+        return () => {
+            setDefaultPet({});
+        };
+    }, [myPets]);
 
     const changeDefaultPet = (event) => {
         const copy = { ...user };
@@ -184,99 +194,109 @@ export const Navbar = () => {
     return (
         <Box sx={{ display: "flex" }}>
             <CssBaseline />
-            <AppBar position="sticky" open={open}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        sx={{ mr: 2, ...(open && { display: "none" }) }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        Pet Journal
-                    </Typography>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open profile pages">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
-                                <Avatar
-                                    {...stringAvatar(getCurrentUser().name)}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
+            <AppBar position="static" open={open}>
+                <Toolbar
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                >
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <IconButton
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={{ mr: 2, ...(open && { display: "none" }) }}
                         >
-                            <MenuItem
-                                key="logout"
-                                onClick={() => {
-                                    handleCloseUserMenu()
-                                    logout();
-                                    history.push("/login")
-                                }}
-                            >
-                                <Typography textAlign="center">
-                                    Logout
-                                </Typography>
-                            </MenuItem>
-                        </Menu>
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography variant="h6" noWrap component="div">
+                            Pet Journal
+                        </Typography>
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open pets">
-                            <IconButton
-                                onClick={handleOpenPetMenu}
-                                sx={{ p: 0 }}
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography variant="h6" noWrap component="div">
+                            {defaultPet?.name}
+                        </Typography>
+                        <Box sx={{ flexGrow: 0, mr: "2em", ml: "1em" }}>
+                            <Tooltip title="Open pets">
+                                <IconButton
+                                    onClick={handleOpenPetMenu}
+                                    sx={{ p: 0 }}
+                                >
+                                    <PetsIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElPet}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElPet)}
+                                onClose={handleClosePetMenu}
                             >
-                                <PetsIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElPet}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElPet)}
-                            onClose={handleClosePetMenu}
-                        >
-                            {myPets.map((pet) => (
+                                {myPets.map((pet) => (
+                                    <MenuItem
+                                        key={pet.name}
+                                        id={pet.id}
+                                        onClick={(event) => {
+                                            handleClosePetMenu();
+                                            changeDefaultPet(event);
+                                        }}
+                                    >
+                                        {pet.name}
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                        
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open profile pages">
+                                <IconButton
+                                    onClick={handleOpenUserMenu}
+                                    sx={{ p: 0 }}
+                                >
+                                    <Avatar
+                                        {...stringAvatar(getCurrentUser().name)}
+                                    />
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                sx={{ mt: "45px" }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: "top",
+                                    horizontal: "right",
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
                                 <MenuItem
-                                    key={pet.name}
-                                    id={pet.id}
-                                    onClick={(event) => {
-                                        handleClosePetMenu();
-                                        changeDefaultPet(event);
+                                    key="logout"
+                                    onClick={() => {
+                                        handleCloseUserMenu();
+                                        logout();
+                                        history.push("/login");
                                     }}
                                 >
-                                        {pet.name}
+                                    <Typography textAlign="center">
+                                        Logout
+                                    </Typography>
                                 </MenuItem>
-                            ))}
-                        </Menu>
+                            </Menu>
+                        </Box>
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -304,80 +324,112 @@ export const Navbar = () => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem button key={"Dashboard"}>
+                    <ListItem
+                        button
+                        key={"Dashboard"}
+                        onClick={() => {
+                            handleDrawerClose();
+                            history.push("/");
+                        }}
+                    >
                         <ListItemIcon>
                             <GridViewIcon />
                         </ListItemIcon>
-                        <ListItemText primary={<Link to="/">Dashboard</Link>} />
+                        <ListItemText primary={"Dashboard"} />
                     </ListItem>
                 </List>
                 <Divider />
                 <List>
-                    <ListItem button key={"My pets"}>
+                    <ListItem
+                        button
+                        key={"My pets"}
+                        onClick={() => {
+                            handleDrawerClose();
+                            history.push("/mypets");
+                        }}
+                    >
                         <ListItemIcon>
                             <PetsIcon />
                         </ListItemIcon>
-                        <ListItemText
-                            primary={<Link to="/mypets">My pets</Link>}
-                        />
+                        <ListItemText primary={"My pets"} />
                     </ListItem>
                     <ListItem button key={"Medical"} onClick={handleClick}>
                         <ListItemIcon>
                             <HealingIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Medical"} />
+                        {openSub ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                     </ListItem>
                     <Collapse in={openSub} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={
-                                        <Link to="/medical">All medical</Link>
-                                    }
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical");
+                                }}
+                            >
+                                <ListItemText primary={"All medical"} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={<Link to="/medical/bio">Bio</Link>}
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical/bio");
+                                }}
+                            >
+                                <ListItemText primary={"Bio"} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={<Link to="/medical/vaccinations">Vaccinations</Link>}
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical/vaccinations");
+                                }}
+                            >
+                                <ListItemText primary={"Vaccinations"} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={<Link to="/medical/medications">Medications</Link>}
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical/medications");
+                                }}
+                            >
+                                <ListItemText primary={"Medications"} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={
-                                        <Link to="/medical/incidents">
-                                            Incidents
-                                        </Link>
-                                    }
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical/incidents");
+                                }}
+                            >
+                                <ListItemText primary={"Incidents"} />
                             </ListItemButton>
-                            <ListItemButton sx={{ pl: 8 }}>
-                                <ListItemText
-                                    primary={
-                                        <Link to="/medical/vetvisits">
-                                            Vet visits
-                                        </Link>
-                                    }
-                                />
+                            <ListItemButton
+                                sx={{ pl: 12 }}
+                                onClick={() => {
+                                    handleDrawerClose();
+                                    history.push("/medical/vetvisits");
+                                }}
+                            >
+                                <ListItemText primary={"Vet visits"} />
                             </ListItemButton>
                         </List>
                     </Collapse>
-                    <ListItem button key={"Contacts"}>
+                    <ListItem
+                        button
+                        key={"Contacts"}
+                        onClick={() => {
+                            handleDrawerClose();
+                            history.push("/contacts");
+                        }}
+                    >
                         <ListItemIcon>
                             <ContactsIcon />
                         </ListItemIcon>
-                        <ListItemText
-                            primary={<Link to="/contacts">Contacts</Link>}
-                        />
+                        <ListItemText primary={"Contacts"} />
                     </ListItem>
                 </List>
             </Drawer>

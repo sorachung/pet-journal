@@ -40,7 +40,8 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         );
     }, []);
 
-    const deletePetVax = () => {
+    const deletePetVax = (event) => {
+        event.stopPropagation();
         MedicalRepository.deletePetVaccination(petVax.id).then(() =>
             syncPetVax()
         );
@@ -54,7 +55,8 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedPetVax };
         copy.starred = !editedPetVax.starred;
         delete copy.incidentType;
@@ -82,12 +84,12 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                     aria-controls={`panel${petVax.id}-content`}
                     id={`panel${petVax.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {petVax.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "50%",
+                            width: "70%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -101,7 +103,7 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deletePetVax}>
+                    <IconButton onClick={deletePetVax} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

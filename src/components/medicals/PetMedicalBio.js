@@ -86,14 +86,6 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
                 <Card>
                     <CardContent>
                         <CardHeader title="Medical bio" />
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet?.name}
-                        </Typography>
                         <Typography variant="string" color="text.secondary">
                             <p>Species: {pet?.specie?.type}</p>
                             <p>Breed: {pet?.breed}</p>
@@ -131,7 +123,7 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editBio}>
-                    <DialogTitle>Add Contact</DialogTitle>
+                    <DialogTitle>Edit Bio</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

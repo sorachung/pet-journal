@@ -36,14 +36,16 @@ export const VetVisit = ({
         setEditedVetVisit(vetVisit);
     }, []);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedVetVisit };
         copy.starred = !editedVetVisit.starred;
         setEditedVetVisit(copy);
         MedicalRepository.editVetVisit(copy);
     };
 
-    const deleteVetVisit = () => {
+    const deleteVetVisit = (event) => {
+        event.stopPropagation();
         MedicalRepository.deleteVetVisit(vetVisit.id).then(() =>
             syncVetVisits()
         );
@@ -76,14 +78,13 @@ export const VetVisit = ({
                     aria-controls={`panel${vetVisit.id}-content`}
                     id={`panel${vetVisit.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {vetVisit.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "70%",
                             flexShrink: 0,
-                            color: "text.secondary",
                         }}
                     >
                         {vetVisit.vet?.name}
@@ -95,7 +96,7 @@ export const VetVisit = ({
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deleteVetVisit}>
+                    <IconButton onClick={deleteVetVisit} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
@@ -106,7 +107,7 @@ export const VetVisit = ({
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={editVetVisit}>
-                    <DialogTitle>Edit vet visit</DialogTitle>
+                    <DialogTitle>Edit Vet Visit</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"

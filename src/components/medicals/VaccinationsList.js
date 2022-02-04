@@ -24,7 +24,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
 export const VaccinationsList = ({ pet, dashboardView }) => {
-    const [newPetVax, setNewPetVax] = useState({});
+    const [newPetVax, setNewPetVax] = useState({vaccinationId: ""});
     const [myPetVax, setMyPetVax] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
@@ -76,22 +76,14 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Vaccinations" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add vaccination
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetVax.map((petVax) => (
                             <Vaccination
                                 key={petVax.id}
@@ -106,13 +98,14 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetVax}>
-                    <DialogTitle>Edit Vaccination Record</DialogTitle>
+                    <DialogTitle>Add Vaccination Record</DialogTitle>
                     <DialogContent>
                         <TextField
                             margin="dense"
                             id="date"
                             label="date"
                             required
+                            InputLabelProps={{ shrink: true }}
                             type="date"
                             onChange={(event) => {
                                 const copy = { ...newPetVax };

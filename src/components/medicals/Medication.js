@@ -31,7 +31,8 @@ export const Medication = ({
 
     useEffect(() => {}, [myPetMed]);
 
-    const deletePetMed = () => {
+    const deletePetMed = (event) => {
+        event.stopPropagation();
         MedicalRepository.deletePetMedication(myPetMed.id).then(() =>
             syncPetMedications()
         );
@@ -45,7 +46,8 @@ export const Medication = ({
         );
     };
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedMed };
         copy.starred = !editedMed.starred;
         delete copy.incidentType;
@@ -75,12 +77,12 @@ export const Medication = ({
                     aria-controls={`panel${myPetMed.id}-content`}
                     id={`panel${myPetMed.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {myPetMed.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "40%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -89,7 +91,7 @@ export const Medication = ({
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "30%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -99,7 +101,7 @@ export const Medication = ({
                     <IconButton onClick={starUnstar}>
                         {editedMed.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deletePetMed}>
+                    <IconButton onClick={deletePetMed} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
@@ -109,7 +111,7 @@ export const Medication = ({
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
             <form onSubmit={editPetMed}>
-                <DialogTitle>Edit Vaccination Record</DialogTitle>
+                <DialogTitle>Edit Medication Record</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"
