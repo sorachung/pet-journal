@@ -36,14 +36,16 @@ export const VetVisit = ({
         setEditedVetVisit(vetVisit);
     }, []);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedVetVisit };
         copy.starred = !editedVetVisit.starred;
         setEditedVetVisit(copy);
         MedicalRepository.editVetVisit(copy);
     };
 
-    const deleteVetVisit = () => {
+    const deleteVetVisit = (event) => {
+        event.stopPropagation();
         MedicalRepository.deleteVetVisit(vetVisit.id).then(() =>
             syncVetVisits()
         );
@@ -83,7 +85,6 @@ export const VetVisit = ({
                         sx={{
                             width: "70%",
                             flexShrink: 0,
-                            color: "text.secondary",
                         }}
                     >
                         {vetVisit.vet?.name}
@@ -95,7 +96,7 @@ export const VetVisit = ({
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deleteVetVisit}>
+                    <IconButton onClick={deleteVetVisit} sx={{mr: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

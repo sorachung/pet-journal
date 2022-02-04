@@ -40,7 +40,8 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         );
     }, []);
 
-    const deletePetVax = () => {
+    const deletePetVax = (event) => {
+        event.stopPropagation();
         MedicalRepository.deletePetVaccination(petVax.id).then(() =>
             syncPetVax()
         );
@@ -54,7 +55,8 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedPetVax };
         copy.starred = !editedPetVax.starred;
         delete copy.incidentType;

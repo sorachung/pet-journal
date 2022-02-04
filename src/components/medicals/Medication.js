@@ -31,7 +31,8 @@ export const Medication = ({
 
     useEffect(() => {}, [myPetMed]);
 
-    const deletePetMed = () => {
+    const deletePetMed = (event) => {
+        event.stopPropagation();
         MedicalRepository.deletePetMedication(myPetMed.id).then(() =>
             syncPetMedications()
         );
@@ -45,7 +46,8 @@ export const Medication = ({
         );
     };
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedMed };
         copy.starred = !editedMed.starred;
         delete copy.incidentType;

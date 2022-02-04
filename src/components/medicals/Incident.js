@@ -36,7 +36,8 @@ export const Incident = ({
         setEditedIncident(incident);
     }, []);
 
-    const starUnstar = () => {
+    const starUnstar = (event) => {
+        event.stopPropagation();
         const copy = { ...editedIncident };
         copy.starred = !editedIncident.starred;
         delete copy.incidentType;
@@ -44,7 +45,8 @@ export const Incident = ({
         MedicalRepository.editIncident(copy).then(() => syncIncidents());
     };
 
-    const deleteIncident = () => {
+    const deleteIncident = (event) => {
+        event.stopPropagation();
         MedicalRepository.deleteIncident(incident.id).then(() =>
             syncIncidents()
         );
