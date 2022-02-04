@@ -98,7 +98,7 @@ export const PetMedicalBio = ({ pet }) => {
                             <p>
                                 Birthdate: {pet?.birthdate} - {birthdate}
                             </p>
-                            <p>Weight: {pet?.weight} lbs</p>
+                            <p>Weight: {pet?.weight ? pet.weight + " lbs" : "None entered"}</p>
                             <p>
                                 Microchip:{" "}
                                 {pet?.microchipNumber
@@ -106,23 +106,6 @@ export const PetMedicalBio = ({ pet }) => {
                                     : "none"}
                             </p>
                             <p>Fixed: {pet?.isFixed ? "Yes" : "No"}</p>
-
-                            <p>Current medications: </p>
-                            <ul>
-                                {petMeds.map((med) => (
-                                    <li key={med.id}>
-                                        {med.name} at {med.dosage}
-                                    </li>
-                                ))}
-                            </ul>
-                            <p>Latest vaccinations: </p>
-                            <ul>
-                                {petVax.map((vax) => (
-                                    <li key={vax.id}>
-                                        {vax.vaccination.shot} on {vax.date}
-                                    </li>
-                                ))}
-                            </ul>
                             <p>Chronic illnesses:</p>
                             <ul>
                                 {chronicIllnesses.map((ill) => (
@@ -183,45 +166,6 @@ export const PetMedicalBio = ({ pet }) => {
                         }}/>}
                         label="Is Fixed?"
                     />
-                    <TextField
-                        margin="dense"
-                        id="phone"
-                        label="Phone Number"
-                        type="tel"
-                        required
-                        value={editedPet.phoneNumber}
-                        fullWidth
-                        onChange={(event) => {
-                            const copy = { ...editedPet };
-                            copy.phoneNumber = event.target.value;
-                            setEditedPet(copy);
-                        }}
-                    />
-                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="species-label">Contact type</InputLabel>
-                        <Select
-                            labelId="contact-type-label"
-                            id="contact-type"
-                            value={editedPet.contactsTypeId}
-                            label="contact-type"
-                            onChange={(event) => {
-                                const copy = { ...editedPet };
-                                copy.contactsTypeId = parseInt(
-                                    event.target.value
-                                );
-                                setEditedPet(copy);
-                            }}
-                        >
-                            {/* {contactsTypes.map((contactType) => (
-                                <MenuItem
-                                    key={`contactType--${contactType.id}`}
-                                    value={contactType.id}
-                                >
-                                    {contactType.type}
-                                </MenuItem>
-                            ))} */}
-                        </Select>
-                    </FormControl>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

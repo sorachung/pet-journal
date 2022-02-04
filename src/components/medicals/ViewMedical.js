@@ -51,16 +51,22 @@ export const ViewMedical = ({dashboardView}) => {
 
     useEffect(() => {
         setDefaultPet(myPets.find(pet => user.defaultPetId === pet.id))
+        return () => {
+            setDefaultPet({});
+        };
     }, [myPets])
 
     useEffect(() => {
         syncUser();
+        return () => {
+            syncUser({});
+        };
     }, [history.location.state]);
 
     return (
         <Container maxWidth="lg">
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
-                {defaultPet?.name}'s Medical
+                {defaultPet ? defaultPet.name + "'s " : ""} Medical
             </Typography>
             {(defaultPet) ?
                 <Grid container spacing={4} direction="column">
