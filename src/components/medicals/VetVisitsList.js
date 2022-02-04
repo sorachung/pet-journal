@@ -78,14 +78,6 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
                         <Button variant="contained" onClick={handleClickOpen}>
                             Add vet visit
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetVetVisits.map((vetVisit) => (
                             <VetVisit
                                 key={vetVisit.id}

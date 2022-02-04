@@ -82,14 +82,6 @@ export const IncidentsList = ({ pet, dashboardView }) => {
                         <Button variant="contained" onClick={handleClickOpen}>
                             Add incident
                         </Button>
-                        <Typography
-                            gutterBottom
-                            variant="h2"
-                            fontSize="1em"
-                            component="div"
-                        >
-                            {pet.name}
-                        </Typography>
                         {myPetsIncidents.map((incident) => (
                             <Incident
                                 key={incident.id}
