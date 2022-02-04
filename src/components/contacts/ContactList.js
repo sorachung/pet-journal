@@ -76,9 +76,11 @@ export const ContactList = ({ dashboardView }) => {
             {history.location.pathname === "/" ? (
                 ""
             ) : (
-                <Button variant="contained" onClick={handleClickOpen}>
+            <Typography align="center">
+                <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                     Add Contact
                 </Button>
+            </Typography>
             )}
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addContact}>

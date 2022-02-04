@@ -79,7 +79,7 @@ export const IncidentsList = ({ pet, dashboardView }) => {
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Incidents" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add incident
                         </Button>
                         {myPetsIncidents.map((incident) => (

@@ -81,7 +81,7 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Vaccinations" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add vaccination
                         </Button>
                         {myPetVax.map((petVax) => (

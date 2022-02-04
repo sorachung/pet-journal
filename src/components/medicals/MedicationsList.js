@@ -70,7 +70,7 @@ export const MedicationsList = ({ pet, dashboardView }) => {
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Medications" />
-                        <Button variant="contained" onClick={handleClickOpen}>
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add med
                         </Button>
                         {myPetMedications.map((myPetMed) => (
