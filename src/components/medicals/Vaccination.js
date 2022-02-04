@@ -82,12 +82,12 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                     aria-controls={`panel${petVax.id}-content`}
                     id={`panel${petVax.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {petVax.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "50%",
+                            width: "70%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}

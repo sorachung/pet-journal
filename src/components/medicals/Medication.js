@@ -75,12 +75,12 @@ export const Medication = ({
                     aria-controls={`panel${myPetMed.id}-content`}
                     id={`panel${myPetMed.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {myPetMed.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "40%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -89,7 +89,7 @@ export const Medication = ({
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "30%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}

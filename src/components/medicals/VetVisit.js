@@ -76,12 +76,12 @@ export const VetVisit = ({
                     aria-controls={`panel${vetVisit.id}-content`}
                     id={`panel${vetVisit.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {vetVisit.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "70%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}

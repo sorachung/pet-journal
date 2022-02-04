@@ -78,12 +78,15 @@ export const Incident = ({
                     aria-controls={`panel${incident.id}-content`}
                     id={`panel${incident.id}-header`}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                        {incident.date}
+                    </Typography>
+                    <Typography sx={{ width: "50%", flexShrink: 0 }}>
                         {incident.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "33%",
+                            width: "20%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -98,9 +101,7 @@ export const Incident = ({
                     </IconButton>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <p>{incident.date}</p>
                     <p>{incident.description}</p>
-                    {/* <p>{incident.petMedicationId ? `${incident.petMedication.name} - ${incident.petMedication.dosage}` : ""}</p> */}
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
