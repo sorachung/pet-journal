@@ -23,7 +23,7 @@ import TextField from "@mui/material/TextField";
 
 export const VetVisitsList = ({ pet, dashboardView }) => {
     const [myPetVetVisits, setMyPetVetVisits] = useState([]);
-    const [newVetVisit, setNewVetVisit] = useState({vetId:""});
+    const [newVetVisit, setNewVetVisit] = useState({ vetId: "" });
     const [vets, setVets] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
@@ -31,11 +31,12 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
     const syncVetVisits = () => {
         MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
             if (dashboardView) {
-                data = data.filter(vetVisit => vetVisit.starred)
-                setMyPetVetVisits(data)
+                data = data.filter((vetVisit) => vetVisit.starred);
+                setMyPetVetVisits(data);
             } else {
-            setMyPetVetVisits(data);
-        }});
+                setMyPetVetVisits(data);
+            }
+        });
     };
 
     useEffect(() => {
@@ -46,7 +47,9 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
         };
     }, []);
 
-    const addVetVisit = () => {
+    const addVetVisit = (event) => {
+        event.preventDefault()
+        handleClose();
         const copy = { ...newVetVisit };
         copy.petId = pet.id;
         copy.starred = false;
@@ -97,67 +100,62 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
                 </Card>
             </Box>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add vet visit</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="date"
-                        label="date"
-                        required
-                        type="date"
-                        onChange={(event) => {
-                            const copy = { ...newVetVisit };
-                            copy.date = event.target.value;
-                            setNewVetVisit(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="description"
-                        label="description"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newVetVisit };
-                            copy.description = event.target.value;
-                            setNewVetVisit(copy);
-                        }}
-                    />
-                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="vet">Vet location</InputLabel>
-                        <Select
-                            labelId="vet-label"
-                            id="vet"
-                            value={newVetVisit.vetId}
-                            label="vet"
+                <form onSubmit={addVetVisit}>
+                    <DialogTitle>Add vet visit</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            margin="dense"
+                            id="date"
+                            label="date"
+                            required
+                            type="date"
                             onChange={(event) => {
                                 const copy = { ...newVetVisit };
-                                copy.vetId = parseInt(event.target.value);
+                                copy.date = event.target.value;
                                 setNewVetVisit(copy);
                             }}
-                        >
-                            {vets.map((vet) => (
-                                <MenuItem
-                                    key={`incident-vet--${vet.id}`}
-                                    value={vet.id}
-                                >
-                                    {vet.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                        onClick={() => {
-                            handleClose();
-                            addVetVisit();
-                        }}
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
+                        />
+                        <TextField
+                            margin="dense"
+                            id="description"
+                            label="description"
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...newVetVisit };
+                                copy.description = event.target.value;
+                                setNewVetVisit(copy);
+                            }}
+                        />
+                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                            <InputLabel id="vet">Vet location</InputLabel>
+                            <Select
+                                labelId="vet-label"
+                                id="vet"
+                                value={newVetVisit.vetId}
+                                label="vet"
+                                onChange={(event) => {
+                                    const copy = { ...newVetVisit };
+                                    copy.vetId = parseInt(event.target.value);
+                                    setNewVetVisit(copy);
+                                }}
+                            >
+                                {vets.map((vet) => (
+                                    <MenuItem
+                                        key={`incident-vet--${vet.id}`}
+                                        value={vet.id}
+                                    >
+                                        {vet.name}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button type="submit">Save</Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </Container>
     );
