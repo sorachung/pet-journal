@@ -26,9 +26,9 @@ export const Pet = ({ pet, deletePet }) => {
             <Card sx={{ minWidth: 200 }}>
                 <CardMedia
                     component="img"
-                    width="inherit"
                     image="https://cdn-icons-png.flaticon.com/512/12/12638.png"
                     alt="paw print"
+                    sx={{width: "100%", height: "auto"}}
                 />
                 <CardContent>
                     <Typography

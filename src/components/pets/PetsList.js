@@ -84,9 +84,9 @@ export const PetsList = () => {
                     Add a pet
                 </Button>
             </Typography>
-            <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+            <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                 {myPets.map((pet) => (
-                    <Grid item sm={6} key={`pet--${pet.id}`}>
+                    <Grid item sm={6} lg={4} key={`pet--${pet.id}`}>
                         <Pet pet={pet} deletePet={deletePet}/>
                     </Grid>
                 ))}
