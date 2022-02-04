@@ -70,7 +70,7 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container>
+        <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>

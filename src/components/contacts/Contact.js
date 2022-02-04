@@ -121,7 +121,7 @@ export const Contact = ({
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deleteContact}>
+                    <IconButton onClick={deleteContact} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

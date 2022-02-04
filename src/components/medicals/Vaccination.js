@@ -103,7 +103,7 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deletePetVax}>
+                    <IconButton onClick={deletePetVax} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

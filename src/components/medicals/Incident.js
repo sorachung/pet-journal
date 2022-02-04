@@ -98,7 +98,7 @@ export const Incident = ({
                     <IconButton onClick={starUnstar}>
                         {incident.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deleteIncident}>
+                    <IconButton onClick={deleteIncident} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

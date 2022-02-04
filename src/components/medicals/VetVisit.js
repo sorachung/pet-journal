@@ -96,7 +96,7 @@ export const VetVisit = ({
                             <StarBorderIcon />
                         )}
                     </IconButton>
-                    <IconButton onClick={deleteVetVisit} sx={{mr: "1em"}}>
+                    <IconButton onClick={deleteVetVisit} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>

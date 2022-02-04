@@ -101,7 +101,7 @@ export const Medication = ({
                     <IconButton onClick={starUnstar}>
                         {editedMed.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deletePetMed}>
+                    <IconButton onClick={deletePetMed} sx={{marginRight: "1em"}}>
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
