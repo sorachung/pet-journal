@@ -74,7 +74,8 @@ export const Contact = ({
         );
     };
 
-    const editContact = () => {
+    const editContact = (event) => {
+        event.preventDefault();
         handleClose();
         ContactsRepository.editContact(editedContact).then(() =>
             ContactsRepository.findContactsByUser(getCurrentUser().id).then(

@@ -58,7 +58,8 @@ export const ContactList = ({ dashboardView }) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const addContact = () => {
+    const addContact = (event) => {
+        event.preventDefault();
         handleClose();
         ContactsRepository.addContact(newContact).then(() =>
             ContactsRepository.findContactsByUser(getCurrentUser().id).then(
