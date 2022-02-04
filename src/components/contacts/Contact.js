@@ -24,13 +24,18 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const Contact = ({ contact, handleChange, expanded, setMyContacts, contactsTypes }) => {
+export const Contact = ({
+    contact,
+    handleChange,
+    expanded,
+    setMyContacts,
+    contactsTypes,
+}) => {
     const { resolveResource, resource: currentContact } = useResourceResolver();
     const [editedContact, setEditedContact] = useState({});
     const { contactId } = useParams();
     const { getCurrentUser } = useSimpleAuth();
     const [open, setOpen] = useState(false);
-
 
     useEffect(() => {
         resolveResource(contact, contactId, ContactsRepository.getExpandAll);
@@ -70,10 +75,13 @@ export const Contact = ({ contact, handleChange, expanded, setMyContacts, contac
     };
 
     const editContact = () => {
-        ContactsRepository.editContact(editedContact)
-            .then(() => ContactsRepository.findContactsByUser(getCurrentUser().id).then(
-                (data) => setMyContacts(data)))
-    }
+        handleClose();
+        ContactsRepository.editContact(editedContact).then(() =>
+            ContactsRepository.findContactsByUser(getCurrentUser().id).then(
+                (data) => setMyContacts(data)
+            )
+        );
+    };
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -125,127 +133,124 @@ export const Contact = ({ contact, handleChange, expanded, setMyContacts, contac
                 </AccordionDetails>
             </Accordion>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add Contact</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="name"
-                        label="Name"
-                        type="text"
-                        required
-                        value={editedContact.name}
-                        fullWidth
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.name = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="phone"
-                        label="Phone Number"
-                        type="tel"
-                        required
-                        value={editedContact.phoneNumber}
-                        fullWidth
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.phoneNumber = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="street"
-                        label="Street Address"
-                        type="text"
-                        value={editedContact.addressStreet}
-                        required
-                        fullWidth
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.addressStreet = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="city"
-                        label="City"
-                        value={editedContact.addressCity}
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.addressCity = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="state"
-                        label="State"
-                        value={editedContact.addressState}
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.addressState = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="zipCode"
-                        label="Zip Code"
-                        value={editedContact.addressZipCode}
-                        required
-                        type="number"
-                        onChange={(event) => {
-                            const copy = { ...editedContact };
-                            copy.addressZipCode = event.target.value;
-                            setEditedContact(copy);
-                        }}
-                    />
-                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="species-label">Contact type</InputLabel>
-                        <Select
-                            labelId="contact-type-label"
-                            id="contact-type"
-                            value={editedContact.contactsTypeId}
-                            label="contact-type"
+                <form onSubmit={editContact}>
+                    <DialogTitle>Add Contact</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Name"
+                            type="text"
+                            required
+                            value={editedContact.name}
+                            fullWidth
                             onChange={(event) => {
                                 const copy = { ...editedContact };
-                                copy.contactsTypeId = parseInt(
-                                    event.target.value
-                                );
+                                copy.name = event.target.value;
                                 setEditedContact(copy);
                             }}
-                        >
-                            {contactsTypes.map((contactType) => (
-                                <MenuItem
-                                    key={`contactType--${contactType.id}`}
-                                    value={contactType.id}
-                                >
-                                    {contactType.type}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                        onClick={() => {
-                            handleClose();
-                            editContact();
-                        }}
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
+                        />
+                        <TextField
+                            margin="dense"
+                            id="phone"
+                            label="Phone Number"
+                            type="tel"
+                            required
+                            value={editedContact.phoneNumber}
+                            fullWidth
+                            onChange={(event) => {
+                                const copy = { ...editedContact };
+                                copy.phoneNumber = event.target.value;
+                                setEditedContact(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="street"
+                            label="Street Address"
+                            type="text"
+                            value={editedContact.addressStreet}
+                            required
+                            fullWidth
+                            onChange={(event) => {
+                                const copy = { ...editedContact };
+                                copy.addressStreet = event.target.value;
+                                setEditedContact(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="city"
+                            label="City"
+                            value={editedContact.addressCity}
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...editedContact };
+                                copy.addressCity = event.target.value;
+                                setEditedContact(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="state"
+                            label="State"
+                            value={editedContact.addressState}
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...editedContact };
+                                copy.addressState = event.target.value;
+                                setEditedContact(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="zipCode"
+                            label="Zip Code"
+                            value={editedContact.addressZipCode}
+                            required
+                            type="number"
+                            onChange={(event) => {
+                                const copy = { ...editedContact };
+                                copy.addressZipCode = event.target.value;
+                                setEditedContact(copy);
+                            }}
+                        />
+                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                            <InputLabel id="species-label">
+                                Contact type
+                            </InputLabel>
+                            <Select
+                                labelId="contact-type-label"
+                                id="contact-type"
+                                value={editedContact.contactsTypeId}
+                                label="contact-type"
+                                onChange={(event) => {
+                                    const copy = { ...editedContact };
+                                    copy.contactsTypeId = parseInt(
+                                        event.target.value
+                                    );
+                                    setEditedContact(copy);
+                                }}
+                            >
+                                {contactsTypes.map((contactType) => (
+                                    <MenuItem
+                                        key={`contactType--${contactType.id}`}
+                                        value={contactType.id}
+                                    >
+                                        {contactType.type}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button type="submit">Save</Button>
+                    </DialogActions>
+                </form>
             </Dialog>
         </>
     );
