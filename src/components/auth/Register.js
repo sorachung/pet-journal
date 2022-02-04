@@ -18,6 +18,7 @@ export const Register = () => {
         const newUser = {
             name: `${credentials.firstName} ${credentials.lastName}`,
             email: credentials.email,
+            defaultPetId: 0
         }
 
         register(newUser).then(() => {
