@@ -29,6 +29,9 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
 
     useEffect(() => {
         setEditedPetVax(petVax);
+        return () => {
+            setEditedPetVax({});
+        };
     }, [petVax]);
 
     useEffect(() => {

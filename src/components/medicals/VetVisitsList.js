@@ -23,7 +23,7 @@ import TextField from "@mui/material/TextField";
 
 export const VetVisitsList = ({ pet, dashboardView }) => {
     const [myPetVetVisits, setMyPetVetVisits] = useState([]);
-    const [newVetVisit, setNewVetVisit] = useState({});
+    const [newVetVisit, setNewVetVisit] = useState({vetId:""});
     const [vets, setVets] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
@@ -124,7 +124,7 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
                         }}
                     />
                     <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="shot-label">Vet location</InputLabel>
+                        <InputLabel id="vet">Vet location</InputLabel>
                         <Select
                             labelId="vet-label"
                             id="vet"
