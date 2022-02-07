@@ -25,6 +25,7 @@ export const Medication = ({
     syncPetMedications,
     handleChange,
     expanded,
+    dashboardView
 }) => {
     const [editedMed, setEditedMed] = useState(myPetMed);
     const [open, setOpen] = useState(false);
@@ -50,7 +51,7 @@ export const Medication = ({
         event.stopPropagation();
         const copy = { ...editedMed };
         copy.starred = !editedMed.starred;
-        delete copy.incidentType;
+        delete copy.pet;
         setEditedMed(copy);
         MedicalRepository.editPetMedication(copy).then(() =>
             syncPetMedications()
@@ -82,7 +83,7 @@ export const Medication = ({
                     </Typography>
                     <Typography
                         sx={{
-                            width: "40%",
+                            width: "30%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
@@ -98,6 +99,15 @@ export const Medication = ({
                     >
                         Current? {myPetMed.isCurrent ? "Yes" : "No"}
                     </Typography>
+                    {dashboardView ? <Typography
+                        sx={{
+                            width: "10%",
+                            flexShrink: 0,
+                            color: "text.secondary",
+                        }}
+                    >
+                        {myPetMed.pet.name}
+                    </Typography> : ""}
                     <IconButton onClick={starUnstar}>
                         {editedMed.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>

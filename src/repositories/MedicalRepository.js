@@ -24,7 +24,7 @@ export default {
     },
 
     async getPetVaccinationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination&_expand=pet`)
     },
     async addPetVaccination(petVaccination) {
         return await fetchIt(`${Settings.remoteURL}/petVaccinations`, "POST", JSON.stringify(petVaccination))
@@ -44,7 +44,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/petMedications?_expand=pet&_embed=vetvisits`)
     },
     async getMedicationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}`)
+        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}&_expand=pet`)
     },
     async addPetMedication(petMedication) {
         return await fetchIt(`${Settings.remoteURL}/petMedications`, "POST", JSON.stringify(petMedication))
@@ -82,7 +82,7 @@ export default {
             .then(data => expandVetInVetVisits(data))
     },
     async getAllVetVisitsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}&_expand=pet`)
             .then(data => {
                 return expandVetInVetVisits(data)
             })
@@ -108,7 +108,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/incidents?_expand=pet`)
     },
     async getAllIncidentsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=incidentType`)
+        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=incidentType&_expand=pet`)
     },
     async getChronicIllnessesByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&incidentTypeId=3`)

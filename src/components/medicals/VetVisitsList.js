@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import MedicalRepository from "../../repositories/MedicalRepository";
 import ContactsRepository from "../../repositories/ContactsRepository";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
@@ -74,7 +72,7 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
-                        <CardHeader title="Vet Visits" />
+                        <CardHeader title={`${pet ? pet.name + "'s ": ""} Vet Visits`}/>
                         <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add vet visit
                         </Button>

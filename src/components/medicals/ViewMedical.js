@@ -70,9 +70,10 @@ export const ViewMedical = ({dashboardView}) => {
             </Typography>
             {(defaultPet) ?
                 <Grid container spacing={8} direction="column">
-                    <Grid item xs={12} key={`medicalBio`}>
+                    {dashboardView ? "" : <Grid item xs={12} key={`medicalBio`}>
                         <PetMedicalBio pet={defaultPet} dashboardView={dashboardView} syncPets={syncPets}/>
-                    </Grid>
+                    </Grid>}
+                    
                     <Grid item xs={12} key={`medications`}>
                         <MedicationsList pet={defaultPet} dashboardView={dashboardView}/>
                     </Grid>
