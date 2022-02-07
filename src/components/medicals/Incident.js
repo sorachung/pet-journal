@@ -42,6 +42,7 @@ export const Incident = ({
         const copy = { ...editedIncident };
         copy.starred = !editedIncident.starred;
         delete copy.incidentType;
+        delete copy.pet;
         setEditedIncident(copy);
         MedicalRepository.editIncident(copy).then(() => syncIncidents());
     };

@@ -51,7 +51,7 @@ export const Medication = ({
         event.stopPropagation();
         const copy = { ...editedMed };
         copy.starred = !editedMed.starred;
-        delete copy.incidentType;
+        delete copy.pet;
         setEditedMed(copy);
         MedicalRepository.editPetMedication(copy).then(() =>
             syncPetMedications()
