@@ -11,17 +11,6 @@ export const PetRoutes = () => {
             <Route exact path="/mypets">
                 <PetsList />
             </Route>
-            <Route exact path="/mypets/:petId(\d+)">
-                <Pet />
-            </Route>
-            <Route path="/mypets/:petId(\d+)/edit">
-                <EditPetForm />
-            </Route>
-            <Route exact path="/mypets/add">
-                <AddPetForm />
-            </Route>
-
-
         </>
     )
 }
