@@ -9,14 +9,18 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import { PetEditDialog } from "./PetEditDialog";
 
 export const Pet = ({ pet, syncPets }) => {
+    const [open, setOpen] = useState(false);
 
-    const editPet = () => {
-    };
 
     const deletePet = () => {
         PetRepository.delete(pet.id).then(() => syncPets());
+    };
+
+    const handleClickOpen = () => {
+        setOpen(true);
     };
 
     return (
@@ -47,7 +51,7 @@ export const Pet = ({ pet, syncPets }) => {
                 </CardContent>
                 <CardActions>
 
-                        <Button size="small" onClick={editPet}>
+                        <Button size="small" onClick={handleClickOpen}>
                             Edit
                         </Button>
                         <Button size="small" onClick={deletePet}>
@@ -55,6 +59,7 @@ export const Pet = ({ pet, syncPets }) => {
                         </Button>
                 </CardActions>
             </Card>
+            <PetEditDialog pet={pet} syncPets={syncPets} open={open} setOpen={setOpen}/>
         </Container>
     );
 };
