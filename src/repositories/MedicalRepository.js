@@ -108,7 +108,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/incidents?_expand=pet`)
     },
     async getAllIncidentsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=incidentType`)
+        return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&_expand=incidentType&_expand=pet`)
     },
     async getChronicIllnessesByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/incidents?petId=${petId}&incidentTypeId=3`)
