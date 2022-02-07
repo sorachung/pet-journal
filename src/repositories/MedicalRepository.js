@@ -24,7 +24,7 @@ export default {
     },
 
     async getPetVaccinationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination`)
+        return await fetchIt(`${Settings.remoteURL}/petVaccinations?petId=${petId}&_expand=vaccination&_expand=pet`)
     },
     async addPetVaccination(petVaccination) {
         return await fetchIt(`${Settings.remoteURL}/petVaccinations`, "POST", JSON.stringify(petVaccination))

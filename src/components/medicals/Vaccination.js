@@ -15,14 +15,13 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
+export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded, dashboardView }) => {
     const [editedPetVax, setEditedPetVax] = useState({});
     const [vaccinations, setVaccinations] = useState([]);
     const [open, setOpen] = useState(false);
@@ -52,6 +51,7 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
         handleClose();
         const copy = { ...editedPetVax };
         delete copy.vaccination;
+        delete copy.pet;
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 
@@ -89,13 +89,22 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded }) => {
                     </Typography>
                     <Typography
                         sx={{
-                            width: "70%",
+                            width: "50%",
                             flexShrink: 0,
                             color: "text.secondary",
                         }}
                     >
                         {petVax.vaccination?.shot}
                     </Typography>
+                    {dashboardView ? <Typography
+                        sx={{
+                            width: "20%",
+                            flexShrink: 0,
+                            color: "text.secondary",
+                        }}
+                    >
+                        {petVax.pet.name}
+                    </Typography> : ""}
                     <IconButton onClick={starUnstar}>
                         {editedPetVax.starred ? (
                             <StarIcon />
