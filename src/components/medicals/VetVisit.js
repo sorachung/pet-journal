@@ -28,6 +28,7 @@ export const VetVisit = ({
     handleChange,
     expanded,
     vets,
+    dashboardView
 }) => {
     const [editedVetVisit, setEditedVetVisit] = useState(vetVisit);
     const [open, setOpen] = useState(false);
@@ -39,9 +40,12 @@ export const VetVisit = ({
     const starUnstar = (event) => {
         event.stopPropagation();
         const copy = { ...editedVetVisit };
+        delete copy.pet;
+        delete copy.vet;
         copy.starred = !editedVetVisit.starred;
         setEditedVetVisit(copy);
-        MedicalRepository.editVetVisit(copy);
+        MedicalRepository.editVetVisit(copy)
+            .then(() => syncVetVisits())
     };
 
     const deleteVetVisit = (event) => {
@@ -55,6 +59,8 @@ export const VetVisit = ({
         event.preventDefault();
         handleClose();
         const copy = { ...editedVetVisit };
+        delete copy.pet;
+        delete copy.vet
         MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
     };
 
@@ -83,12 +89,21 @@ export const VetVisit = ({
                     </Typography>
                     <Typography
                         sx={{
-                            width: "70%",
+                            width: "60%",
                             flexShrink: 0,
                         }}
                     >
                         {vetVisit.vet?.name}
                     </Typography>
+                    {dashboardView ? <Typography
+                        sx={{
+                            width: "10%",
+                            flexShrink: 0,
+                            color: "text.secondary",
+                        }}
+                    >
+                        {vetVisit.pet.name}
+                    </Typography> : ""}
                     <IconButton onClick={starUnstar}>
                         {vetVisit.starred ? (
                             <StarIcon />

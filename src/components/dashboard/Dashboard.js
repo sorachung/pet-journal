@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 import { DashboardIncidents } from "./medical/DashboardIncidents";
 import { DashboardMedications } from "./medical/DashboardMedications";
 import { DashboardVaccinations } from "./medical/DashboardVaccinations";
+import { DashboardVetVisits } from "./medical/DashboardVetVisits";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
@@ -59,6 +60,9 @@ export const Dashboard = () => {
                     </Grid>
                     <Grid item sm={12}>
                         <DashboardVaccinations myPets={myPets}/>
+                    </Grid>
+                    <Grid item sm={12}>
+                        <DashboardVetVisits myPets={myPets}/>
                     </Grid>
                 </Grid>
             ) : (

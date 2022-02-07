@@ -82,7 +82,7 @@ export default {
             .then(data => expandVetInVetVisits(data))
     },
     async getAllVetVisitsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}`)
+        return await fetchIt(`${Settings.remoteURL}/vetVisits?petId=${petId}&_expand=pet`)
             .then(data => {
                 return expandVetInVetVisits(data)
             })
