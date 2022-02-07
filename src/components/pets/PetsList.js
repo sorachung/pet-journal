@@ -7,17 +7,9 @@ import { useHistory } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-
-const Item = styled(Paper)(({ theme }) => ({
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-}));
+import { PetAddDialog } from "./PetAddDialog";
 
 export const PetsList = () => {
     const [user, updateUser] = useState({});
@@ -40,7 +32,7 @@ export const PetsList = () => {
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data)
+            updateUser(data);
         });
     };
 
@@ -49,45 +41,23 @@ export const PetsList = () => {
     }, []);
 
     useEffect(() => {
-        syncPets()
-    },[user])
+        syncPets();
+    }, [user]);
 
     useEffect(() => {
-        UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data);
-        });
-        
+        syncUser();
     }, [history.location.state]);
-
-    const addPet = () => {
-        history.push("/mypets/add");
-    }
-   
-    
-    const deletePet = (pet) => {
-        PetRepository.delete(pet.id)
-            .then( () => {
-                PetRepository.getAllExpandAllByUser(getCurrentUser().id)
-                    .then(data => {
-                            setMyPets(data)
-                    });
-            })
-    }
 
     return (
         <Container maxWidth="lg">
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
                 My Pets
             </Typography>
-            <Typography align="center">
-                <Button variant="contained" onClick={addPet} sx={{marginBottom: "2em"}}>
-                    Add a pet
-                </Button>
-            </Typography>
+            <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} />
             <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                 {myPets.map((pet) => (
                     <Grid item sm={6} lg={4} key={`pet--${pet.id}`}>
-                        <Pet pet={pet} deletePet={deletePet}/>
+                        <Pet pet={pet} syncPets={syncPets} />
                     </Grid>
                 ))}
             </Grid>

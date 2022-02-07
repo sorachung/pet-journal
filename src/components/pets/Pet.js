@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import PetRepository from "../../repositories/PetRepository";
 
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
@@ -8,17 +9,14 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
 
-export const Pet = ({ pet, deletePet }) => {
-    const history = useHistory();
-
-    const uploadPhoto = () => {
-        return "";
-    };
+export const Pet = ({ pet, syncPets }) => {
 
     const editPet = () => {
-        history.push(`/mypets/${pet.id}/edit`);
+    };
+
+    const deletePet = () => {
+        PetRepository.delete(pet.id).then(() => syncPets());
     };
 
     return (
@@ -48,20 +46,13 @@ export const Pet = ({ pet, deletePet }) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    {history.location.pathname === "/" ? (
-                        ""
-                    ) : (
+
                         <Button size="small" onClick={editPet}>
                             Edit
                         </Button>
-                    )}
-                    {history.location.pathname === "/" ? (
-                        ""
-                    ) : (
-                        <Button size="small" onClick={() => deletePet(pet)}>
+                        <Button size="small" onClick={deletePet}>
                             Remove
                         </Button>
-                    )}
                 </CardActions>
             </Card>
         </Container>
