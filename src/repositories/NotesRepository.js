@@ -12,10 +12,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/notes/${note.id}`, "PUT", JSON.stringify(note))
     },
     async findNotesByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/notes?userId=${userId}&starred=true&_expand=pet`)
+        return await fetchIt(`${Settings.remoteURL}/notes?userId=${userId}&starred=true&_expand=pet&_sort=timestamp&_order=desc`)
     },
     async findNotesByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/notes?petId=${petId}`)
+        return await fetchIt(`${Settings.remoteURL}/notes?petId=${petId}&_sort=timestamp&_order=desc`)
     },
     async delete(id) {
         return await fetchIt(`${Settings.remoteURL}/notes/${id}`, "DELETE")

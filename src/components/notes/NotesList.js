@@ -4,12 +4,12 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import { Note } from "./Note";
 import PetRepository from "../../repositories/PetRepository";
 import UserRepository from "../../repositories/UserRepository";
+import NotesRepository from "../../repositories/NotesRepository";
 
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import NotesRepository from "../../repositories/NotesRepository";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
