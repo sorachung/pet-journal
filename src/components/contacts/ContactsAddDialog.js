@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ContactsRepository from "../../repositories/ContactsRepository";
 
 import Button from "@mui/material/Button";
@@ -13,8 +13,11 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 
-
-export const ContactsAddDialog = ({ userId, setMyContacts, contactsTypes }) => {
+export const ContactsAddDialog = ({
+    userId,
+    syncMyContacts,
+    contactsTypes,
+}) => {
     const [newContact, setNewContact] = useState({
         contactsTypeId: "",
         userId: userId,
@@ -33,11 +36,7 @@ export const ContactsAddDialog = ({ userId, setMyContacts, contactsTypes }) => {
     const addContact = (event) => {
         event.preventDefault();
         handleClose();
-        ContactsRepository.addContact(newContact).then(() =>
-            ContactsRepository.findContactsByUser(userId).then((data) =>
-                setMyContacts(data)
-            )
-        );
+        ContactsRepository.addContact(newContact).then(() => syncMyContacts());
     };
 
     return (

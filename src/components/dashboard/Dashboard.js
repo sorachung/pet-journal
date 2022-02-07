@@ -15,6 +15,7 @@ import { DashboardMedications } from "./medical/DashboardMedications";
 import { DashboardVaccinations } from "./medical/DashboardVaccinations";
 import { DashboardVetVisits } from "./medical/DashboardVetVisits";
 import { DashboardNotes } from "./notes/DashboardNotes";
+import { DashboardContacts } from "./contacts/DashboardContacts";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
@@ -53,8 +54,8 @@ export const Dashboard = () => {
                     <Grid item sm={12}>
                         <DashboardNotes user={user} />
                     </Grid>
-                    <Grid item sm={6}>
-                        <ContactList dashboardView={dashboardView} />
+                    <Grid item sm={12}>
+                        <DashboardContacts user={user} />
                     </Grid>
                     <Grid item sm={12}>
                         <DashboardIncidents myPets={myPets}/>
