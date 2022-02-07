@@ -90,7 +90,7 @@ export const VetVisit = ({
                         {vetVisit.vet?.name}
                     </Typography>
                     <IconButton onClick={starUnstar}>
-                        {editedVetVisit.starred ? (
+                        {vetVisit.starred ? (
                             <StarIcon />
                         ) : (
                             <StarBorderIcon />

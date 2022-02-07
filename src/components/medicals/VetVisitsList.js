@@ -74,7 +74,7 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
-                        <CardHeader title="Vet Visits" />
+                        <CardHeader title={`${pet ? pet.name + "'s ": ""} Vet Visits`}/>
                         <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
                             Add vet visit
                         </Button>
