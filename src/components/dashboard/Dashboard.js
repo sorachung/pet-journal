@@ -11,6 +11,7 @@ import UserRepository from "../../repositories/UserRepository";
 import PetRepository from "../../repositories/PetRepository";
 import { useHistory } from "react-router-dom";
 import { DashboardIncidents } from "./medical/DashboardIncidents";
+import { DashboardMedications } from "./medical/DashboardMedications";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
@@ -51,6 +52,9 @@ export const Dashboard = () => {
                     </Grid>
                     <Grid item sm={12}>
                         <DashboardIncidents myPets={myPets}/>
+                    </Grid>
+                    <Grid item sm={12}>
+                        <DashboardMedications myPets={myPets}/>
                     </Grid>
                 </Grid>
             ) : (
