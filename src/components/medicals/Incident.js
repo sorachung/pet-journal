@@ -28,6 +28,7 @@ export const Incident = ({
     handleChange,
     expanded,
     incidentTypes,
+    dashboardView
 }) => {
     const [editedIncident, setEditedIncident] = useState(incident);
     const [open, setOpen] = useState(false);
@@ -83,7 +84,7 @@ export const Incident = ({
                     <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {incident.date}
                     </Typography>
-                    <Typography sx={{ width: "50%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "40%", flexShrink: 0 }}>
                         {incident.name}
                     </Typography>
                     <Typography
@@ -95,10 +96,22 @@ export const Incident = ({
                     >
                         {incident.incidentType?.label}
                     </Typography>
+                    {dashboardView ? <Typography
+                        sx={{
+                            width: "10%",
+                            flexShrink: 0,
+                            color: "text.secondary",
+                        }}
+                    >
+                        {incident.pet.name}
+                    </Typography> : ""}
                     <IconButton onClick={starUnstar}>
                         {incident.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deleteIncident} sx={{marginRight: "1em"}}>
+                    <IconButton
+                        onClick={deleteIncident}
+                        sx={{ marginRight: "1em" }}
+                    >
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
