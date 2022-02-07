@@ -14,6 +14,7 @@ import { DashboardIncidents } from "./medical/DashboardIncidents";
 import { DashboardMedications } from "./medical/DashboardMedications";
 import { DashboardVaccinations } from "./medical/DashboardVaccinations";
 import { DashboardVetVisits } from "./medical/DashboardVetVisits";
+import { DashboardNotes } from "./notes/DashboardNotes";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
@@ -48,6 +49,9 @@ export const Dashboard = () => {
                 <Grid container spacing={2} sx={{ justifyContent: "center" }}>
                     <Grid item sm={6}>
                         <Pet pet={defaultPet} />
+                    </Grid>
+                    <Grid item sm={12}>
+                        <DashboardNotes user={user} />
                     </Grid>
                     <Grid item sm={6}>
                         <ContactList dashboardView={dashboardView} />

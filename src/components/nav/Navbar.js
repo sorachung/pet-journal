@@ -32,6 +32,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 
 const drawerWidth = 240;
 
@@ -430,6 +431,19 @@ export const Navbar = () => {
                             <ContactsIcon />
                         </ListItemIcon>
                         <ListItemText primary={"Contacts"} />
+                    </ListItem>
+                    <ListItem
+                        button
+                        key={"Notes"}
+                        onClick={() => {
+                            handleDrawerClose();
+                            history.push("/notes");
+                        }}
+                    >
+                        <ListItemIcon>
+                            <StickyNote2Icon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Notes"} />
                     </ListItem>
                 </List>
             </Drawer>
