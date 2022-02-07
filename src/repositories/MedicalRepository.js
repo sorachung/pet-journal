@@ -44,7 +44,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/petMedications?_expand=pet&_embed=vetvisits`)
     },
     async getMedicationsByPet(petId) {
-        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}`)
+        return await fetchIt(`${Settings.remoteURL}/petMedications?petId=${petId}&_expand=pet`)
     },
     async addPetMedication(petMedication) {
         return await fetchIt(`${Settings.remoteURL}/petMedications`, "POST", JSON.stringify(petMedication))
