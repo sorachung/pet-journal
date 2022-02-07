@@ -10,16 +10,19 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import UserRepository from "../../repositories/UserRepository";
 import PetRepository from "../../repositories/PetRepository";
 import { useHistory } from "react-router-dom";
+import { DashboardIncidents } from "./medical/DashboardIncidents";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
-    const [defaultPet, setDefaultPet] = useState();
+    const [defaultPet, setDefaultPet] = useState({});
+    const [myPets, setMyPets] = useState([])
     const { getCurrentUser } = useSimpleAuth();
     const history = useHistory();
     const [dashboardView, setDashboardView] = useState(true);
 
     useEffect(() => {
         UserRepository.get(getCurrentUser().id).then((data) => setUser(data));
+        PetRepository.findPetsByUser(getCurrentUser().id).then(data => setMyPets(data))
     }, []);
 
     useEffect(() => {
@@ -30,23 +33,15 @@ export const Dashboard = () => {
         }
     }, [user]);
 
-    useEffect(() => {
-        UserRepository.get(getCurrentUser().id).then((data) => {
-            setUser(data);
-        });
-
-        return () => {
-            setUser({});
-        };
-    }, [history.location.state]);
-
+    
     const addPet = () => {
         history.push("/mypets/add");
     };
 
+
     return (
         <Container maxWidth="lg">
-            {user?.defaultPetId !== 0 ? (
+            {myPets.length !== 0 ? (
                 <Grid container spacing={2} sx={{ justifyContent: "center" }}>
                     <Grid item sm={6}>
                         <Pet pet={defaultPet} />
@@ -55,7 +50,7 @@ export const Dashboard = () => {
                         <ContactList dashboardView={dashboardView} />
                     </Grid>
                     <Grid item sm={12}>
-                        <ViewMedical dashboardView={dashboardView} />
+                        <DashboardIncidents myPets={myPets}/>
                     </Grid>
                 </Grid>
             ) : (
