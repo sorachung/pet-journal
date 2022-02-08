@@ -1,28 +1,26 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
-import { Incident } from "../../medicals/incidents/Incident";
+import { Incident } from "./Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
+import { AddIncidentDialog } from "./AddIncidentDialog";
 
-export const DashboardIncidents = ({ myPets }) => {
+export const IncidentsList = ({ pet }) => {
     const [myPetsIncidents, setMyPetsIncidents] = useState([]);
     const [incidentTypes, setIncidentTypes] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 
     const syncIncidents = () => {
-        const incidentsOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
-                data = data.filter((incident) => incident.starred);
-                incidentsOfAllPets.push(...data);
-            });
+        MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
+            setMyPetsIncidents(data);
         });
-        setMyPetsIncidents(incidentsOfAllPets);
     };
 
     useEffect(() => {
@@ -30,7 +28,7 @@ export const DashboardIncidents = ({ myPets }) => {
         return () => {
             setMyPetsIncidents([]);
         };
-    }, [myPets]);
+    }, [pet]);
 
     useEffect(() => {
         MedicalRepository.getAllIncidentTypes().then((data) =>
@@ -42,12 +40,23 @@ export const DashboardIncidents = ({ myPets }) => {
         setExpanded(isExpanded ? panel : false);
     };
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Incidents" />
+                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
+                            Add incident
+                        </Button>
                         {myPetsIncidents.map((incident) => (
                             <Incident
                                 key={incident.id}
@@ -56,12 +65,13 @@ export const DashboardIncidents = ({ myPets }) => {
                                 handleChange={handleChange}
                                 expanded={expanded}
                                 incidentTypes={incidentTypes}
-                                dashboardView={true}
                             />
                         ))}
                     </CardContent>
+                    <CardActions></CardActions>
                 </Card>
             </Box>
+            <AddIncidentDialog pet={pet} open={open} setOpen={setOpen} incidentTypes={incidentTypes} syncIncidents={syncIncidents}/>
         </Container>
     );
 };

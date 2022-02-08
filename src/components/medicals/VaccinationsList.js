@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import useResourceResolver from "../../hooks/resource/useResourceResolver";
 import PetRepository from "../../repositories/PetRepository";
 import MedicalRepository from "../../repositories/MedicalRepository";
-import { Incident } from "./Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";

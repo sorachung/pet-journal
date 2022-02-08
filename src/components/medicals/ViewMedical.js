@@ -1,6 +1,6 @@
 import React from "react";
 import { PetMedicalBio } from "./bio/PetMedicalBio";
-import { IncidentsList } from "./IncidentsList";
+import { IncidentsList } from "./incidents/IncidentsList";
 import { VetVisitsList } from "./VetVisitsList";
 
 import Container from "@mui/material/Container";
@@ -25,14 +25,14 @@ export const ViewMedical = ({pet, syncPets}) => {
                     <Grid item xs={12} key={`medications`}>
                         <MedicationsList pet={pet} />
                     </Grid>
-                    <Grid item xs={12} key={`vaccinations`}>
-                        <VaccinationsList pet={pet} />
-                    </Grid>
                     <Grid item xs={12} key={`incidentsList`}>
                         <IncidentsList pet={pet} />
                     </Grid>
                     <Grid item xs={12} key={`vetVisitsList`}>
                         <VetVisitsList pet={pet} />
+                    </Grid>
+                    <Grid item xs={12} key={`vaccinations`}>
+                        <VaccinationsList pet={pet} />
                     </Grid>
                 </Grid>
             : ""}
