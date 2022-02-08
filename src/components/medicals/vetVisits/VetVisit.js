@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
+import { EditVetVisitDialog } from "./EditVetVisitDialog";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -11,15 +12,6 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 export const VetVisit = ({
     vetVisit,
@@ -27,24 +19,17 @@ export const VetVisit = ({
     handleChange,
     expanded,
     vets,
-    dashboardView
+    dashboardView,
 }) => {
-    const [editedVetVisit, setEditedVetVisit] = useState(vetVisit);
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        setEditedVetVisit(vetVisit);
-    }, []);
 
     const starUnstar = (event) => {
         event.stopPropagation();
-        const copy = { ...editedVetVisit };
+        const copy = { ...vetVisit };
         delete copy.pet;
         delete copy.vet;
-        copy.starred = !editedVetVisit.starred;
-        setEditedVetVisit(copy);
-        MedicalRepository.editVetVisit(copy)
-            .then(() => syncVetVisits())
+        copy.starred = !vetVisit.starred;
+        MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
     };
 
     const deleteVetVisit = (event) => {
@@ -53,27 +38,12 @@ export const VetVisit = ({
             syncVetVisits()
         );
     };
-
-    const editVetVisit = (event) => {
-        event.preventDefault();
-        handleClose();
-        const copy = { ...editedVetVisit };
-        delete copy.pet;
-        delete copy.vet
-        MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
-    };
-
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     return (
         <>
-            <Typography variant="string" color="text.secondary"></Typography>
             <Accordion
                 expanded={expanded === `panel${vetVisit.id}`}
                 onChange={handleChange(`panel${vetVisit.id}`)}
@@ -94,23 +64,26 @@ export const VetVisit = ({
                     >
                         {vetVisit.vet?.name}
                     </Typography>
-                    {dashboardView ? <Typography
-                        sx={{
-                            width: "10%",
-                            flexShrink: 0,
-                            color: "text.secondary",
-                        }}
-                    >
-                        {vetVisit.pet.name}
-                    </Typography> : ""}
+                    {dashboardView ? (
+                        <Typography
+                            sx={{
+                                width: "10%",
+                                flexShrink: 0,
+                                color: "text.secondary",
+                            }}
+                        >
+                            {vetVisit.pet.name}
+                        </Typography>
+                    ) : (
+                        ""
+                    )}
                     <IconButton onClick={starUnstar}>
-                        {vetVisit.starred ? (
-                            <StarIcon />
-                        ) : (
-                            <StarBorderIcon />
-                        )}
+                        {vetVisit.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deleteVetVisit} sx={{marginRight: "1em"}}>
+                    <IconButton
+                        onClick={deleteVetVisit}
+                        sx={{ marginRight: "1em" }}
+                    >
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
@@ -119,68 +92,13 @@ export const VetVisit = ({
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
-            <Dialog open={open} onClose={handleClose}>
-                <form onSubmit={editVetVisit}>
-                    <DialogTitle>Edit Vet Visit</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            margin="dense"
-                            id="date"
-                            label="date"
-                            value={editedVetVisit.date}
-                            required
-                            type="date"
-                            onChange={(event) => {
-                                const copy = { ...editedVetVisit };
-                                copy.date = event.target.value;
-                                setEditedVetVisit(copy);
-                            }}
-                        />
-                        <TextField
-                            margin="dense"
-                            id="description"
-                            label="description"
-                            value={editedVetVisit.description}
-                            required
-                            type="text"
-                            onChange={(event) => {
-                                const copy = { ...editedVetVisit };
-                                copy.description = event.target.value;
-                                setEditedVetVisit(copy);
-                            }}
-                        />
-                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                            <InputLabel id="shot-label">
-                                Vet location
-                            </InputLabel>
-                            <Select
-                                labelId="vet-label"
-                                id="vet"
-                                value={editedVetVisit.vetId}
-                                label="vet"
-                                onChange={(event) => {
-                                    const copy = { ...editedVetVisit };
-                                    copy.vetId = parseInt(event.target.value);
-                                    setEditedVetVisit(copy);
-                                }}
-                            >
-                                {vets.map((vet) => (
-                                    <MenuItem
-                                        key={`incident-vet--${vet.id}`}
-                                        value={vet.id}
-                                    >
-                                        {vet.name}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit">Save</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+            <EditVetVisitDialog
+                vets={vets}
+                vetVisit={vetVisit}
+                syncVetVisits={syncVetVisits}
+                open={open}
+                setOpen={setOpen}
+            />
         </>
     );
 };

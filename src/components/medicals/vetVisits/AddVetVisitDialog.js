@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
-import ContactsRepository from "../../../repositories/ContactsRepository";
 
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import CardHeader from "@mui/material/CardHeader";
-import { VetVisit } from "./VetVisit";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
