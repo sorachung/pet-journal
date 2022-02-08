@@ -20,6 +20,7 @@ import ContactsIcon from "@mui/icons-material/Contacts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 const drawerWidth = 240;
 
@@ -191,6 +192,21 @@ export const Sidebar = ({open, setOpen}) => {
                     </ListItemIcon>
                     <ListItemText primary={"Notes"} />
                 </ListItem>
+                <ListItem
+                    button
+                    key={"Schedule"}
+                    onClick={() => {
+                        handleDrawerClose();
+                        history.push("/schedule");
+                    }}
+                >
+                    <ListItemIcon>
+                        <CalendarTodayIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={"Scheduling"} />
+                </ListItem>
+                
+
             </List>
         </Drawer>
     );

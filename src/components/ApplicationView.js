@@ -5,6 +5,7 @@ import { ContactRoutes } from "./routes/ContactRoutes";
 import { MedicalRoutes } from "./routes/MedicalRoutes";
 import { NoteRoutes } from "./routes/NoteRoutes";
 import { PetRoutes } from "./routes/PetRoutes";
+import { SchedulingRoutes } from "./routes/SchedulingRoutes";
 
 export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defaultPet, syncPets}) => {
     return (
@@ -16,6 +17,7 @@ export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defau
             <MedicalRoutes pet={defaultPet} syncPets={syncPets}/>
             <ContactRoutes />
             <NoteRoutes user={user} defaultPet={defaultPet} />
+            <SchedulingRoutes />
         </>
     )
 }
