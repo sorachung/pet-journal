@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { AddNoteDialog } from "./AddNoteDialog";
 
-export const NotesList = ({ user, updateUser, defaultPet }) => {
+export const NotesList = ({ user, defaultPet }) => {
     const [myPetNotes, setMyPetNotes] = useState([]);
     const [open, setOpen] = useState(false);
 
