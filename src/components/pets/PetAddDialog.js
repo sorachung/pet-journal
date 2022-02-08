@@ -49,9 +49,9 @@ export const PetAddDialog = ({ userId, syncPets }) => {
             .then((data) => {
                 if(data.defaultPetId === 0) {
                     data.defaultPetId = newPetData.id;
-                    UserRepository.editAccount(data)
-                        .then((userData) => history.push(history.location.pathname, userData))
                 }
+                UserRepository.editAccount(data)
+                    .then((userData) => history.push(history.location.pathname, userData))
             })
         });
         
