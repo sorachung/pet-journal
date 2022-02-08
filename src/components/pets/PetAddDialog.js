@@ -32,7 +32,7 @@ export const PetAddDialog = ({ userId, syncPets }) => {
         weight: null,
         microchipNumber: null,
         isFixed: false,
-        photoId: null,
+        profilePhotoId: null,
     });
 
     useEffect(() => {
