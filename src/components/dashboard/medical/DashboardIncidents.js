@@ -24,10 +24,7 @@ export const DashboardIncidents = ({ myPets }) => {
 
     useEffect(() => {
         syncIncidents();
-        return () => {
-            setMyPetsIncidents([]);
-        };
-    }, [myPets]);
+    }, []);
 
     useEffect(() => {
         MedicalRepository.getAllIncidentTypes().then((data) =>

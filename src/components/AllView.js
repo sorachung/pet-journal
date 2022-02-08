@@ -49,7 +49,7 @@ export const AllView = () => {
     }, [user]);
 
     useEffect(() => {
-        setDefaultPet(myPets.find((pet) => defaultPetId === pet.id));
+        setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
     }, [myPets]);
 
 

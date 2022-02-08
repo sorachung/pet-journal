@@ -23,10 +23,7 @@ export const DashboardVaccinations = ({ myPets }) => {
 
     useEffect(() => {
         syncPetVax();
-        return () => {
-            setMyPetsVax([]);
-        };
-    }, [myPets]);
+    }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);

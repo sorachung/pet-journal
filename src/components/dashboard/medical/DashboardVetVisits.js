@@ -24,18 +24,8 @@ export const DashboardVetVisits = ({ myPets }) => {
     };
 
     useEffect(() => {
-        syncVetVisits();
-        return () => {
-            setMyPetsVetVisits([]);
-        };
-    }, [myPets]);
-
-    useEffect(() => {
         ContactsRepository.getVetContacts().then((data) => setVets(data));
         syncVetVisits();
-        return () => {
-            setMyPetsVetVisits([]);
-        };
     }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {

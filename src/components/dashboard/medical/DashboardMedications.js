@@ -23,10 +23,7 @@ export const DashboardMedications = ({ myPets }) => {
 
     useEffect(() => {
         syncPetMedications();
-        return () => {
-            setMyPetsMedications([]);
-        };
-    }, [myPets]);
+    }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
