@@ -12,8 +12,7 @@ import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import { EditNoteDialog } from "./EditNoteDialog";
 
-export const Note = ({ note, syncNotes }) => {
-    const [open, setOpen] = useState(false);
+export const Note = ({ note, syncNotes, open, setOpen }) => {
     
     const deleteNote = () => [
         NotesRepository.delete(note.id).then(() => syncNotes()),
@@ -51,7 +50,7 @@ export const Note = ({ note, syncNotes }) => {
                     {note.starred ? <StarIcon /> : <StarBorderIcon />}
                 </IconButton>
             </CardActions>
-            <EditNoteDialog open={open} setOpen={setOpen} syncNotes={syncNotes} note={note}/>
+            <EditNoteDialog syncNotes={syncNotes} note={note} open={open} setOpen={setOpen} />
         </Card>
     );
 };

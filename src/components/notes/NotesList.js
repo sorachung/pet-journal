@@ -44,7 +44,7 @@ export const NotesList = ({ user, defaultPet }) => {
             <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                 {myPetNotes.map((note) => (
                     <Grid item sm={4} lg={3} key={`note--${note.id}`}>
-                        <Note note={note} syncNotes={syncNotes} key={note.id} />
+                        <Note note={note} syncNotes={syncNotes} open={open} setOpen={setOpen} key={note.id} />
                     </Grid>
                 ))}
             </Grid>
