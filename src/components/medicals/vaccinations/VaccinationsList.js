@@ -9,16 +9,13 @@ import CardHeader from "@mui/material/CardHeader";
 import { Vaccination } from "./Vaccination";
 import { AddVaccinationDialog } from "./AddVaccinationDialog";
 
-export const VaccinationsList = ({ pet, dashboardView }) => {
+export const VaccinationsList = ({ pet }) => {
     const [myPetVax, setMyPetVax] = useState([]);
     const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncPetVax = () => {
         MedicalRepository.getPetVaccinationsByPet(pet?.id).then((data) => {
-            if (dashboardView) {
-                data = data.filter((petVax) => petVax.starred);
-            }
             setMyPetVax(data);
         });
     };
