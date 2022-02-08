@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
+import { Medication } from "./Medication";
+import { AddMedicationDialog } from "./AddMedicationDialog";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import { Medication } from "../../medicals/medications/Medication";
+import Typography from "@mui/material/Typography";
 
-export const DashboardMedications = ({ myPets }) => {
-    const [myPetsMedications, setMyPetsMedications] = useState([]);
+export const MedicationsList = ({ pet, dashboardView }) => {
+    const [myPetMedications, setMyPetMedications] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncPetMedications = () => {
-        const medsOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
-                data = data.filter((med) => med.starred);
-                medsOfAllPets.push(...data);
-            });
+        MedicalRepository.getMedicationsByPet(pet?.id).then((data) => {
+            if (dashboardView) {
+                data = data.filter((petMed) => petMed.starred);
+            }
+            setMyPetMedications(data);
         });
-        setMyPetsMedications(medsOfAllPets);
     };
 
     useEffect(() => {
         syncPetMedications();
         return () => {
-            setMyPetsMedications([]);
+            setMyPetMedications([]);
         };
-    }, [myPets]);
-
+    }, [pet]);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -38,17 +37,24 @@ export const DashboardMedications = ({ myPets }) => {
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom align="center">
+                    Medications
+                </Typography>
+                <AddMedicationDialog
+                    syncPetMedications={syncPetMedications}
+                    pet={pet}
+                />
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Medications" />
-                        {myPetsMedications.map((myPetMed) => (
+
+                        {myPetMedications.map((myPetMed) => (
                             <Medication
                                 key={myPetMed.id}
                                 myPetMed={myPetMed}
                                 syncPetMedications={syncPetMedications}
                                 handleChange={handleChange}
                                 expanded={expanded}
-                                dashboardView={true}
                             />
                         ))}
                     </CardContent>

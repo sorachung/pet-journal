@@ -6,7 +6,7 @@ import { VetVisitsList } from "./VetVisitsList";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { MedicationsList } from "./MedicationsList";
+import { MedicationsList } from "./medications/MedicationsList";
 import { VaccinationsList } from "./VaccinationsList";
 
 export const ViewMedical = ({pet, syncPets}) => {

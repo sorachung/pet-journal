@@ -5,7 +5,7 @@ import { PetMedicalBio } from "../medicals/bio/PetMedicalBio"
 import { IncidentsList } from "../medicals/incidents/IncidentsList"
 import { VetVisitsList } from "../medicals/VetVisitsList";
 import { VaccinationsList } from "../medicals/VaccinationsList";
-import { MedicationsList } from "../medicals/MedicationsList";
+import { MedicationsList } from "../medicals/medications/MedicationsList";
 
 export const MedicalRoutes = ({pet, syncPets}) => {
 
