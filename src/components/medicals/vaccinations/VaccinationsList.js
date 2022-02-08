@@ -6,30 +6,35 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
-import { Vaccination } from "../../medicals/vaccinations/Vaccination";
+import { Vaccination } from "./Vaccination";
+import { AddVaccinationDialog } from "./AddVaccinationDialog";
 
-export const DashboardVaccinations = ({ myPets }) => {
-    const [myPetsVax, setMyPetsVax] = useState([]);
+export const VaccinationsList = ({ pet, dashboardView }) => {
+    const [myPetVax, setMyPetVax] = useState([]);
+    const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncPetVax = () => {
-        const vaxOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
-                data = data.filter((vax) => vax.starred);
-                vaxOfAllPets.push(...data);
-            });
+        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
+            if (dashboardView) {
+                data = data.filter((petVax) => petVax.starred);
+            }
+            setMyPetVax(data);
         });
-        setMyPetsVax(vaxOfAllPets);
     };
 
     useEffect(() => {
         syncPetVax();
         return () => {
-            setMyPetsVax([]);
+            setMyPetVax([]);
         };
-    }, [myPets]);
+    }, [pet]);
 
+    useEffect(() => {
+        MedicalRepository.getAllVaccinations().then((data) =>
+            setVaccinations(data)
+        );
+    }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -38,22 +43,24 @@ export const DashboardVaccinations = ({ myPets }) => {
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
+                <AddVaccinationDialog vaccinations={vaccinations} pet={pet} syncPetVax={syncPetVax} />
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Vaccinations" />
-                        {myPetsVax.map((petVax) => (
+                        
+                        {myPetVax.map((petVax) => (
                             <Vaccination
                                 key={petVax.id}
                                 petVax={petVax}
                                 syncPetVax={syncPetVax}
                                 handleChange={handleChange}
                                 expanded={expanded}
-                                dashboardView={true}
                             />
                         ))}
                     </CardContent>
                 </Card>
             </Box>
+            
         </Container>
     );
 };

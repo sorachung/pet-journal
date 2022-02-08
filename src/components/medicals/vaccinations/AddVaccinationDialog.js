@@ -1,17 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import PetRepository from "../../repositories/PetRepository";
-import MedicalRepository from "../../repositories/MedicalRepository";
+import React, { useState } from "react";
+import MedicalRepository from "../../../repositories/MedicalRepository";
 
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import CardHeader from "@mui/material/CardHeader";
-import { Vaccination } from "./Vaccination";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -22,34 +12,9 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-export const VaccinationsList = ({ pet, dashboardView }) => {
-    const [newPetVax, setNewPetVax] = useState({vaccinationId: ""});
-    const [myPetVax, setMyPetVax] = useState([]);
-    const [vaccinations, setVaccinations] = useState([]);
-    const [expanded, setExpanded] = useState(false);
+export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
+    const [newPetVax, setNewPetVax] = useState({ vaccinationId: "" });
     const [open, setOpen] = useState(false);
-
-    const syncPetVax = () => {
-        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
-            if (dashboardView) {
-                data = data.filter((petVax) => petVax.starred);
-            }
-            setMyPetVax(data);
-        });
-    };
-
-    useEffect(() => {
-        syncPetVax();
-        return () => {
-            setMyPetVax([]);
-        };
-    }, [pet]);
-
-    useEffect(() => {
-        MedicalRepository.getAllVaccinations().then((data) =>
-            setVaccinations(data)
-        );
-    }, []);
 
     const addPetVax = (event) => {
         event.preventDefault();
@@ -62,10 +27,6 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
         );
     };
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -75,26 +36,14 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Vaccinations" />
-                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
-                            Add vaccination
-                        </Button>
-                        {myPetVax.map((petVax) => (
-                            <Vaccination
-                                key={petVax.id}
-                                petVax={petVax}
-                                syncPetVax={syncPetVax}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </Box>
+        <>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+                sx={{ marginBottom: "2em" }}
+            >
+                Add vaccination
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetVax}>
                     <DialogTitle>Add Vaccination Record</DialogTitle>
@@ -145,6 +94,6 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </Container>
+        </>
     );
 };

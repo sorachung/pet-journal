@@ -4,7 +4,7 @@ import { ViewMedical } from "../medicals/ViewMedical";
 import { PetMedicalBio } from "../medicals/bio/PetMedicalBio"
 import { IncidentsList } from "../medicals/incidents/IncidentsList"
 import { VetVisitsList } from "../medicals/VetVisitsList";
-import { VaccinationsList } from "../medicals/VaccinationsList";
+import { VaccinationsList } from "../medicals/vaccinations/VaccinationsList";
 import { MedicationsList } from "../medicals/medications/MedicationsList";
 
 export const MedicalRoutes = ({pet, syncPets}) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MedicalRepository from "../../repositories/MedicalRepository";
+import MedicalRepository from "../../../repositories/MedicalRepository";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
