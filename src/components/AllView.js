@@ -23,8 +23,7 @@ export const AllView = () => {
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data);
-            setDefaultPetId(data.defaultPetId);
+            updateUser(data);            
         });
     };
 
@@ -36,6 +35,7 @@ export const AllView = () => {
                 }
             });
             setMyPets(data);
+            
         });
     };
 
@@ -44,13 +44,13 @@ export const AllView = () => {
     }, []);
 
     useEffect(() => {
-        setDefaultPetId(user.defaultPetId)
+        setDefaultPetId(user.defaultPetId);
         syncPets();
     }, [user]);
 
     useEffect(() => {
         setDefaultPet(myPets.find((pet) => defaultPetId === pet.id));
-    }, [defaultPetId]);
+    }, [myPets]);
 
 
     return (
