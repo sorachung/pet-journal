@@ -10,7 +10,7 @@ export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defau
     return (
         <>
             <Route exact path="/">
-                <Dashboard />
+                <Dashboard user={user} myPets={myPets} syncPets={syncPets}/>
             </Route>
             <PetRoutes user={user} updateUser={updateUser} pet={pet} myPets={myPets} setMyPets={setMyPets} />
             <MedicalRoutes pet={defaultPet} syncPets={syncPets}/>

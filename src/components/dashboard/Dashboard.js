@@ -16,25 +16,15 @@ import { DashboardNotes } from "./notes/DashboardNotes";
 import { DashboardContacts } from "./contacts/DashboardContacts";
 import { PetAddDialog } from "../pets/PetAddDialog";
 
-export const Dashboard = () => {
-    const [user, setUser] = useState();
-    const [myPets, setMyPets] = useState([]);
+export const Dashboard = ({user, myPets, syncPets}) => {
     const { getCurrentUser } = useSimpleAuth();
     const history = useHistory();
-
-    const syncPets = () => {
-        PetRepository.findPetsByUser(getCurrentUser().id).then((data) =>
-            setMyPets(data)
-        );
-    };
-
-    const syncUser = () => {
-        UserRepository.get(getCurrentUser().id).then((data) => setUser(data));
-    };
+    const [sexes, setSexes] = useState([]);
 
     useEffect(() => {
-        syncUser();
-        syncPets();
+        if(myPets.length === 0){
+            PetRepository.getSexes().then((data) => setSexes(data));
+        }
     }, []);
 
     // set defaultPetId for user if user adds a first pet
@@ -42,17 +32,11 @@ export const Dashboard = () => {
         if(myPets.length > 0 && user.defaultPetId === 0) {
             const copy = {...user};
             copy.defaultPetId = myPets[0].id
-            setUser(copy);
             UserRepository.get(getCurrentUser().id).then((data) => {
-                setUser(data);
                 history.push(history.location.pathname, data);
             });
         }
     },[myPets])
-    
-    useEffect(() => {
-        syncUser();
-    }, [history.location.state]);
 
     return (
         <Container maxWidth="lg">
@@ -82,7 +66,7 @@ export const Dashboard = () => {
                     <Typography>
                         Looks like you don't have a pet added yet!
                     </Typography>
-                    <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} />
+                    <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} sexes={sexes} />
                 </>
             )}
         </Container>
