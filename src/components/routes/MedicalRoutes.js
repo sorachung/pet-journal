@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import { ViewMedical } from "../medicals/ViewMedical";
 import { PetMedicalBio } from "../medicals/bio/PetMedicalBio"
 import { IncidentsList } from "../medicals/incidents/IncidentsList"
-import { VetVisitsList } from "../medicals/VetVisitsList";
+import { VetVisitsList } from "../medicals/vetVisits/VetVisitsList";
 import { VaccinationsList } from "../medicals/vaccinations/VaccinationsList";
 import { MedicationsList } from "../medicals/medications/MedicationsList";
 

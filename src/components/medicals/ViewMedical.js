@@ -1,7 +1,7 @@
 import React from "react";
 import { PetMedicalBio } from "./bio/PetMedicalBio";
 import { IncidentsList } from "./incidents/IncidentsList";
-import { VetVisitsList } from "./VetVisitsList";
+import { VetVisitsList } from "./vetVisits/VetVisitsList";
 
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";

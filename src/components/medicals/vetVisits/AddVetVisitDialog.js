@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import MedicalRepository from "../../repositories/MedicalRepository";
-import ContactsRepository from "../../repositories/ContactsRepository";
+import MedicalRepository from "../../../repositories/MedicalRepository";
+import ContactsRepository from "../../../repositories/ContactsRepository";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -19,44 +19,18 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-export const VetVisitsList = ({ pet, dashboardView }) => {
-    const [myPetVetVisits, setMyPetVetVisits] = useState([]);
+export const AddVetVisitDialog = ({ pet, vets, syncVetVisits }) => {
     const [newVetVisit, setNewVetVisit] = useState({ vetId: "" });
-    const [vets, setVets] = useState([]);
-    const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 
-    const syncVetVisits = () => {
-        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
-            if (dashboardView) {
-                data = data.filter((vetVisit) => vetVisit.starred);
-                setMyPetVetVisits(data);
-            } else {
-                setMyPetVetVisits(data);
-            }
-        });
-    };
-
-    useEffect(() => {
-        ContactsRepository.getVetContacts().then((data) => setVets(data));
-        syncVetVisits();
-        return () => {
-            setMyPetVetVisits([]);
-        };
-    }, []);
-
     const addVetVisit = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         handleClose();
         const copy = { ...newVetVisit };
         copy.petId = pet.id;
         copy.starred = false;
         copy.invoicePicURL = null;
         MedicalRepository.addVetVisit(copy).then(() => syncVetVisits());
-    };
-
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
     };
 
     const handleClickOpen = () => {
@@ -68,27 +42,14 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title={`${pet ? pet.name + "'s ": ""} Vet Visits`}/>
-                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
-                            Add vet visit
-                        </Button>
-                        {myPetVetVisits.map((vetVisit) => (
-                            <VetVisit
-                                key={vetVisit.id}
-                                vetVisit={vetVisit}
-                                syncVetVisits={syncVetVisits}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                vets={vets}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </Box>
+        <>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+                sx={{ marginBottom: "2em" }}
+            >
+                Add vet visit
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addVetVisit}>
                     <DialogTitle>Add Vet Visit</DialogTitle>
@@ -148,6 +109,6 @@ export const VetVisitsList = ({ pet, dashboardView }) => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </Container>
+        </>
     );
 };
