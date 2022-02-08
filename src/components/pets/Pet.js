@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import PetRepository from "../../repositories/PetRepository";
+import { useHistory } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
@@ -10,13 +11,26 @@ import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { PetEditDialog } from "./PetEditDialog";
+import UserRepository from "../../repositories/UserRepository";
 
-export const Pet = ({ pet, syncPets }) => {
+export const Pet = ({ pet, syncPets, user, updateUser }) => {
     const [open, setOpen] = useState(false);
-
+    const history = useHistory();
 
     const deletePet = () => {
-        PetRepository.delete(pet.id).then(() => syncPets());
+        PetRepository.delete(pet.id).then(() => {
+            syncPets()
+            if(user.defaultPetId === pet.id) {
+                const copy = {...user}
+                copy.defaultPetId = 0;
+                UserRepository.editAccount(copy)
+                    .then(data => {
+                        updateUser(data)
+                        history.push(history.location.pathname, data)
+                    })
+                
+            }
+        });
     };
 
     const handleClickOpen = () => {

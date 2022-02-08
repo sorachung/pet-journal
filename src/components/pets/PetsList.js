@@ -20,6 +20,23 @@ export const PetsList = () => {
     const syncPets = () => {
         PetRepository.getAllExpandAllByUser(getCurrentUser().id).then(
             (data) => {
+                if(user.defaultPetId === 0 && data.length > 0) {
+                    const copy = {...user};
+                    copy.defaultPetId = data[0].id;
+                    UserRepository.editAccount(copy)
+                        .then(userData => {
+                            history.push(history.location.pathname, userData)
+                            data.sort((el1) => {
+                                if (el1.id === userData.defaultPetId) {
+                                    return -1;
+                                }
+                            });
+                                setMyPets(data);
+                        })
+                } else if(data.length === 0) {
+                    history.push(history.location.pathname, user)
+                    history.push("/")
+                }
                 data.sort((el1) => {
                     if (el1.id === user.defaultPetId) {
                         return -1;
@@ -38,6 +55,9 @@ export const PetsList = () => {
 
     useEffect(() => {
         syncUser();
+        return () => {
+            updateUser({})
+        }
     }, []);
 
     useEffect(() => {
@@ -57,7 +77,7 @@ export const PetsList = () => {
             <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                 {myPets.map((pet) => (
                     <Grid item sm={6} lg={4} key={`pet--${pet.id}`}>
-                        <Pet pet={pet} syncPets={syncPets} />
+                        <Pet pet={pet} syncPets={syncPets} user={user} updateUser={updateUser}/>
                     </Grid>
                 ))}
             </Grid>
