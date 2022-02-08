@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
+import ContactsRepository from "../../../repositories/ContactsRepository";
+import { VetVisit } from "../../medicals/vetVisits/VetVisit";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
-import ContactsRepository from "../../../repositories/ContactsRepository";
-import { VetVisit } from "../../medicals/vetVisits/VetVisit";
+import Typography from "@mui/material/Typography";
 
 export const DashboardVetVisits = ({ myPets }) => {
     const [myPetsVetVisits, setMyPetsVetVisits] = useState([]);
@@ -40,30 +38,27 @@ export const DashboardVetVisits = ({ myPets }) => {
         };
     }, []);
 
-
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
     return (
         <Container maxWidth="lg">
+            <Typography variant="h5" gutterBottom align="center">
+                Vet Visits
+            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Vet Visits" />
-                        {myPetsVetVisits.map((vetVisit) => (
-                            <VetVisit
-                                key={vetVisit.id}
-                                vetVisit={vetVisit}
-                                syncVetVisits={syncVetVisits}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                vets={vets}
-                                dashboardView={true}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
+                {myPetsVetVisits.map((vetVisit) => (
+                    <VetVisit
+                        key={vetVisit.id}
+                        vetVisit={vetVisit}
+                        syncVetVisits={syncVetVisits}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                        vets={vets}
+                        dashboardView={true}
+                    />
+                ))}
             </Box>
         </Container>
     );

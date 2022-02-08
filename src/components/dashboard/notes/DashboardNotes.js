@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import NotesRepository from "../../../repositories/NotesRepository";
+import { Note } from "../../notes/Note";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { Note } from "../../notes/Note";
+import Typography from "@mui/material/Typography";
 
 
 export const DashboardNotes = ({ user }) => {
@@ -22,6 +23,9 @@ export const DashboardNotes = ({ user }) => {
 
     return (
         <Container maxWidth="lg">
+            <Typography variant="h5" gutterBottom align="center">
+                Notes
+            </Typography>
             <Box sx={{ textAlign: "center" }}>
                 <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                     {myPetNotes.map((note) => (

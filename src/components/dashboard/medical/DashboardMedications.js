@@ -3,9 +3,7 @@ import MedicalRepository from "../../../repositories/MedicalRepository";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
 import { Medication } from "../../medicals/medications/Medication";
 
 export const DashboardMedications = ({ myPets }) => {
@@ -30,29 +28,26 @@ export const DashboardMedications = ({ myPets }) => {
         };
     }, [myPets]);
 
-
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
     return (
         <Container maxWidth="lg">
+            <Typography variant="h5" gutterBottom align="center">
+                Medications
+            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Medications" />
-                        {myPetsMedications.map((myPetMed) => (
-                            <Medication
-                                key={myPetMed.id}
-                                myPetMed={myPetMed}
-                                syncPetMedications={syncPetMedications}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                dashboardView={true}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
+                {myPetsMedications.map((myPetMed) => (
+                    <Medication
+                        key={myPetMed.id}
+                        myPetMed={myPetMed}
+                        syncPetMedications={syncPetMedications}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                        dashboardView={true}
+                    />
+                ))}
             </Box>
         </Container>
     );

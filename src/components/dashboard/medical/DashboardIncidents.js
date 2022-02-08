@@ -4,15 +4,12 @@ import { Incident } from "../../medicals/incidents/Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
 
 export const DashboardIncidents = ({ myPets }) => {
     const [myPetsIncidents, setMyPetsIncidents] = useState([]);
     const [incidentTypes, setIncidentTypes] = useState([]);
     const [expanded, setExpanded] = useState(false);
-    const [open, setOpen] = useState(false);
 
     const syncIncidents = () => {
         const incidentsOfAllPets = [];
@@ -44,23 +41,21 @@ export const DashboardIncidents = ({ myPets }) => {
 
     return (
         <Container maxWidth="lg">
+            <Typography variant="h5" gutterBottom align="center">
+                Incidents
+            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Incidents" />
-                        {myPetsIncidents.map((incident) => (
-                            <Incident
-                                key={incident.id}
-                                incident={incident}
-                                syncIncidents={syncIncidents}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                incidentTypes={incidentTypes}
-                                dashboardView={true}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
+                {myPetsIncidents.map((incident) => (
+                    <Incident
+                        key={incident.id}
+                        incident={incident}
+                        syncIncidents={syncIncidents}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                        incidentTypes={incidentTypes}
+                        dashboardView={true}
+                    />
+                ))}
             </Box>
         </Container>
     );
