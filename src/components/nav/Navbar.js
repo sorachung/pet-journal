@@ -33,6 +33,7 @@ import { useHistory } from "react-router-dom";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import { Sidebar } from "./Sidebar";
 
 const drawerWidth = 240;
 
@@ -168,14 +169,6 @@ export const Navbar = () => {
         setOpen(true);
     };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const handleClick = () => {
-        setOpenSub(!openSub);
-    };
-
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -301,152 +294,7 @@ export const Navbar = () => {
                     </Box>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    "& .MuiDrawer-paper": {
-                        width: drawerWidth,
-                        boxSizing: "border-box",
-                    },
-                }}
-                variant="persistent"
-                anchor="left"
-                open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === "ltr" ? (
-                            <ChevronLeftIcon />
-                        ) : (
-                            <ChevronRightIcon />
-                        )}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <List>
-                    <ListItem
-                        button
-                        key={"Dashboard"}
-                        onClick={() => {
-                            handleDrawerClose();
-                            history.push("/");
-                        }}
-                    >
-                        <ListItemIcon>
-                            <GridViewIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Dashboard"} />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem
-                        button
-                        key={"My pets"}
-                        onClick={() => {
-                            handleDrawerClose();
-                            history.push("/mypets");
-                        }}
-                    >
-                        <ListItemIcon>
-                            <PetsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"My pets"} />
-                    </ListItem>
-                    <ListItem button key={"Medical"} onClick={handleClick}>
-                        <ListItemIcon>
-                            <HealingIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Medical"} />
-                        {openSub ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    </ListItem>
-                    <Collapse in={openSub} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical");
-                                }}
-                            >
-                                <ListItemText primary={"All medical"} />
-                            </ListItemButton>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical/bio");
-                                }}
-                            >
-                                <ListItemText primary={"Bio"} />
-                            </ListItemButton>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical/vaccinations");
-                                }}
-                            >
-                                <ListItemText primary={"Vaccinations"} />
-                            </ListItemButton>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical/medications");
-                                }}
-                            >
-                                <ListItemText primary={"Medications"} />
-                            </ListItemButton>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical/incidents");
-                                }}
-                            >
-                                <ListItemText primary={"Incidents"} />
-                            </ListItemButton>
-                            <ListItemButton
-                                sx={{ pl: 12 }}
-                                onClick={() => {
-                                    handleDrawerClose();
-                                    history.push("/medical/vetvisits");
-                                }}
-                            >
-                                <ListItemText primary={"Vet visits"} />
-                            </ListItemButton>
-                        </List>
-                    </Collapse>
-                    <ListItem
-                        button
-                        key={"Contacts"}
-                        onClick={() => {
-                            handleDrawerClose();
-                            history.push("/contacts");
-                        }}
-                    >
-                        <ListItemIcon>
-                            <ContactsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Contacts"} />
-                    </ListItem>
-                    <ListItem
-                        button
-                        key={"Notes"}
-                        onClick={() => {
-                            handleDrawerClose();
-                            history.push("/notes");
-                        }}
-                    >
-                        <ListItemIcon>
-                            <StickyNote2Icon />
-                        </ListItemIcon>
-                        <ListItemText primary={"Notes"} />
-                    </ListItem>
-                </List>
-            </Drawer>
+            <Sidebar open={open} setOpen={setOpen}/>
             <Main open={open}></Main>
         </Box>
     );
