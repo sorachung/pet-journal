@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PetRepository from "../../repositories/PetRepository";
 import UserRepository from "../../repositories/UserRepository";
 import { Pet } from "./Pet";
@@ -12,6 +12,7 @@ import { PetAddDialog } from "./PetAddDialog";
 
 export const PetsList = ({ user, updateUser, myPets, setMyPets }) => {
     const { getCurrentUser } = useSimpleAuth();
+    const [sexes, setSexes] = useState([]);
 
     const syncPets = () => {
             PetRepository.getAllExpandAllByUser(user.id).then(
@@ -51,6 +52,7 @@ export const PetsList = ({ user, updateUser, myPets, setMyPets }) => {
 
     useEffect(() => {
         syncPets();
+        PetRepository.getSexes().then((data) => setSexes(data));
     }, []);
 
     return (
@@ -58,7 +60,7 @@ export const PetsList = ({ user, updateUser, myPets, setMyPets }) => {
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
                 My Pets
             </Typography>
-            <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} />
+            <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} sexes={sexes}/>
             <Grid container spacing={4} sx={{ justifyContent: "center" }}>
                 {myPets.map((pet) => (
                     <Grid item sm={6} lg={4} key={`pet--${pet.id}`}>
@@ -67,6 +69,7 @@ export const PetsList = ({ user, updateUser, myPets, setMyPets }) => {
                             syncPets={syncPets}
                             user={user}
                             updateUser={updateUser}
+                            sexes={sexes}
                         />
                     </Grid>
                 ))}

@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import { PetEditDialog } from "./PetEditDialog";
 import UserRepository from "../../repositories/UserRepository";
 
-export const Pet = ({ pet, syncPets, user, updateUser }) => {
+export const Pet = ({ pet, syncPets, user, updateUser, sexes }) => {
     const [open, setOpen] = useState(false);
 
     const deletePet = () => {
@@ -70,7 +70,7 @@ export const Pet = ({ pet, syncPets, user, updateUser }) => {
                         </Button>
                 </CardActions>
             </Card>
-            <PetEditDialog pet={pet} syncPets={syncPets} open={open} setOpen={setOpen}/>
+            <PetEditDialog pet={pet} syncPets={syncPets} open={open} setOpen={setOpen} sexes={sexes}/>
         </Container>
     );
 };

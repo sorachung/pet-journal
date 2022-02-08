@@ -16,10 +16,9 @@ import Typography from "@mui/material/Typography";
 import Input from "@mui/material/Input";
 import UserRepository from "../../repositories/UserRepository";
 
-export const PetAddDialog = ({ userId, syncPets }) => {
+export const PetAddDialog = ({ userId, syncPets, sexes }) => {
     const [open, setOpen] = useState(false);
     const [species, setSpecies] = useState([]);
-    const [sexes, setSexes] = useState([]);
     const history = useHistory();
     const [newPet, updateNewPet] = useState({
         name: "",
@@ -37,7 +36,6 @@ export const PetAddDialog = ({ userId, syncPets }) => {
 
     useEffect(() => {
         PetRepository.getSpecies().then((data) => setSpecies(data));
-        PetRepository.getSexes().then((data) => setSexes(data));
     }, []);
 
     const addNewPet = (event) => {
@@ -139,7 +137,7 @@ export const PetAddDialog = ({ userId, syncPets }) => {
                                     updateNewPet(copy);
                                 }}
                             >
-                                {sexes.map(sex => <MenuItem key={sex.id} value={sex.id}>
+                                {sexes?.map(sex => <MenuItem key={sex.id} value={sex.id}>
                                     {sex.label}
                                 </MenuItem>)}
                             </Select>

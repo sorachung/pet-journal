@@ -13,15 +13,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Input from "@mui/material/Input";
 
-export const PetEditDialog = ({ pet, syncPets, open, setOpen }) => {
+export const PetEditDialog = ({ pet, syncPets, open, setOpen, sexes }) => {
     
     const [species, setSpecies] = useState([]);
-    const [sexes, setSexes] = useState([]);
     const [editedPet, updateEditedPet] = useState(pet);
 
     useEffect(() => {
         PetRepository.getSpecies().then((data) => setSpecies(data));
-        PetRepository.getSexes().then((data) => setSexes(data));
     }, []);
 
     const editPet = (event) => {
@@ -105,7 +103,7 @@ export const PetEditDialog = ({ pet, syncPets, open, setOpen }) => {
                                 updateEditedPet(copy);
                             }}
                         >
-                            {sexes.map((sex) => (
+                            {sexes?.map((sex) => (
                                 <MenuItem key={sex.id} value={sex.id}>
                                     {sex.label}
                                 </MenuItem>
