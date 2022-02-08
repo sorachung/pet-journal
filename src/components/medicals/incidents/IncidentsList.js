@@ -18,7 +18,7 @@ export const IncidentsList = ({ pet }) => {
     const [open, setOpen] = useState(false);
 
     const syncIncidents = () => {
-        MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
+        MedicalRepository.getAllIncidentsByPet(pet?.id).then((data) => {
             setMyPetsIncidents(data);
         });
     };
