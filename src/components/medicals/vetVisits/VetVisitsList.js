@@ -1,31 +1,26 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
 import ContactsRepository from "../../../repositories/ContactsRepository";
-import { VetVisit } from "../../medicals/vetVisits/VetVisit";
-
+import { AddVetVisitDialog } from "./AddVetVisitDialog";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { VetVisit } from "./VetVisit";
 
-export const DashboardVetVisits = ({ myPets }) => {
-    const [myPetsVetVisits, setMyPetsVetVisits] = useState([]);
-    const [expanded, setExpanded] = useState(false);
+export const VetVisitsList = ({ pet }) => {
+    const [myPetVetVisits, setMyPetVetVisits] = useState([]);
     const [vets, setVets] = useState([]);
+    const [expanded, setExpanded] = useState(false);
 
     const syncVetVisits = () => {
-        const vetVisitsOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
-                data = data.filter((visit) => visit.starred);
-                vetVisitsOfAllPets.push(...data);
-            });
+        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+            setMyPetVetVisits(data);
         });
-        setMyPetsVetVisits(vetVisitsOfAllPets);
     };
 
     useEffect(() => {
-        ContactsRepository.getVetContacts().then((data) => setVets(data));
         syncVetVisits();
+        ContactsRepository.getVetContacts().then((data) => setVets(data));
     }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -34,11 +29,16 @@ export const DashboardVetVisits = ({ myPets }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h5" gutterBottom align="center">
-                Vet Visits
-            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                {myPetsVetVisits.map((vetVisit) => (
+                <AddVetVisitDialog
+                    pet={pet}
+                    vets={vets}
+                    syncVetVisits={syncVetVisits}
+                />
+                <Typography variant="h5" gutterBottom align="center">
+                    Vet Visits
+                </Typography>
+                {myPetVetVisits.map((vetVisit) => (
                     <VetVisit
                         key={vetVisit.id}
                         vetVisit={vetVisit}
@@ -46,7 +46,6 @@ export const DashboardVetVisits = ({ myPets }) => {
                         handleChange={handleChange}
                         expanded={expanded}
                         vets={vets}
-                        dashboardView={true}
                     />
                 ))}
             </Box>

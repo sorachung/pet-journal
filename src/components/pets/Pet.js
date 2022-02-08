@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import React, { useState } from "react";
+import PetRepository from "../../repositories/PetRepository";
+import { useHistory } from "react-router-dom";
 
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
@@ -8,17 +9,29 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
+import { PetEditDialog } from "./PetEditDialog";
+import UserRepository from "../../repositories/UserRepository";
 
-export const Pet = ({ pet, deletePet }) => {
-    const history = useHistory();
+export const Pet = ({ pet, syncPets, user, updateUser, sexes }) => {
+    const [open, setOpen] = useState(false);
 
-    const uploadPhoto = () => {
-        return "";
+    const deletePet = () => {
+        PetRepository.delete(pet.id).then(() => {
+            syncPets()
+            if(user.defaultPetId === pet.id) {
+                const copy = {...user}
+                copy.defaultPetId = 0;
+                UserRepository.editAccount(copy)
+                    .then(data => {
+                        updateUser(data)
+                    })
+                
+            }
+        });
     };
 
-    const editPet = () => {
-        history.push(`/mypets/${pet.id}/edit`);
+    const handleClickOpen = () => {
+        setOpen(true);
     };
 
     return (
@@ -48,22 +61,16 @@ export const Pet = ({ pet, deletePet }) => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    {history.location.pathname === "/" ? (
-                        ""
-                    ) : (
-                        <Button size="small" onClick={editPet}>
+
+                        <Button size="small" onClick={handleClickOpen}>
                             Edit
                         </Button>
-                    )}
-                    {history.location.pathname === "/" ? (
-                        ""
-                    ) : (
-                        <Button size="small" onClick={() => deletePet(pet)}>
+                        <Button size="small" onClick={deletePet}>
                             Remove
                         </Button>
-                    )}
                 </CardActions>
             </Card>
+            <PetEditDialog pet={pet} syncPets={syncPets} open={open} setOpen={setOpen} sexes={sexes}/>
         </Container>
     );
 };

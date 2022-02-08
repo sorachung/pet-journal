@@ -6,16 +6,16 @@ import { MedicalRoutes } from "./routes/MedicalRoutes";
 import { NoteRoutes } from "./routes/NoteRoutes";
 import { PetRoutes } from "./routes/PetRoutes";
 
-export const ApplicationView = () => {
+export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defaultPet, syncPets}) => {
     return (
         <>
             <Route exact path="/">
-                <Dashboard />
+                <Dashboard user={user} myPets={myPets} syncPets={syncPets}/>
             </Route>
-            <PetRoutes />
-            <MedicalRoutes />
+            <PetRoutes user={user} updateUser={updateUser} pet={pet} myPets={myPets} setMyPets={setMyPets} />
+            <MedicalRoutes pet={defaultPet} syncPets={syncPets}/>
             <ContactRoutes />
-            <NoteRoutes />
+            <NoteRoutes user={user} defaultPet={defaultPet} />
         </>
     )
 }

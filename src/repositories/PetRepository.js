@@ -30,8 +30,12 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/pets?userId=${userId}&_expand=specie&_expand=user&_expand_photo&_expand=sex`)
     },
 
+    // fetches for unchanging data
     async getSpecies() {
         return await fetchIt(`${Settings.remoteURL}/species`)
+    },
+    async getSexes() {
+        return await fetchIt(`${Settings.remoteURL}/sexes`)
     }
 
 

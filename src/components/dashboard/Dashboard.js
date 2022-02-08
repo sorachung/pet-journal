@@ -3,8 +3,6 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { ContactList } from "../contacts/ContactList";
-import { ViewMedical } from "../medicals/ViewMedical";
 import { Pet } from "../pets/Pet";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import UserRepository from "../../repositories/UserRepository";
@@ -15,58 +13,52 @@ import { DashboardMedications } from "./medical/DashboardMedications";
 import { DashboardVaccinations } from "./medical/DashboardVaccinations";
 import { DashboardVetVisits } from "./medical/DashboardVetVisits";
 import { DashboardNotes } from "./notes/DashboardNotes";
+import { DashboardContacts } from "./contacts/DashboardContacts";
+import { PetAddDialog } from "../pets/PetAddDialog";
 
-export const Dashboard = () => {
-    const [user, setUser] = useState();
-    const [defaultPet, setDefaultPet] = useState({});
-    const [myPets, setMyPets] = useState([])
+export const Dashboard = ({user, myPets, syncPets}) => {
     const { getCurrentUser } = useSimpleAuth();
     const history = useHistory();
-    const [dashboardView, setDashboardView] = useState(true);
+    const [sexes, setSexes] = useState([]);
 
     useEffect(() => {
-        UserRepository.get(getCurrentUser().id).then((data) => setUser(data));
-        PetRepository.findPetsByUser(getCurrentUser().id).then(data => setMyPets(data))
+        if(myPets.length === 0){
+            PetRepository.getSexes().then((data) => setSexes(data));
+        }
     }, []);
 
+    // set defaultPetId for user if user adds a first pet
     useEffect(() => {
-        if (user?.defaultPetId) {
-            PetRepository.getExpandAll(user?.defaultPetId).then((data) =>
-                setDefaultPet(data)
-            );
+        if(myPets.length > 0 && user.defaultPetId === 0) {
+            const copy = {...user};
+            copy.defaultPetId = myPets[0].id
+            UserRepository.get(getCurrentUser().id).then((data) => {
+                history.push(history.location.pathname, data);
+            });
         }
-    }, [user]);
-
-    
-    const addPet = () => {
-        history.push("/mypets/add");
-    };
-
+    },[myPets])
 
     return (
         <Container maxWidth="lg">
             {myPets.length !== 0 ? (
                 <Grid container spacing={2} sx={{ justifyContent: "center" }}>
-                    <Grid item sm={6}>
-                        <Pet pet={defaultPet} />
-                    </Grid>
                     <Grid item sm={12}>
                         <DashboardNotes user={user} />
                     </Grid>
-                    <Grid item sm={6}>
-                        <ContactList dashboardView={dashboardView} />
+                    <Grid item sm={12}>
+                        <DashboardContacts user={user} />
                     </Grid>
                     <Grid item sm={12}>
-                        <DashboardIncidents myPets={myPets}/>
+                        <DashboardIncidents myPets={myPets} />
                     </Grid>
                     <Grid item sm={12}>
-                        <DashboardMedications myPets={myPets}/>
+                        <DashboardMedications myPets={myPets} />
                     </Grid>
                     <Grid item sm={12}>
-                        <DashboardVaccinations myPets={myPets}/>
+                        <DashboardVaccinations myPets={myPets} />
                     </Grid>
                     <Grid item sm={12}>
-                        <DashboardVetVisits myPets={myPets}/>
+                        <DashboardVetVisits myPets={myPets} />
                     </Grid>
                 </Grid>
             ) : (
@@ -74,9 +66,7 @@ export const Dashboard = () => {
                     <Typography>
                         Looks like you don't have a pet added yet!
                     </Typography>
-                    <Button variant="contained" onClick={addPet}>
-                        Add a pet
-                    </Button>
+                    <PetAddDialog userId={getCurrentUser().id} syncPets={syncPets} sexes={sexes} />
                 </>
             )}
         </Container>

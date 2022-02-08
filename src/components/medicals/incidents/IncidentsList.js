@@ -1,30 +1,30 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
-import { Incident } from "../../medicals/incidents/Incident";
+import { Incident } from "./Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import { AddIncidentDialog } from "./AddIncidentDialog";
 import Typography from "@mui/material/Typography";
 
-export const DashboardIncidents = ({ myPets }) => {
+export const IncidentsList = ({ pet }) => {
     const [myPetsIncidents, setMyPetsIncidents] = useState([]);
     const [incidentTypes, setIncidentTypes] = useState([]);
     const [expanded, setExpanded] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const syncIncidents = () => {
-        const incidentsOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
-                data = data.filter((incident) => incident.starred);
-                incidentsOfAllPets.push(...data);
-            });
+        MedicalRepository.getAllIncidentsByPet(pet?.id).then((data) => {
+            setMyPetsIncidents(data);
         });
-        setMyPetsIncidents(incidentsOfAllPets);
     };
 
     useEffect(() => {
         syncIncidents();
-    }, []);
+        return () => {
+            setMyPetsIncidents([]);
+        };
+    }, [pet]);
 
     useEffect(() => {
         MedicalRepository.getAllIncidentTypes().then((data) =>
@@ -38,10 +38,17 @@ export const DashboardIncidents = ({ myPets }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h5" gutterBottom align="center">
-                Incidents
-            </Typography>
             <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom align="center">
+                    Incidents
+                </Typography>
+                <AddIncidentDialog
+                    pet={pet}
+                    open={open}
+                    setOpen={setOpen}
+                    incidentTypes={incidentTypes}
+                    syncIncidents={syncIncidents}
+                />
                 {myPetsIncidents.map((incident) => (
                     <Incident
                         key={incident.id}
@@ -50,7 +57,6 @@ export const DashboardIncidents = ({ myPets }) => {
                         handleChange={handleChange}
                         expanded={expanded}
                         incidentTypes={incidentTypes}
-                        dashboardView={true}
                     />
                 ))}
             </Box>

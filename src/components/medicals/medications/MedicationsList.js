@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
+import { Medication } from "./Medication";
+import { AddMedicationDialog } from "./AddMedicationDialog";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { Medication } from "../../medicals/medications/Medication";
 
-export const DashboardMedications = ({ myPets }) => {
-    const [myPetsMedications, setMyPetsMedications] = useState([]);
+export const MedicationsList = ({ pet, dashboardView }) => {
+    const [myPetMedications, setMyPetMedications] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncPetMedications = () => {
-        const medsOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
-                data = data.filter((med) => med.starred);
-                medsOfAllPets.push(...data);
-            });
+        MedicalRepository.getMedicationsByPet(pet?.id).then((data) => {
+            if (dashboardView) {
+                data = data.filter((petMed) => petMed.starred);
+            }
+            setMyPetMedications(data);
         });
-        setMyPetsMedications(medsOfAllPets);
     };
 
     useEffect(() => {
         syncPetMedications();
-    }, []);
+        return () => {
+            setMyPetMedications([]);
+        };
+    }, [pet]);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -31,18 +33,21 @@ export const DashboardMedications = ({ myPets }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h5" gutterBottom align="center">
-                Medications
-            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                {myPetsMedications.map((myPetMed) => (
+                <Typography variant="h5" gutterBottom align="center">
+                    Medications
+                </Typography>
+                <AddMedicationDialog
+                    syncPetMedications={syncPetMedications}
+                    pet={pet}
+                />
+                {myPetMedications.map((myPetMed) => (
                     <Medication
                         key={myPetMed.id}
                         myPetMed={myPetMed}
                         syncPetMedications={syncPetMedications}
                         handleChange={handleChange}
                         expanded={expanded}
-                        dashboardView={true}
                     />
                 ))}
             </Box>

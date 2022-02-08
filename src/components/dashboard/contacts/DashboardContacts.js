@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import ContactsRepository from "../../repositories/ContactsRepository";
-import { Contact } from "./Contact";
-import { ContactsAddDialog } from "./ContactsAddDialog";
+import ContactsRepository from "../../../repositories/ContactsRepository";
+import { Contact } from "../../contacts/Contact";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-
-export const ContactList = () => {
+export const DashboardContacts = ({ user }) => {
     const [myContacts, setMyContacts] = useState([]);
     const [contactsTypes, setContactsTypes] = useState([]);
-    const { getCurrentUser } = useSimpleAuth();
     const [expanded, setExpanded] = useState(false);
 
     const syncMyContacts = () => {
-        ContactsRepository.findContactsByUser(getCurrentUser().id).then(
-            (data) => setMyContacts(data)
+        ContactsRepository.findStarredContactsByUser(user.id).then((data) =>
+            setMyContacts(data)
         );
     };
 
@@ -34,14 +30,9 @@ export const ContactList = () => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h1" gutterBottom align="center" fontSize="3em">
+            <Typography variant="h5" gutterBottom align="center">
                 My Contacts
             </Typography>
-            <ContactsAddDialog
-                userId={getCurrentUser().id}
-                syncMyContacts={syncMyContacts}
-                contactsTypes={contactsTypes}
-            />
             <Box>
                 {myContacts.map((contact) => {
                     return (
@@ -50,7 +41,7 @@ export const ContactList = () => {
                             handleChange={handleChange}
                             expanded={expanded}
                             key={contact.id}
-                            syncMyContacts={syncMyContacts}
+                            setMyContacts={setMyContacts}
                             contactsTypes={contactsTypes}
                         />
                     );

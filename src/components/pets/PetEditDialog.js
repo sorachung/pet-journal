@@ -1,61 +1,46 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import PetRepository from "../../repositories/PetRepository";
 
-import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
 import Input from "@mui/material/Input";
-import Button from "@mui/material/Button";
-import { useHistory } from "react-router-dom";
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import { useParams } from "react-router-dom";
 
-export const EditPetForm = () => {
-    const { resolveResource, resource: currentPet } = useResourceResolver();
-    const { petId } = useParams();
+export const PetEditDialog = ({ pet, syncPets, open, setOpen, sexes }) => {
+    
     const [species, setSpecies] = useState([]);
-    const [editedPet, updateEditedPet] = useState({});
-    const history = useHistory();
-
-    useEffect(() => {
-        resolveResource(null, petId, PetRepository.getExpandAll);
-    }, []);
+    const [editedPet, updateEditedPet] = useState(pet);
 
     useEffect(() => {
         PetRepository.getSpecies().then((data) => setSpecies(data));
     }, []);
 
-    useEffect(() => {
-        const copy = { ...currentPet };
+    const editPet = (event) => {
+        event.preventDefault();
+        handleClose();
+        const copy = { ...editedPet };
         delete copy.specie;
         delete copy.user;
         delete copy.sex;
-        updateEditedPet(copy);
-    }, [currentPet]);
+        PetRepository.editPet(copy).then(() => syncPets());
+    };
 
-    const editPet = (event) => {
-        event.preventDefault();
-        PetRepository.editPet(editedPet).then(() => {
-            history.push("/mypets");
-        });
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
-        <Box
-            component="div"
-            sx={{
-                "& .MuiTextField-root": { m: 1, width: "25ch" },
-                display: "flex",
-                flexDirection: "column",
-            }}
-            noValidate
-        >
-            {editedPet.hasOwnProperty("id") ? (
-                <form onSubmit={editPet}>
+        <Dialog open={open} onClose={handleClose}>
+            <form onSubmit={editPet}>
+                <DialogTitle>Edit Pet</DialogTitle>
+                <DialogContent>
                     <TextField
                         autoFocus
                         required
@@ -118,15 +103,11 @@ export const EditPetForm = () => {
                                 updateEditedPet(copy);
                             }}
                         >
-                            <MenuItem key={`female`} value={1}>
-                                Female
-                            </MenuItem>
-                            <MenuItem key={`male`} value={2}>
-                                Male
-                            </MenuItem>
-                            <MenuItem key={`other`} value={3}>
-                                Other
-                            </MenuItem>
+                            {sexes?.map((sex) => (
+                                <MenuItem key={sex.id} value={sex.id}>
+                                    {sex.label}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                     <FormControl sx={{ m: 1, minWidth: 225 }}>
@@ -159,13 +140,14 @@ export const EditPetForm = () => {
                             updateEditedPet(copy);
                         }}
                     />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
                     <Button variant="contained" type="submit">
                         Save
                     </Button>
-                </form>
-            ) : (
-                ""
-            )}
-        </Box>
+                </DialogActions>
+            </form>
+        </Dialog>
     );
 };

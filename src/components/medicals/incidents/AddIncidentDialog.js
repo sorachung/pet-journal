@@ -1,18 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import useResourceResolver from "../../hooks/resource/useResourceResolver";
-import PetRepository from "../../repositories/PetRepository";
-import MedicalRepository from "../../repositories/MedicalRepository";
-import { Incident } from "./Incident";
+import React, { useState } from "react";
+import MedicalRepository from "../../../repositories/MedicalRepository";
 
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import CardHeader from "@mui/material/CardHeader";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -23,34 +12,16 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-export const IncidentsList = ({ pet, dashboardView }) => {
-    const [myPetsIncidents, setMyPetsIncidents] = useState([]);
-    const [incidentTypes, setIncidentTypes] = useState([]);
-    const [newPetIncident, setNewPetIncident] = useState({incidentTypeId:""});
-    const [expanded, setExpanded] = useState(false);
-    const [open, setOpen] = useState(false);
-
-    const syncIncidents = () => {
-        MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
-            if (dashboardView) {
-                data = data.filter((incident) => incident.starred);
-            }
-            setMyPetsIncidents(data);
-        });
-    };
-
-    useEffect(() => {
-        syncIncidents();
-        return () => {
-            setMyPetsIncidents([]);
-        };
-    }, [pet]);
-
-    useEffect(() => {
-        MedicalRepository.getAllIncidentTypes().then((data) =>
-            setIncidentTypes(data)
-        );
-    }, []);
+export const AddIncidentDialog = ({
+    pet,
+    open,
+    setOpen,
+    syncIncidents,
+    incidentTypes,
+}) => {
+    const [newPetIncident, setNewPetIncident] = useState({
+        incidentTypeId: "",
+    });
 
     const addPetIncident = (event) => {
         event.preventDefault();
@@ -61,41 +32,23 @@ export const IncidentsList = ({ pet, dashboardView }) => {
         MedicalRepository.addIncident(copy).then(() => syncIncidents());
     };
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleClose = () => {
+        setOpen(false);
     };
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Incidents" />
-                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
-                            Add incident
-                        </Button>
-                        {myPetsIncidents.map((incident) => (
-                            <Incident
-                                key={incident.id}
-                                incident={incident}
-                                syncIncidents={syncIncidents}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                incidentTypes={incidentTypes}
-                            />
-                        ))}
-                    </CardContent>
-                    <CardActions></CardActions>
-                </Card>
-            </Box>
+        <>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+                sx={{ marginBottom: "2em" }}
+            >
+                Add incident
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetIncident}>
                     <DialogTitle>Add Incident Record</DialogTitle>
@@ -171,6 +124,6 @@ export const IncidentsList = ({ pet, dashboardView }) => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </Container>
+        </>
     );
 };

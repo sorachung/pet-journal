@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MedicalRepository from "../../repositories/MedicalRepository";
+import MedicalRepository from "../../../repositories/MedicalRepository";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
@@ -19,27 +19,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 
-export const MedicationsList = ({ pet, dashboardView }) => {
-    const [myPetMedications, setMyPetMedications] = useState([]);
+export const AddMedicationDialog = ({ pet, syncPetMedications }) => {
     const [newPetMed, setNewPetMed] = useState({ isCurrent: false });
-    const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
 
-    const syncPetMedications = () => {
-        MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
-            if (dashboardView) {
-                data = data.filter((petMed) => petMed.starred);
-            }
-            setMyPetMedications(data);
-        });
-    };
-
-    useEffect(() => {
-        syncPetMedications();
-        return () => {
-            setMyPetMedications([]);
-        };
-    }, [pet]);
 
     const addPetMed = (event) => {
         event.preventDefault();
@@ -52,10 +35,6 @@ export const MedicationsList = ({ pet, dashboardView }) => {
         );
     };
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -65,26 +44,14 @@ export const MedicationsList = ({ pet, dashboardView }) => {
     };
 
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Medications" />
-                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
-                            Add med
-                        </Button>
-                        {myPetMedications.map((myPetMed) => (
-                            <Medication
-                                key={myPetMed.id}
-                                myPetMed={myPetMed}
-                                syncPetMedications={syncPetMedications}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
-            </Box>
+        <>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+                sx={{ marginBottom: "2em" }}
+            >
+                Add med
+            </Button>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetMed}>
                     <DialogTitle>Add Medication Record</DialogTitle>
@@ -132,6 +99,6 @@ export const MedicationsList = ({ pet, dashboardView }) => {
                     </DialogActions>
                 </form>
             </Dialog>
-        </Container>
+        </>
     );
 };

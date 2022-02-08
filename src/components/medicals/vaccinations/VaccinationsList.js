@@ -1,28 +1,34 @@
 import React, { useEffect, useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
-import { Vaccination } from "../../medicals/vaccinations/Vaccination";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { Vaccination } from "./Vaccination";
+import { AddVaccinationDialog } from "./AddVaccinationDialog";
 
-export const DashboardVaccinations = ({ myPets }) => {
-    const [myPetsVax, setMyPetsVax] = useState([]);
+export const VaccinationsList = ({ pet }) => {
+    const [myPetVax, setMyPetVax] = useState([]);
+    const [vaccinations, setVaccinations] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncPetVax = () => {
-        const vaxOfAllPets = [];
-        myPets.forEach((pet) => {
-            MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
-                data = data.filter((vax) => vax.starred);
-                vaxOfAllPets.push(...data);
-            });
+        MedicalRepository.getPetVaccinationsByPet(pet?.id).then((data) => {
+            setMyPetVax(data);
         });
-        setMyPetsVax(vaxOfAllPets);
     };
 
     useEffect(() => {
         syncPetVax();
+        return () => {
+            setMyPetVax([]);
+        };
+    }, [pet]);
+
+    useEffect(() => {
+        MedicalRepository.getAllVaccinations().then((data) =>
+            setVaccinations(data)
+        );
     }, []);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -31,18 +37,22 @@ export const DashboardVaccinations = ({ myPets }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h5" gutterBottom align="center">
-                Vaccinations
-            </Typography>
             <Box sx={{ textAlign: "center" }}>
-                {myPetsVax.map((petVax) => (
+                <Typography variant="h5" gutterBottom align="center">
+                    Vaccinations
+                </Typography>
+                <AddVaccinationDialog
+                    vaccinations={vaccinations}
+                    pet={pet}
+                    syncPetVax={syncPetVax}
+                />
+                {myPetVax.map((petVax) => (
                     <Vaccination
                         key={petVax.id}
                         petVax={petVax}
                         syncPetVax={syncPetVax}
                         handleChange={handleChange}
                         expanded={expanded}
-                        dashboardView={true}
                     />
                 ))}
             </Box>

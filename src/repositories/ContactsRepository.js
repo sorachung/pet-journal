@@ -20,16 +20,14 @@ export default {
     async findContactsByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/contacts?userId=${userId}&_expand=contactsType`)
     },
+    async findStarredContactsByUser(userId) {
+        return await fetchIt(`${Settings.remoteURL}/contacts?userId=${userId}&starred=true&_expand=contactsType`)
+    },
     async delete(id) {
         return await fetchIt(`${Settings.remoteURL}/contacts/${id}`, "DELETE")
     },
-    async getAll() {
-        return await fetchIt(`${Settings.remoteURL}/contacts`)
-    },
-    async getAllExpandAll() {
-        return await fetchIt(`${Settings.remoteURL}/contacts?_expand=user&_expand=contactsType`)
-    },
 
+    //get contacts types - ie vet, shop, groomer, etc
     async getContactsTypes() {
         return await fetchIt(`${Settings.remoteURL}/contactsTypes`)
     },
