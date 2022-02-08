@@ -18,7 +18,6 @@ import { PetAddDialog } from "../pets/PetAddDialog";
 
 export const Dashboard = () => {
     const [user, setUser] = useState();
-    const [defaultPet, setDefaultPet] = useState({});
     const [myPets, setMyPets] = useState([]);
     const { getCurrentUser } = useSimpleAuth();
     const history = useHistory();
@@ -38,6 +37,7 @@ export const Dashboard = () => {
         syncPets();
     }, []);
 
+    // set defaultPetId for user if user adds a first pet
     useEffect(() => {
         if(myPets.length > 0 && user.defaultPetId === 0) {
             const copy = {...user};

@@ -94,11 +94,13 @@ export const Navbar = () => {
     const [anchorElPet, setAnchorElPet] = useState(null);
     const [myPets, setMyPets] = useState([]);
     const [defaultPet, setDefaultPet] = useState({});
+    const [defaultPetId, setDefaultPetId] = useState(0);
     const history = useHistory();
 
     const syncUser = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
             updateUser(data);
+            setDefaultPetId(data.defaultPetId)
             history.push(history.location.pathname, data);
         });
     };
@@ -106,7 +108,7 @@ export const Navbar = () => {
     const syncPets = () => {
         PetRepository.getAllExpandAllByUser(user.id).then((data) => {
             data.sort((el1) => {
-                if (el1.id === user.defaultPetId) {
+                if (el1.id === history.location.state.defaultPetId) {
                     return -1;
                 }
             });
@@ -123,8 +125,16 @@ export const Navbar = () => {
     }, [user]);
 
     useEffect(() => {
-        setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
-    }, [myPets]);
+        setDefaultPet(myPets.find((pet) => defaultPetId === pet.id));
+    }, [myPets, defaultPetId]);
+
+    //for updating default pet's name on navbar
+    useEffect(() => {
+        if(history.location.state) {
+            setDefaultPetId(history.location.state.defaultPetId)
+            syncPets()
+        }
+    }, [history.location.state]);
 
     const changeDefaultPet = (event) => {
         const copy = { ...user };
