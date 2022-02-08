@@ -40,7 +40,8 @@ export const Vaccination = ({
         event.stopPropagation();
         const copy = { ...petVax };
         copy.starred = !petVax.starred;
-        delete copy.incidentType;
+        delete copy.vaccination;
+        delete copy.pet;
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 

@@ -16,7 +16,9 @@ export const EditMedicationDialog = ({ open, setOpen, syncPetMedications, myPetM
     const editPetMed = (event) => {
         event.preventDefault();
         handleClose();
-        MedicalRepository.editPetMedication(editedMed).then(() =>
+        const copy = {...editedMed}
+        delete copy.pet
+        MedicalRepository.editPetMedication(copy).then(() =>
             syncPetMedications()
         );
     };

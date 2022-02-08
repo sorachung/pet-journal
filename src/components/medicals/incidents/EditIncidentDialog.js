@@ -29,6 +29,7 @@ export const EditIncidentDialog = ({
         handleClose();
         const copy = { ...editedIncident };
         delete copy.incidentType;
+        delete copy.pet;
         MedicalRepository.editIncident(copy).then(() => syncIncidents());
     };
 
