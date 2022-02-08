@@ -4,12 +4,8 @@ import { Incident } from "./Incident";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
-import CardHeader from "@mui/material/CardHeader";
 import { AddIncidentDialog } from "./AddIncidentDialog";
+import Typography from "@mui/material/Typography";
 
 export const IncidentsList = ({ pet }) => {
     const [myPetsIncidents, setMyPetsIncidents] = useState([]);
@@ -40,38 +36,30 @@ export const IncidentsList = ({ pet }) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Incidents" />
-                        <Button variant="contained" onClick={handleClickOpen} sx={{marginBottom: "2em"}}>
-                            Add incident
-                        </Button>
-                        {myPetsIncidents.map((incident) => (
-                            <Incident
-                                key={incident.id}
-                                incident={incident}
-                                syncIncidents={syncIncidents}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                                incidentTypes={incidentTypes}
-                            />
-                        ))}
-                    </CardContent>
-                    <CardActions></CardActions>
-                </Card>
+                <Typography variant="h5" gutterBottom align="center">
+                    Incidents
+                </Typography>
+                <AddIncidentDialog
+                    pet={pet}
+                    open={open}
+                    setOpen={setOpen}
+                    incidentTypes={incidentTypes}
+                    syncIncidents={syncIncidents}
+                />
+                {myPetsIncidents.map((incident) => (
+                    <Incident
+                        key={incident.id}
+                        incident={incident}
+                        syncIncidents={syncIncidents}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                        incidentTypes={incidentTypes}
+                    />
+                ))}
             </Box>
-            <AddIncidentDialog pet={pet} open={open} setOpen={setOpen} incidentTypes={incidentTypes} syncIncidents={syncIncidents}/>
         </Container>
     );
 };

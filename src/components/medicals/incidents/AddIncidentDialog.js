@@ -12,7 +12,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 
-export const AddIncidentDialog = ({ pet, open, setOpen, syncIncidents, incidentTypes }) => {
+export const AddIncidentDialog = ({
+    pet,
+    open,
+    setOpen,
+    syncIncidents,
+    incidentTypes,
+}) => {
     const [newPetIncident, setNewPetIncident] = useState({
         incidentTypeId: "",
     });
@@ -30,81 +36,94 @@ export const AddIncidentDialog = ({ pet, open, setOpen, syncIncidents, incidentT
         setOpen(false);
     };
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
     return (
-        <Dialog open={open} onClose={handleClose}>
-            <form onSubmit={addPetIncident}>
-                <DialogTitle>Add Incident Record</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="name"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetIncident };
-                            copy.name = event.target.value;
-                            setNewPetIncident(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="description"
-                        label="description"
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...newPetIncident };
-                            copy.description = event.target.value;
-                            setNewPetIncident(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="date"
-                        label="date"
-                        InputLabelProps={{ shrink: true }}
-                        required
-                        type="date"
-                        onChange={(event) => {
-                            const copy = { ...newPetIncident };
-                            copy.date = event.target.value;
-                            setNewPetIncident(copy);
-                        }}
-                    />
-                    <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="incident-type">
-                            Incident type
-                        </InputLabel>
-                        <Select
-                            labelId="incident-type-label"
-                            id="incident-type"
-                            value={newPetIncident.incidentTypeId}
-                            label="incident-type"
+        <>
+            <Button
+                variant="contained"
+                onClick={handleClickOpen}
+                sx={{ marginBottom: "2em" }}
+            >
+                Add incident
+            </Button>
+            <Dialog open={open} onClose={handleClose}>
+                <form onSubmit={addPetIncident}>
+                    <DialogTitle>Add Incident Record</DialogTitle>
+                    <DialogContent>
+                        <TextField
+                            margin="dense"
+                            id="name"
+                            label="name"
+                            required
+                            type="text"
                             onChange={(event) => {
                                 const copy = { ...newPetIncident };
-                                copy.incidentTypeId = parseInt(
-                                    event.target.value
-                                );
+                                copy.name = event.target.value;
                                 setNewPetIncident(copy);
                             }}
-                        >
-                            {incidentTypes.map((type) => (
-                                <MenuItem
-                                    key={`incident-type--${type.id}`}
-                                    value={type.id}
-                                >
-                                    {type.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Save</Button>
-                </DialogActions>
-            </form>
-        </Dialog>
+                        />
+                        <TextField
+                            margin="dense"
+                            id="description"
+                            label="description"
+                            required
+                            type="text"
+                            onChange={(event) => {
+                                const copy = { ...newPetIncident };
+                                copy.description = event.target.value;
+                                setNewPetIncident(copy);
+                            }}
+                        />
+                        <TextField
+                            margin="dense"
+                            id="date"
+                            label="date"
+                            InputLabelProps={{ shrink: true }}
+                            required
+                            type="date"
+                            onChange={(event) => {
+                                const copy = { ...newPetIncident };
+                                copy.date = event.target.value;
+                                setNewPetIncident(copy);
+                            }}
+                        />
+                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
+                            <InputLabel id="incident-type">
+                                Incident type
+                            </InputLabel>
+                            <Select
+                                labelId="incident-type-label"
+                                id="incident-type"
+                                value={newPetIncident.incidentTypeId}
+                                label="incident-type"
+                                onChange={(event) => {
+                                    const copy = { ...newPetIncident };
+                                    copy.incidentTypeId = parseInt(
+                                        event.target.value
+                                    );
+                                    setNewPetIncident(copy);
+                                }}
+                            >
+                                {incidentTypes.map((type) => (
+                                    <MenuItem
+                                        key={`incident-type--${type.id}`}
+                                        value={type.id}
+                                    >
+                                        {type.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose}>Cancel</Button>
+                        <Button type="submit">Save</Button>
+                    </DialogActions>
+                </form>
+            </Dialog>
+        </>
     );
 };
