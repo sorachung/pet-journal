@@ -5,9 +5,6 @@ import { AddMedicationDialog } from "./AddMedicationDialog";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
 
 export const MedicationsList = ({ pet, dashboardView }) => {
@@ -44,21 +41,15 @@ export const MedicationsList = ({ pet, dashboardView }) => {
                     syncPetMedications={syncPetMedications}
                     pet={pet}
                 />
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Medications" />
-
-                        {myPetMedications.map((myPetMed) => (
-                            <Medication
-                                key={myPetMed.id}
-                                myPetMed={myPetMed}
-                                syncPetMedications={syncPetMedications}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
+                {myPetMedications.map((myPetMed) => (
+                    <Medication
+                        key={myPetMed.id}
+                        myPetMed={myPetMed}
+                        syncPetMedications={syncPetMedications}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                    />
+                ))}
             </Box>
         </Container>
     );
