@@ -60,9 +60,7 @@ export const MedicalRoutes = () => {
     }, []);
 
     useEffect(() => {
-        UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data);
-        });
+        syncUser();
     }, [history.location.state]);
 
     return (

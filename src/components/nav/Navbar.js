@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
-import PetRepository from "../../repositories/PetRepository";
 import UserRepository from "../../repositories/UserRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -19,25 +17,6 @@ import { useHistory } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
 
 const drawerWidth = 240;
-
-const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create("margin", {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-            transition: theme.transitions.create("margin", {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-        }),
-    })
-);
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
@@ -85,62 +64,12 @@ function stringAvatar(name) {
     };
 }
 
-export const Navbar = () => {
+export const Navbar = ({user, pet, myPets, open, setOpen, syncUser}) => {
     const { logout, getCurrentUser } = useSimpleAuth();
-    const [user, updateUser] = useState({});
     const theme = useTheme();
-    const [open, setOpen] = useState(false);
     const [anchorElUser, setAnchorElUser] = useState(null);
     const [anchorElPet, setAnchorElPet] = useState(null);
-    const [myPets, setMyPets] = useState([]);
-    const [defaultPet, setDefaultPet] = useState({});
-    const [defaultPetId, setDefaultPetId] = useState(0);
     const history = useHistory();
-
-    const syncUser = () => {
-        UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data);
-            setDefaultPetId(data.defaultPetId)
-            history.push(history.location.pathname, data);
-        });
-    };
-
-    const syncPets = () => {
-        PetRepository.getAllExpandAllByUser(user.id).then((data) => {
-            data.sort((el1) => {
-                if (el1.id === history.location.state.defaultPetId) {
-                    return -1;
-                }
-            });
-            setMyPets(data);
-        });
-    };
-
-    useEffect(() => {
-        syncUser();
-    }, []);
-
-    useEffect(() => {
-        syncPets();
-    }, [user]);
-
-    useEffect(() => {
-        setDefaultPet(myPets.find((pet) => defaultPetId === pet.id));
-    }, [myPets, defaultPetId]);
-
-    //for updating default pet's name on navbar
-    useEffect(() => {
-        if(history.location.state) {
-            setDefaultPetId(history.location.state.defaultPetId)
-            syncPets()
-        }
-    }, [history.location.state]);
-
-    const changeDefaultPet = (event) => {
-        const copy = { ...user };
-        copy.defaultPetId = parseInt(event.target.id);
-        UserRepository.editAccount(copy).then(() => syncUser());
-    };
 
     // functions for ui
     const handleDrawerOpen = () => {
@@ -163,117 +92,121 @@ export const Navbar = () => {
         setAnchorElPet(null);
     };
 
+    const changeDefaultPet = (event) => {
+        const copy = { ...user };
+        copy.defaultPetId = parseInt(event.target.id);
+        UserRepository.editAccount(copy).then(() => syncUser());
+    };
+
     return (
-        <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <AppBar position="static" open={open}>
-                <Toolbar
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                >
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={handleDrawerOpen}
-                            edge="start"
-                            sx={{ mr: 2, ...(open && { display: "none" }) }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="h6" noWrap component="div" onClick={() => history.push()}>
-                            Pet Journal
-                        </Typography>
-                    </Box>
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+        <AppBar position="fixed" open={open} >
+            <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={handleDrawerOpen}
+                        edge="start"
+                        sx={{ mr: 2, ...(open && { display: "none" }) }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        onClick={() => history.push()}
+                    >
+                        Pet Journal
+                    </Typography>
+                </Box>
+                <Box sx={{ display: "flex", alignItems: "center" }}>
                     <Typography variant="h6" noWrap component="div">
-                            {defaultPet?.name}
-                        </Typography>
-                        <Box sx={{ flexGrow: 0, mr: "2em", ml: "1em" }}>
-                            <Tooltip title="Open pets">
-                                <IconButton
-                                    onClick={handleOpenPetMenu}
-                                    sx={{ p: 0 }}
-                                >
-                                    <PetsIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: "45px" }}
-                                id="menu-appbar"
-                                anchorEl={anchorElPet}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                open={Boolean(anchorElPet)}
-                                onClose={handleClosePetMenu}
+                        {pet?.name}
+                    </Typography>
+                    <Box sx={{ flexGrow: 0, mr: "2em", ml: "1em" }}>
+                        <Tooltip title="Open pets">
+                            <IconButton
+                                onClick={handleOpenPetMenu}
+                                sx={{ p: 0 }}
                             >
-                                {myPets.map((pet) => (
-                                    <MenuItem
-                                        key={pet.name}
-                                        id={pet.id}
-                                        onClick={(event) => {
-                                            handleClosePetMenu();
-                                            changeDefaultPet(event);
-                                        }}
-                                    >
-                                        {pet.name}
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                        
-                        <Box sx={{ flexGrow: 0 }}>
-                            <Tooltip title="Open profile pages">
-                                <IconButton
-                                    onClick={handleOpenUserMenu}
-                                    sx={{ p: 0 }}
-                                >
-                                    <Avatar
-                                        {...stringAvatar(getCurrentUser().name)}
-                                    />
-                                </IconButton>
-                            </Tooltip>
-                            <Menu
-                                sx={{ mt: "45px" }}
-                                id="menu-appbar"
-                                anchorEl={anchorElUser}
-                                anchorOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: "top",
-                                    horizontal: "right",
-                                }}
-                                open={Boolean(anchorElUser)}
-                                onClose={handleCloseUserMenu}
-                            >
+                                <PetsIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: "45px" }}
+                            id="menu-appbar"
+                            anchorEl={anchorElPet}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElPet)}
+                            onClose={handleClosePetMenu}
+                        >
+                            {myPets.map((myPet) => (
                                 <MenuItem
-                                    key="logout"
-                                    onClick={() => {
-                                        handleCloseUserMenu();
-                                        logout();
-                                        history.push("/login");
+                                    key={myPet.name}
+                                    id={myPet.id}
+                                    onClick={(event) => {
+                                        handleClosePetMenu();
+                                        changeDefaultPet(event);
                                     }}
                                 >
-                                    <Typography textAlign="center">
-                                        Logout
-                                    </Typography>
+                                    {myPet.name}
                                 </MenuItem>
-                            </Menu>
-                        </Box>
+                            ))}
+                        </Menu>
                     </Box>
-                </Toolbar>
-            </AppBar>
-            <Sidebar open={open} setOpen={setOpen}/>
-            <Main open={open}></Main>
-        </Box>
+
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open profile pages">
+                            <IconButton
+                                onClick={handleOpenUserMenu}
+                                sx={{ p: 0 }}
+                            >
+                                <Avatar
+                                    {...stringAvatar(getCurrentUser().name)}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: "45px" }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: "top",
+                                horizontal: "right",
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            <MenuItem
+                                key="logout"
+                                onClick={() => {
+                                    handleCloseUserMenu();
+                                    logout();
+                                    history.push("/login");
+                                }}
+                            >
+                                <Typography textAlign="center">
+                                    Logout
+                                </Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                </Box>
+            </Toolbar>
+        </AppBar>
     );
 };

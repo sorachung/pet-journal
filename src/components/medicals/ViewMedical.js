@@ -75,16 +75,16 @@ export const ViewMedical = ({dashboardView}) => {
                     </Grid>}
                     
                     <Grid item xs={12} key={`medications`}>
-                        <MedicationsList pet={defaultPet} dashboardView={dashboardView}/>
+                        <MedicationsList pet={defaultPet} />
                     </Grid>
                     <Grid item xs={12} key={`vaccinations`}>
-                        <VaccinationsList pet={defaultPet} dashboardView={dashboardView}/>
+                        <VaccinationsList pet={defaultPet} />
                     </Grid>
                     <Grid item xs={12} key={`incidentsList`}>
-                        <IncidentsList pet={defaultPet} dashboardView={dashboardView}/>
+                        <IncidentsList pet={defaultPet} />
                     </Grid>
                     <Grid item xs={12} key={`vetVisitsList`}>
-                        <VetVisitsList pet={defaultPet} dashboardView={dashboardView}/>
+                        <VetVisitsList pet={defaultPet} />
                     </Grid>
                 </Grid>
             : ""}

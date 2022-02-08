@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
+import React, { useState } from "react";
 import PetRepository from "../../repositories/PetRepository";
 import { useHistory } from "react-router-dom";
 
@@ -15,7 +14,6 @@ import UserRepository from "../../repositories/UserRepository";
 
 export const Pet = ({ pet, syncPets, user, updateUser }) => {
     const [open, setOpen] = useState(false);
-    const history = useHistory();
 
     const deletePet = () => {
         PetRepository.delete(pet.id).then(() => {
@@ -26,7 +24,6 @@ export const Pet = ({ pet, syncPets, user, updateUser }) => {
                 UserRepository.editAccount(copy)
                     .then(data => {
                         updateUser(data)
-                        history.push(history.location.pathname, data)
                     })
                 
             }

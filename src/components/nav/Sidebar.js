@@ -56,7 +56,7 @@ export const Sidebar = ({open, setOpen}) => {
                     boxSizing: "border-box",
                 },
             }}
-            variant="persistent"
+            variant="temporary"
             anchor="left"
             open={open}
         >
