@@ -15,7 +15,7 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
     const [expanded, setExpanded] = useState(false);
 
     const syncPetVax = () => {
-        MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
+        MedicalRepository.getPetVaccinationsByPet(pet?.id).then((data) => {
             if (dashboardView) {
                 data = data.filter((petVax) => petVax.starred);
             }
@@ -43,11 +43,15 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
-                <AddVaccinationDialog vaccinations={vaccinations} pet={pet} syncPetVax={syncPetVax} />
+                <AddVaccinationDialog
+                    vaccinations={vaccinations}
+                    pet={pet}
+                    syncPetVax={syncPetVax}
+                />
                 <Card sx={{ minWidth: 200 }}>
                     <CardContent>
                         <CardHeader title="Vaccinations" />
-                        
+
                         {myPetVax.map((petVax) => (
                             <Vaccination
                                 key={petVax.id}
@@ -60,7 +64,6 @@ export const VaccinationsList = ({ pet, dashboardView }) => {
                     </CardContent>
                 </Card>
             </Box>
-            
         </Container>
     );
 };

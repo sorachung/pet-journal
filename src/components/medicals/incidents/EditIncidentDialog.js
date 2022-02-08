@@ -81,7 +81,7 @@ export const EditIncidentDialog = ({
                         }}
                     />
                     <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                        <InputLabel id="shot-label">Incident type</InputLabel>
+                        <InputLabel id="incident-type-label">Incident type</InputLabel>
                         <Select
                             labelId="incident-type-label"
                             id="incident-type"

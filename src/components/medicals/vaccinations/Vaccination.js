@@ -11,27 +11,17 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { EditVaccinationDialog } from "./EditVaccinationDialog";
 
-export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded, dashboardView }) => {
-    const [editedPetVax, setEditedPetVax] = useState({});
+export const Vaccination = ({
+    petVax,
+    syncPetVax,
+    handleChange,
+    expanded,
+    dashboardView,
+}) => {
     const [vaccinations, setVaccinations] = useState([]);
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        setEditedPetVax(petVax);
-        return () => {
-            setEditedPetVax({});
-        };
-    }, [petVax]);
 
     useEffect(() => {
         MedicalRepository.getAllVaccinations().then((data) =>
@@ -46,30 +36,16 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded, dashbo
         );
     };
 
-    const editPetVax = (event) => {
-        event.preventDefault();
-        handleClose();
-        const copy = { ...editedPetVax };
-        delete copy.vaccination;
-        delete copy.pet;
-        MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
-    };
-
     const starUnstar = (event) => {
         event.stopPropagation();
-        const copy = { ...editedPetVax };
-        copy.starred = !editedPetVax.starred;
+        const copy = { ...petVax };
+        copy.starred = !petVax.starred;
         delete copy.incidentType;
-        setEditedPetVax(copy);
         MedicalRepository.editPetVaccination(copy).then(() => syncPetVax());
     };
 
     const handleClickOpen = () => {
         setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
     };
 
     return (
@@ -96,23 +72,26 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded, dashbo
                     >
                         {petVax.vaccination?.shot}
                     </Typography>
-                    {dashboardView ? <Typography
-                        sx={{
-                            width: "20%",
-                            flexShrink: 0,
-                            color: "text.secondary",
-                        }}
-                    >
-                        {petVax.pet.name}
-                    </Typography> : ""}
+                    {dashboardView ? (
+                        <Typography
+                            sx={{
+                                width: "20%",
+                                flexShrink: 0,
+                                color: "text.secondary",
+                            }}
+                        >
+                            {petVax.pet.name}
+                        </Typography>
+                    ) : (
+                        ""
+                    )}
                     <IconButton onClick={starUnstar}>
-                        {editedPetVax.starred ? (
-                            <StarIcon />
-                        ) : (
-                            <StarBorderIcon />
-                        )}
+                        {petVax.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deletePetVax} sx={{marginRight: "1em"}}>
+                    <IconButton
+                        onClick={deletePetVax}
+                        sx={{ marginRight: "1em" }}
+                    >
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
@@ -120,56 +99,13 @@ export const Vaccination = ({ petVax, syncPetVax, handleChange, expanded, dashbo
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
-            <Dialog open={open} onClose={handleClose}>
-                <form onSubmit={editPetVax}>
-                    <DialogTitle>Edit Vaccination Record</DialogTitle>
-                    <DialogContent>
-                        <TextField
-                            margin="dense"
-                            id="date"
-                            label="date"
-                            value={editedPetVax.date}
-                            required
-                            type="date"
-                            onChange={(event) => {
-                                const copy = { ...editedPetVax };
-                                copy.date = event.target.value;
-                                setEditedPetVax(copy);
-                            }}
-                        />
-
-                        <FormControl required sx={{ m: 1, minWidth: 225 }}>
-                            <InputLabel id="shot-label">Vaccination</InputLabel>
-                            <Select
-                                labelId="Vaccination-label"
-                                id="Vaccination"
-                                value={editedPetVax.vaccinationId}
-                                label="vaccination"
-                                onChange={(event) => {
-                                    const copy = { ...editedPetVax };
-                                    copy.vaccinationId = parseInt(
-                                        event.target.value
-                                    );
-                                    setEditedPetVax(copy);
-                                }}
-                            >
-                                {vaccinations.map((vax) => (
-                                    <MenuItem
-                                        key={`vaccination--${vax.id}`}
-                                        value={editedPetVax.vaccinationId}
-                                    >
-                                        {vax.shot}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose}>Cancel</Button>
-                        <Button type="submit">Save</Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
+            <EditVaccinationDialog
+                open={open}
+                setOpen={setOpen}
+                syncPetVax={syncPetVax}
+                petVax={petVax}
+                vaccinations={vaccinations}
+            />
         </>
     );
 };
