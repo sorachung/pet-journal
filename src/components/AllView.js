@@ -82,6 +82,7 @@ export const AllView = () => {
                     myPets={myPets}
                     setMyPets={setMyPets}
                     defaultPet={defaultPet}
+                    syncPets={syncPets}
                 />
             </Box>
         </Box>

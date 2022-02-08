@@ -3,7 +3,7 @@ import PetRepository from "../../repositories/PetRepository";
 import UserRepository from "../../repositories/UserRepository";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import { useHistory } from "react-router-dom";
-import { PetMedicalBio } from "./PetMedicalBio";
+import { PetMedicalBio } from "./bio/PetMedicalBio";
 import { IncidentsList } from "./IncidentsList";
 import { VetVisitsList } from "./VetVisitsList";
 
