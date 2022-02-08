@@ -3,9 +3,7 @@ import MedicalRepository from "../../../repositories/MedicalRepository";
 
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardHeader from "@mui/material/CardHeader";
+import Typography from "@mui/material/Typography";
 import { Vaccination } from "./Vaccination";
 import { AddVaccinationDialog } from "./AddVaccinationDialog";
 
@@ -40,26 +38,23 @@ export const VaccinationsList = ({ pet }) => {
     return (
         <Container maxWidth="lg">
             <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h5" gutterBottom align="center">
+                    Vaccinations
+                </Typography>
                 <AddVaccinationDialog
                     vaccinations={vaccinations}
                     pet={pet}
                     syncPetVax={syncPetVax}
                 />
-                <Card sx={{ minWidth: 200 }}>
-                    <CardContent>
-                        <CardHeader title="Vaccinations" />
-
-                        {myPetVax.map((petVax) => (
-                            <Vaccination
-                                key={petVax.id}
-                                petVax={petVax}
-                                syncPetVax={syncPetVax}
-                                handleChange={handleChange}
-                                expanded={expanded}
-                            />
-                        ))}
-                    </CardContent>
-                </Card>
+                {myPetVax.map((petVax) => (
+                    <Vaccination
+                        key={petVax.id}
+                        petVax={petVax}
+                        syncPetVax={syncPetVax}
+                        handleChange={handleChange}
+                        expanded={expanded}
+                    />
+                ))}
             </Box>
         </Container>
     );
