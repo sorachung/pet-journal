@@ -1,38 +1,21 @@
 import React, { useState, useEffect } from "react";
 import PetRepository from "../../repositories/PetRepository";
 import UserRepository from "../../repositories/UserRepository";
-import { Link } from "react-router-dom";
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Collapse from "@mui/material/Collapse";
-import ListItemButton from "@mui/material/ListItemButton";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import PetsIcon from "@mui/icons-material/Pets";
-import GridViewIcon from "@mui/icons-material/GridView";
-import HealingIcon from "@mui/icons-material/Healing";
-import ContactsIcon from "@mui/icons-material/Contacts";
 import Avatar from "@mui/material/Avatar";
 import Menu from "@mui/material/Menu";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useHistory } from "react-router-dom";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import StickyNote2Icon from '@mui/icons-material/StickyNote2';
 import { Sidebar } from "./Sidebar";
 
 const drawerWidth = 240;
@@ -73,15 +56,6 @@ const AppBar = styled(MuiAppBar, {
     }),
 }));
 
-const DrawerHeader = styled("div")(({ theme }) => ({
-    display: "flex",
-    alignItems: "center",
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
-}));
-
 function stringToColor(string) {
     let hash = 0;
     let i;
@@ -116,9 +90,8 @@ export const Navbar = () => {
     const [user, updateUser] = useState({});
     const theme = useTheme();
     const [open, setOpen] = useState(false);
-    const [openSub, setOpenSub] = useState(false);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const [anchorElPet, setAnchorElPet] = React.useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const [anchorElPet, setAnchorElPet] = useState(null);
     const [myPets, setMyPets] = useState([]);
     const [defaultPet, setDefaultPet] = useState({});
     const history = useHistory();
@@ -147,16 +120,10 @@ export const Navbar = () => {
 
     useEffect(() => {
         syncPets();
-        return () => {
-            setMyPets([]);
-        };
     }, [user]);
 
     useEffect(() => {
         setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
-        return () => {
-            setDefaultPet({});
-        };
     }, [myPets]);
 
     const changeDefaultPet = (event) => {
@@ -165,6 +132,7 @@ export const Navbar = () => {
         UserRepository.editAccount(copy).then(() => syncUser());
     };
 
+    // functions for ui
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -202,7 +170,7 @@ export const Navbar = () => {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" noWrap component="div">
+                        <Typography variant="h6" noWrap component="div" onClick={() => history.push()}>
                             Pet Journal
                         </Typography>
                     </Box>
