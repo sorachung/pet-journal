@@ -12,8 +12,9 @@ import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import { EditNoteDialog } from "./EditNoteDialog";
 
-export const Note = ({ note, syncNotes, open, setOpen }) => {
-    
+export const Note = ({ note, syncNotes }) => {
+    const [open, setOpen] = useState(false);
+
     const deleteNote = () => [
         NotesRepository.delete(note.id).then(() => syncNotes()),
     ];
