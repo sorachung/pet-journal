@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import useSimpleAuth from "../../../hooks/ui/useSimpleAuth";
 import MedicalRepository from "../../../repositories/MedicalRepository";
+import { EditMedicationDialog } from "./EditMedicationDialog";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -12,22 +12,14 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 
 export const Medication = ({
     myPetMed,
     syncPetMedications,
     handleChange,
     expanded,
-    dashboardView
+    dashboardView,
 }) => {
-    const [editedMed, setEditedMed] = useState(myPetMed);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {}, [myPetMed]);
@@ -39,20 +31,11 @@ export const Medication = ({
         );
     };
 
-    const editPetMed = (event) => {
-        event.preventDefault();
-        handleClose();
-        MedicalRepository.editPetMedication(editedMed).then(() =>
-            syncPetMedications()
-        );
-    };
-
     const starUnstar = (event) => {
         event.stopPropagation();
-        const copy = { ...editedMed };
-        copy.starred = !editedMed.starred;
+        const copy = { ...myPetMed };
+        copy.starred = !myPetMed.starred;
         delete copy.pet;
-        setEditedMed(copy);
         MedicalRepository.editPetMedication(copy).then(() =>
             syncPetMedications()
         );
@@ -62,13 +45,8 @@ export const Medication = ({
         setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
     return (
         <>
-            <Typography variant="string" color="text.secondary"></Typography>
             <Accordion
                 expanded={expanded === `panel${myPetMed.id}`}
                 onChange={handleChange(`panel${myPetMed.id}`)}
@@ -99,19 +77,26 @@ export const Medication = ({
                     >
                         Current? {myPetMed.isCurrent ? "Yes" : "No"}
                     </Typography>
-                    {dashboardView ? <Typography
-                        sx={{
-                            width: "10%",
-                            flexShrink: 0,
-                            color: "text.secondary",
-                        }}
-                    >
-                        {myPetMed.pet.name}
-                    </Typography> : ""}
+                    {dashboardView ? (
+                        <Typography
+                            sx={{
+                                width: "10%",
+                                flexShrink: 0,
+                                color: "text.secondary",
+                            }}
+                        >
+                            {myPetMed.pet.name}
+                        </Typography>
+                    ) : (
+                        ""
+                    )}
                     <IconButton onClick={starUnstar}>
-                        {editedMed.starred ? <StarIcon /> : <StarBorderIcon />}
+                        {myPetMed.starred ? <StarIcon /> : <StarBorderIcon />}
                     </IconButton>
-                    <IconButton onClick={deletePetMed} sx={{marginRight: "1em"}}>
+                    <IconButton
+                        onClick={deletePetMed}
+                        sx={{ marginRight: "1em" }}
+                    >
                         <DeleteIcon />
                     </IconButton>
                 </AccordionSummary>
@@ -119,60 +104,12 @@ export const Medication = ({
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
-            <Dialog open={open} onClose={handleClose}>
-            <form onSubmit={editPetMed}>
-                <DialogTitle>Edit Medication Record</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        margin="dense"
-                        id="name"
-                        label="name"
-                        value={editedMed.name}
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...editedMed };
-                            copy.name = event.target.value;
-                            setEditedMed(copy);
-                        }}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="dosage"
-                        label="dosage"
-                        value={editedMed.dosage}
-                        required
-                        type="text"
-                        onChange={(event) => {
-                            const copy = { ...editedMed };
-                            copy.dosage = event.target.value;
-                            setEditedMed(copy);
-                        }}
-                    />
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={editedMed.isCurrent}
-                                onChange={(event) => {
-                                    const copy = { ...editedMed };
-                                    copy.isCurrent = event.target.checked;
-                                    setEditedMed(copy);
-                                }}
-                            />
-                        }
-                        label="Is Current?"
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-type="submit"
-                    >
-                        Save
-                    </Button>
-                </DialogActions>
-                </form>
-            </Dialog>
+            <EditMedicationDialog
+                open={open}
+                setOpen={setOpen}
+                syncPetMedications={syncPetMedications}
+                myPetMed={myPetMed}
+            />
         </>
     );
 };
