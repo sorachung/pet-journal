@@ -120,19 +120,20 @@ export const Navbar = () => {
     const [anchorElPet, setAnchorElPet] = React.useState(null);
     const [myPets, setMyPets] = useState([]);
     const [defaultPet, setDefaultPet] = useState({});
+    const [defaultPetId, setDefaultPetId] = useState(0)
     const history = useHistory();
 
-    const syncUser = () => {
+    const syncDefaultPetId = () => {
         UserRepository.get(getCurrentUser().id).then((data) => {
-            updateUser(data);
             history.push(history.location.pathname, data);
+            setDefaultPetId(history.location.state.defaultPetId)
         });
     };
 
     const syncPets = () => {
-        PetRepository.getAllExpandAllByUser(user.id).then((data) => {
+        PetRepository.getAllExpandAllByUser(getCurrentUser().id).then((data) => {
             data.sort((el1) => {
-                if (el1.id === user.defaultPetId) {
+                if (el1.id === defaultPetId) {
                     return -1;
                 }
             });
@@ -141,15 +142,16 @@ export const Navbar = () => {
     };
 
     useEffect(() => {
-        syncUser();
+        syncDefaultPetId();
     }, []);
+    
 
     useEffect(() => {
         syncPets();
         return () => {
             setMyPets([]);
         };
-    }, [user]);
+    }, [history.location.state]);
 
     useEffect(() => {
         setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
@@ -161,8 +163,10 @@ export const Navbar = () => {
     const changeDefaultPet = (event) => {
         const copy = { ...user };
         copy.defaultPetId = parseInt(event.target.id);
-        UserRepository.editAccount(copy).then(() => syncUser());
+        UserRepository.editAccount(copy).then(() => syncDefaultPetId());
     };
+
+    
 
     const handleDrawerOpen = () => {
         setOpen(true);

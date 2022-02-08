@@ -25,7 +25,7 @@ export const PetsList = () => {
                         return -1;
                     }
                 });
-                setMyPets(data);
+                    setMyPets(data);
             }
         );
     };

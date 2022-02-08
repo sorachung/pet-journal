@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import PetRepository from "../../repositories/PetRepository";
 
 import Button from "@mui/material/Button";
@@ -13,11 +14,13 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import Input from "@mui/material/Input";
+import UserRepository from "../../repositories/UserRepository";
 
 export const PetAddDialog = ({ userId, syncPets }) => {
     const [open, setOpen] = useState(false);
     const [species, setSpecies] = useState([]);
     const [sexes, setSexes] = useState([]);
+    const history = useHistory();
     const [newPet, updateNewPet] = useState({
         name: "",
         specieId: "",
@@ -40,7 +43,19 @@ export const PetAddDialog = ({ userId, syncPets }) => {
     const addNewPet = (event) => {
         event.preventDefault();
         handleClose();
-        PetRepository.addPet(newPet).then(() => syncPets());
+        PetRepository.addPet(newPet).then((newPetData) => {
+            syncPets()
+            UserRepository.get(userId)
+            .then((data) => {
+                if(data.defaultPetId === 0) {
+                    data.defaultPetId = newPetData.id;
+                    UserRepository.editAccount(data)
+                        .then((userData) => history.push(history.location.pathname, userData))
+                }
+            })
+        });
+        
+        history.push("/mypets")
     };
 
     const handleClose = () => {
