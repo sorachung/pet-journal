@@ -15,6 +15,9 @@ export default {
     async findEventsByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}`)
     },
+    async findStarredEventsByUser(userId) {
+        return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}&starred=true`)
+    },
     async findEventsByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/events?petId=${petId}`)
     },
@@ -34,6 +37,9 @@ export default {
     },
     async findRemindersByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}`)
+    },
+    async findStarredRemindersByUser(userId) {
+        return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}&starred=true`)
     },
     async findRemindersByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/reminders?petId=${petId}`)

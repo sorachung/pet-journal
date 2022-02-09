@@ -15,6 +15,8 @@ import { DashboardVetVisits } from "./medical/DashboardVetVisits";
 import { DashboardNotes } from "./notes/DashboardNotes";
 import { DashboardContacts } from "./contacts/DashboardContacts";
 import { PetAddDialog } from "../pets/PetAddDialog";
+import { DashboardReminders } from "./scheduling/DashboardReminders";
+import { DashboardEvents } from "./scheduling/DashboardEvents";
 
 export const Dashboard = ({user, myPets, syncPets}) => {
     const { getCurrentUser } = useSimpleAuth();
@@ -42,6 +44,12 @@ export const Dashboard = ({user, myPets, syncPets}) => {
         <Container maxWidth="lg">
             {myPets.length !== 0 ? (
                 <Grid container spacing={2} sx={{ justifyContent: "center" }}>
+                    <Grid item sm={12}>
+                        <DashboardReminders user={user} />
+                    </Grid>
+                    <Grid item sm={12}>
+                        <DashboardEvents user={user} />
+                    </Grid>
                     <Grid item sm={12}>
                         <DashboardNotes user={user} />
                     </Grid>
