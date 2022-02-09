@@ -16,11 +16,11 @@ export const ViewSchedule = ({pet}) => {
             {(pet) ?
                 <Grid container spacing={8} direction="column">
                     <Grid item xs={12} key={`reminders`}>
-                        <RemindersList />
+                        <RemindersList pet={pet}/>
                     </Grid>
                     
                     <Grid item xs={12} key={`events`}>
-                        <EventsList />
+                        <EventsList pet={pet} />
                     </Grid>
                 </Grid>
             : ""}
