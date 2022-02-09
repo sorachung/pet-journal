@@ -50,6 +50,9 @@ export const AllView = () => {
 
     useEffect(() => {
         setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
+        return () => {
+            setDefaultPet({})
+        }
     }, [myPets]);
 
 
