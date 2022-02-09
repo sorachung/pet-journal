@@ -3,8 +3,8 @@ import React from "react";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { RemindersList } from "./RemindersList";
-import { EventsList } from "./EventsList";
+import { RemindersList } from "./reminders/RemindersList";
+import { EventsList } from "./events/EventsList";
 
 export const ViewSchedule = ({pet}) => {
 

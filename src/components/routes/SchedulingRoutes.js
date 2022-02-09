@@ -1,7 +1,7 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import { EventsList } from "../scheduling/EventsList";
-import { RemindersList } from "../scheduling/RemindersList";
+import { EventsList } from "../scheduling/events/EventsList";
+import { RemindersList } from "../scheduling/reminders/RemindersList";
 import { ViewSchedule } from "../scheduling/ViewSchedule";
 
 export const SchedulingRoutes = ({pet}) => {
