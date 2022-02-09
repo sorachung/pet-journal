@@ -130,11 +130,12 @@ export const VetVisit = ({
                     {vetVisit.invoicePicURL ? (
                         ""
                     ) : (
-                        <Button variant="contained" component="label">
+                        <Button component="label">
                             Upload invoice
                             <input
                                 type="file"
                                 hidden
+                                accept="image/*"
                                 onChange={(event) =>
                                     uploadImage(event.target.files[0])
                                 }
