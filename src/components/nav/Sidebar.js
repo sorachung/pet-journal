@@ -210,6 +210,15 @@ export const Sidebar = ({ open, setOpen }) => {
                             sx={{ pl: 12 }}
                             onClick={() => {
                                 handleDrawerClose();
+                                history.push("/schedule");
+                            }}
+                        >
+                            <ListItemText primary={"All Scheduling"} />
+                        </ListItemButton>
+                        <ListItemButton
+                            sx={{ pl: 12 }}
+                            onClick={() => {
+                                handleDrawerClose();
                                 history.push("/schedule/events");
                             }}
                         >
