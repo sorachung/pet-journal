@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { seeIfPast } from "../../time/TimeFormatting";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -48,8 +49,10 @@ export const Reminder = ({
         setOpen(true);
     };
 
-    const bgColor = petReminder.complete ? 'success.main' : "";
+    let bgColor = seeIfPast(petReminder.date, petReminder.time) ? petReminder.complete ? 'success.main' : "grey.400" : ""
+    
     const color =  petReminder.complete ? 'primary.contrastText' : "";
+
 
     return (
         <>

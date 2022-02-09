@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { seeIfPast } from "../../time/TimeFormatting";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -33,6 +34,8 @@ export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
         setOpen(true);
     };
 
+    const bgColor = seeIfPast(petEvent.date, petEvent.time) ? "grey.400" : ""
+
     return (
         <>
             <Accordion
@@ -43,6 +46,7 @@ export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${petEvent.id}-content`}
                     id={`panel${petEvent.id}-header`}
+                    sx={{ bgcolor:bgColor }}
                 >
                     <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {petEvent.date}
