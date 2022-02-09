@@ -11,6 +11,7 @@ import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
+import { EditEventDialog } from "./EditEventDialog";
 
 export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
     const [editedPetEvent, setEditedPetEvent] = useState(petEvent);
@@ -67,6 +68,7 @@ export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
+            <EditEventDialog open={open} setOpen={setOpen} editedPetEvent={editedPetEvent} setEditedPetEvent={setEditedPetEvent} syncPetEvents={syncPetEvents}/>
         </>
     );
 };
