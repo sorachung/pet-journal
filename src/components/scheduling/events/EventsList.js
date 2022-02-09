@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
 import { Event } from "./Event";
+import { convertToTimestamp } from "../../time/TimeFormatting";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -12,11 +13,6 @@ export const EventsList = ({ pet }) => {
     const [myPetEvents, setMyPetEvents] = useState([]);
     const [expanded, setExpanded] = useState(false);
     const { getCurrentUser } = useSimpleAuth();
-
-    const convertToTimestamp = (date, time) => {
-        const isoDate = `${date}T${time}`;
-        return new Date(isoDate).getTime();
-    };
 
     const syncPetEvents = () => {
         SchedulingRepository.findEventsByPet(pet?.id).then((data) => {
