@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
+import { convertToTimestamp } from "../../time/TimeFormatting";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -15,10 +16,14 @@ export const RemindersList = ({ pet }) => {
 
     const syncPetReminders = () => {
         SchedulingRepository.findRemindersByPet(pet?.id).then((data) => {
-            data.sort((reminder) => {
-                if(!reminder.complete) {
-                    return -1
-                }
+            data.sort((a, b) => {
+                const timestampA = convertToTimestamp(a.date, a.time);
+                const timestampB = convertToTimestamp(b.date, b.time);
+                return timestampA - timestampB;
+            });
+            data.sort((reminder1, reminder2) => {
+                
+                return reminder1.complete - reminder2.complete
             })
             setMyPetReminders(data)
         });
