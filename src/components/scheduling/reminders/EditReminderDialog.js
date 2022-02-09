@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
 
 import Button from "@mui/material/Button";
@@ -12,9 +12,10 @@ export const EditReminderDialog = ({
     open,
     setOpen,
     syncPetReminders,
-    editedPetReminder,
-    setEditedPetReminder,
+    petReminder
 }) => {
+    const [editedPetReminder, setEditedPetReminder] = useState(petReminder);
+
     const handleClose = () => {
         setOpen(false);
     };

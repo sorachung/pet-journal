@@ -14,12 +14,12 @@ import SchedulingRepository from "../../../repositories/SchedulingRepository";
 import { EditEventDialog } from "./EditEventDialog";
 
 export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
-    const [editedPetEvent, setEditedPetEvent] = useState(petEvent);
+    
     const [open, setOpen] = useState(false);
 
     const starUnstar = (event) => {
         event.stopPropagation();
-        const copy = { ...editedPetEvent };
+        const copy = { ...petEvent };
         copy.starred = !petEvent.starred;
         SchedulingRepository.editEvent(copy).then(() => syncPetEvents());
     };
@@ -68,7 +68,7 @@ export const Event = ({ petEvent, handleChange, expanded, syncPetEvents }) => {
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
-            <EditEventDialog open={open} setOpen={setOpen} editedPetEvent={editedPetEvent} setEditedPetEvent={setEditedPetEvent} syncPetEvents={syncPetEvents}/>
+            <EditEventDialog open={open} setOpen={setOpen} petEvent={petEvent} syncPetEvents={syncPetEvents}/>
         </>
     );
 };

@@ -21,19 +21,18 @@ export const Reminder = ({
     expanded,
     syncPetReminders,
 }) => {
-    const [editedPetReminder, setEditedPetReminder] = useState(petReminder);
     const [open, setOpen] = useState(false);
 
     const starUnstar = (event) => {
         event.stopPropagation();
-        const copy = { ...editedPetReminder };
+        const copy = { ...petReminder };
         copy.starred = !petReminder.starred;
         SchedulingRepository.editReminder(copy).then(() => syncPetReminders());
     };
 
     const doneNotDone = (event) => {
         event.stopPropagation();
-        const copy = { ...editedPetReminder };
+        const copy = { ...petReminder };
         copy.complete = !petReminder.complete;
         SchedulingRepository.editReminder(copy).then(() => syncPetReminders());
     };
@@ -103,8 +102,7 @@ export const Reminder = ({
             <EditReminderDialog
                 open={open}
                 setOpen={setOpen}
-                editedPetReminder={editedPetReminder}
-                setEditedPetReminder={setEditedPetReminder}
+                petReminder={petReminder}
                 syncPetReminders={syncPetReminders}
             />
         </>

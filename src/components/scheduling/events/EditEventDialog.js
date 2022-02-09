@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
 
 import Button from "@mui/material/Button";
@@ -12,9 +12,9 @@ export const EditEventDialog = ({
     open,
     setOpen,
     syncPetEvents,
-    editedPetEvent,
-    setEditedPetEvent,
+    petEvent
 }) => {
+    const [editedPetEvent, setEditedPetEvent] = useState(petEvent);
     const handleClose = () => {
         setOpen(false);
     };
