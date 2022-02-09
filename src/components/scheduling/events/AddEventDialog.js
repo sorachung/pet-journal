@@ -11,7 +11,6 @@ import Typography from "@mui/material/Typography";
 
 export const AddEventDialog = ({ pet, userId, syncPetEvents }) => {
     const [newEvent, setNewEvent] = useState({
-        petId: pet.id,
         userId: userId,
         starred: false,
     });
@@ -28,7 +27,9 @@ export const AddEventDialog = ({ pet, userId, syncPetEvents }) => {
     const addEvent = (event) => {
         event.preventDefault();
         handleClose();
-        SchedulingRepository.addEvent(newEvent).then(() => syncPetEvents());
+        const copy = {...newEvent}
+        copy.petId = pet.id
+        SchedulingRepository.addEvent(copy).then(() => syncPetEvents());
     };
 
     return (
