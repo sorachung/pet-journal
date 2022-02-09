@@ -14,9 +14,14 @@ export const RemindersList = ({ pet }) => {
     const { getCurrentUser } = useSimpleAuth();
 
     const syncPetReminders = () => {
-        SchedulingRepository.findRemindersByPet(pet?.id).then((data) =>
+        SchedulingRepository.findRemindersByPet(pet?.id).then((data) => {
+            data.sort((reminder) => {
+                if(!reminder.complete) {
+                    return -1
+                }
+            })
             setMyPetReminders(data)
-        );
+        });
     }
 
     useEffect(() => {

@@ -49,11 +49,16 @@ export const Reminder = ({
         setOpen(true);
     };
 
+    const bgColor = petReminder.complete ? 'success.main' : "";
+    const color =  petReminder.complete ? 'primary.contrastText' : "";
+
     return (
         <>
             <Accordion
+            
                 expanded={expanded === `panel${petReminder.id}`}
                 onChange={handleChange(`panel${petReminder.id}`)}
+                sx={{ bgcolor:bgColor, color:color }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -66,7 +71,7 @@ export const Reminder = ({
                     <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {petReminder.time}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary", width: "40%" }}>
+                    <Typography sx={{ width: "40%" }}>
                         {petReminder.subject}
                     </Typography>
                     <IconButton onClick={doneNotDone}>
