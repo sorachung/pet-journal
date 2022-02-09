@@ -26,9 +26,8 @@ export const Contact = ({
     const starUnstar = (event) => {
         event.stopPropagation();
         const copy = { ...editedContact };
-        copy.starred = !editedContact.starred;
+        copy.starred = !contact.starred;
         delete copy.contactsType;
-        setEditedContact(copy);
         ContactsRepository.editContact(copy).then(() => syncMyContacts());
     };
 
