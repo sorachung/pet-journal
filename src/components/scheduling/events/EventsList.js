@@ -13,14 +13,24 @@ export const EventsList = ({ pet }) => {
     const [expanded, setExpanded] = useState(false);
     const { getCurrentUser } = useSimpleAuth();
 
+    const convertToTimestamp = (date, time) => {
+        const isoDate = `${date}T${time}`;
+        return new Date(isoDate).getTime();
+    };
+
     const syncPetEvents = () => {
-        SchedulingRepository.findEventsByPet(pet?.id).then((data) =>
-            setMyPetEvents(data)
-        );
-    }
+        SchedulingRepository.findEventsByPet(pet?.id).then((data) => {
+            data.sort((a, b) => {
+                const timestampA = convertToTimestamp(a.date, a.time);
+                const timestampB = convertToTimestamp(b.date, b.time);
+                return timestampA - timestampB;
+            });
+            setMyPetEvents(data);
+        });
+    };
 
     useEffect(() => {
-        syncPetEvents()
+        syncPetEvents();
     }, [pet]);
 
     const handleChange = (panel) => (event, isExpanded) => {
@@ -32,7 +42,11 @@ export const EventsList = ({ pet }) => {
             <Typography variant="h1" gutterBottom align="center" fontSize="3em">
                 Events
             </Typography>
-            <AddEventDialog userId={getCurrentUser().id} pet={pet} syncPetEvents={syncPetEvents}/>
+            <AddEventDialog
+                userId={getCurrentUser().id}
+                pet={pet}
+                syncPetEvents={syncPetEvents}
+            />
             <Box>
                 {myPetEvents.map((petEvent) => {
                     return (
