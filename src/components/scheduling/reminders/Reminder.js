@@ -49,8 +49,7 @@ export const Reminder = ({
         setOpen(true);
     };
 
-    let bgColor = seeIfPast(petReminder.date, petReminder.time) ? petReminder.complete ? 'success.main' : "grey.400" : ""
-    
+    const bgColor = petReminder.complete ? 'success.main' : seeIfPast(petReminder.date, petReminder.time) ? "grey.400" : ""
     const color =  petReminder.complete ? 'primary.contrastText' : "";
 
 
