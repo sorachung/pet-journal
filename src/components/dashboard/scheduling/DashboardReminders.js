@@ -6,19 +6,30 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useSimpleAuth from "../../../hooks/ui/useSimpleAuth";
 import { Reminder } from "../../scheduling/reminders/Reminder";
+import { convertToTimestamp } from "../../time/TimeFormatting";
+
 
 export const DashboardReminders = ({ user }) => {
     const [myReminders, setMyReminders] = useState([]);
     const [expanded, setExpanded] = useState(false);
 
     const syncMyReminders = () => {
-        SchedulingRepository.findStarredRemindersByUser(user?.id).then((data) => {
-            data.sort((reminder) => {
-                if(!reminder.complete) {
-                    return -1
-                }
+        SchedulingRepository.findRemindersByUser(user?.id).then((data) => {
+            const filteredData = data.filter(event => {
+                const eventTimestamp = convertToTimestamp(event.date, event.time)
+                let comingUp = eventTimestamp - Date.now() < 172800000 ? true : false
+
+                return event.starred || comingUp
             })
-            setMyReminders(data)
+            filteredData.sort((a,b) => {
+                const timestampA = convertToTimestamp(a.date, a.time);
+                const timestampB = convertToTimestamp(b.date, b.time);
+                return timestampA - timestampB;
+            })
+            filteredData.sort((reminder1, reminder2) => {
+                return reminder1.complete - reminder2.complete
+            })
+            setMyReminders(filteredData)
         });
     }
 

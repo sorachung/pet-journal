@@ -22,7 +22,6 @@ export const RemindersList = ({ pet }) => {
                 return timestampA - timestampB;
             });
             data.sort((reminder1, reminder2) => {
-                
                 return reminder1.complete - reminder2.complete
             })
             setMyPetReminders(data)
