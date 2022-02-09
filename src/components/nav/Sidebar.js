@@ -20,7 +20,7 @@ import ContactsIcon from "@mui/icons-material/Contacts";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 
 const drawerWidth = 240;
 
@@ -33,9 +33,10 @@ const DrawerHeader = styled("div")(({ theme }) => ({
     justifyContent: "flex-end",
 }));
 
-export const Sidebar = ({open, setOpen}) => {
+export const Sidebar = ({ open, setOpen }) => {
     const theme = useTheme();
     const [openSub, setOpenSub] = useState(false);
+    const [openScheduling, setOpenScheduling] = useState(false);
     const history = useHistory();
 
     const handleDrawerClose = () => {
@@ -45,6 +46,10 @@ export const Sidebar = ({open, setOpen}) => {
 
     const handleClick = () => {
         setOpenSub(!openSub);
+    };
+
+    const handleClickSchduling = () => {
+        setOpenScheduling(!openScheduling);
     };
 
     return (
@@ -192,21 +197,35 @@ export const Sidebar = ({open, setOpen}) => {
                     </ListItemIcon>
                     <ListItemText primary={"Notes"} />
                 </ListItem>
-                <ListItem
-                    button
-                    key={"Schedule"}
-                    onClick={() => {
-                        handleDrawerClose();
-                        history.push("/schedule");
-                    }}
-                >
+                <ListItem button key={"Schedule"} onClick={handleClickSchduling}>
                     <ListItemIcon>
                         <CalendarTodayIcon />
                     </ListItemIcon>
                     <ListItemText primary={"Scheduling"} />
+                    {openScheduling ? <ExpandLessIcon /> : <ExpandMoreIcon />}
                 </ListItem>
-                
-
+                <Collapse in={openScheduling} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItemButton
+                            sx={{ pl: 12 }}
+                            onClick={() => {
+                                handleDrawerClose();
+                                history.push("/schedule/events");
+                            }}
+                        >
+                            <ListItemText primary={"Events"} />
+                        </ListItemButton>
+                        <ListItemButton
+                            sx={{ pl: 12 }}
+                            onClick={() => {
+                                handleDrawerClose();
+                                history.push("/schedule/reminders");
+                            }}
+                        >
+                            <ListItemText primary={"Reminders"} />
+                        </ListItemButton>
+                    </List>
+                </Collapse>
             </List>
         </Drawer>
     );

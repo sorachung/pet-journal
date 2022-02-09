@@ -4,17 +4,17 @@ import { EventsList } from "../scheduling/EventsList";
 import { RemindersList } from "../scheduling/RemindersList";
 import { ViewSchedule } from "../scheduling/ViewSchedule";
 
-export const SchedulingRoutes = () => {
+export const SchedulingRoutes = ({pet}) => {
     return (
         <>
             <Route exact path="/schedule">
-                <ViewSchedule />
+                <ViewSchedule pet={pet}/>
             </Route>
             <Route exact path="/schedule/events">
-                <EventsList />
+                <EventsList pet={pet}/>
             </Route>
             <Route exact path="/schedule/reminders">
-                <RemindersList />
+                <RemindersList pet={pet}/>
             </Route>
         </>
     )

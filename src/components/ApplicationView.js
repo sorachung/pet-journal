@@ -17,7 +17,7 @@ export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defau
             <MedicalRoutes pet={defaultPet} syncPets={syncPets}/>
             <ContactRoutes />
             <NoteRoutes user={user} defaultPet={defaultPet} />
-            <SchedulingRoutes />
+            <SchedulingRoutes pet={pet}/>
         </>
     )
 }
