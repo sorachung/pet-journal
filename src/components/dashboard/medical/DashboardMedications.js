@@ -18,7 +18,7 @@ export const DashboardMedications = ({ myPets }) => {
         });
         Promise.all(promisesArray).then((dataArr) => {
             dataArr.forEach((data) => {
-                data.filter((med) => med.starred);
+                data = data.filter((med) => med.starred);
                 medsOfAllPets.push(...data);
             })
             setMyPetsMedications(medsOfAllPets);

@@ -13,13 +13,17 @@ export const DashboardIncidents = ({ myPets }) => {
 
     const syncIncidents = () => {
         const incidentsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
-                data = data.filter((incident) => incident.starred);
-                incidentsOfAllPets.push(...data);
-            });
+            promisesArray.push(MedicalRepository.getAllIncidentsByPet(pet.id))
         });
-        setMyPetsIncidents(incidentsOfAllPets);
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
+                data = data.filter((incident) => incident.starred);
+            incidentsOfAllPets.push(...data);
+            })
+            setMyPetsIncidents(incidentsOfAllPets);
+        });
     };
 
     useEffect(() => {
