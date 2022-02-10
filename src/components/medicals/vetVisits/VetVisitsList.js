@@ -44,7 +44,7 @@ export const VetVisitsList = ({ pet }) => {
                 <Typography variant="h5" gutterBottom align="center">
                     Vet Visits
                 </Typography>
-                {myPetVetVisits.map((vetVisit) => (
+                {myPetVetVisits?.map((vetVisit) => (
                     <VetVisit
                         key={vetVisit.id}
                         vetVisit={vetVisit}

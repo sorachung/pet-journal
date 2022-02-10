@@ -24,7 +24,7 @@ export const VetVisit = ({
 }) => {
     const [open, setOpen] = useState(false);
     const [openInv, setOpenInv] = useState(false);
-
+    console.log(vetVisit, vetVisit.vet)
     const starUnstar = (event) => {
         event.stopPropagation();
         const copy = { ...vetVisit };
