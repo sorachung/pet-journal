@@ -14,13 +14,18 @@ export const DashboardVetVisits = ({ myPets }) => {
 
     const syncVetVisits = () => {
         const vetVisitsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+            promisesArray.push(MedicalRepository.getAllVetVisitsByPet(pet.id));
+        });
+
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
                 data = data.filter((visit) => visit.starred);
                 vetVisitsOfAllPets.push(...data);
             });
+            setMyPetsVetVisits(vetVisitsOfAllPets);
         });
-        setMyPetsVetVisits(vetVisitsOfAllPets);
     };
 
     useEffect(() => {
