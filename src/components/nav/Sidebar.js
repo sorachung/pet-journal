@@ -137,15 +137,6 @@ export const Sidebar = ({ open, setOpen }) => {
                             sx={{ pl: 12 }}
                             onClick={() => {
                                 handleDrawerClose();
-                                history.push("/medical/vaccinations");
-                            }}
-                        >
-                            <ListItemText primary={"Vaccinations"} />
-                        </ListItemButton>
-                        <ListItemButton
-                            sx={{ pl: 12 }}
-                            onClick={() => {
-                                handleDrawerClose();
                                 history.push("/medical/medications");
                             }}
                         >
@@ -168,6 +159,15 @@ export const Sidebar = ({ open, setOpen }) => {
                             }}
                         >
                             <ListItemText primary={"Vet visits"} />
+                        </ListItemButton>
+                        <ListItemButton
+                            sx={{ pl: 12 }}
+                            onClick={() => {
+                                handleDrawerClose();
+                                history.push("/medical/vaccinations");
+                            }}
+                        >
+                            <ListItemText primary={"Vaccinations"} />
                         </ListItemButton>
                     </List>
                 </Collapse>
@@ -197,7 +197,11 @@ export const Sidebar = ({ open, setOpen }) => {
                     </ListItemIcon>
                     <ListItemText primary={"Notes"} />
                 </ListItem>
-                <ListItem button key={"Schedule"} onClick={handleClickSchduling}>
+                <ListItem
+                    button
+                    key={"Schedule"}
+                    onClick={handleClickSchduling}
+                >
                     <ListItemIcon>
                         <CalendarTodayIcon />
                     </ListItemIcon>
