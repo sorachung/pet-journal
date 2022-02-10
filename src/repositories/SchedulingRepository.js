@@ -13,10 +13,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/events/${event.id}`, "PUT", JSON.stringify(event))
     },
     async findEventsByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}`)
+        return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}&_expand=pet`)
     },
     async findStarredEventsByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}&starred=true`)
+        return await fetchIt(`${Settings.remoteURL}/events?userId=${userId}&starred=true&_expand=pet`)
     },
     async findEventsByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/events?petId=${petId}`)
@@ -36,10 +36,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/reminders/${reminder.id}`, "PUT", JSON.stringify(reminder))
     },
     async findRemindersByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}`)
+        return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}&_expand=pet`)
     },
     async findStarredRemindersByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}&starred=true`)
+        return await fetchIt(`${Settings.remoteURL}/reminders?userId=${userId}&starred=true&_expand=pet`)
     },
     async findRemindersByPet(petId) {
         return await fetchIt(`${Settings.remoteURL}/reminders?petId=${petId}`)

@@ -7,6 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -24,7 +25,6 @@ export const VetVisit = ({
 }) => {
     const [open, setOpen] = useState(false);
     const [openInv, setOpenInv] = useState(false);
-    console.log(vetVisit, vetVisit.vet)
     const starUnstar = (event) => {
         event.stopPropagation();
         const copy = { ...vetVisit };
@@ -82,14 +82,19 @@ export const VetVisit = ({
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${vetVisit.id}-content`}
                     id={`panel${vetVisit.id}-header`}
+                    sx={{
+                        ".MuiAccordionSummary-content": {
+                            justifyContent: "space-between",
+                        },
+                    }}
                 >
-                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                    <Typography sx={{ flexBasis: "20%", flexShrink: 0 }}>
                         {vetVisit.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "60%",
-                            flexShrink: 0,
+                            flexBasis: "60%",
+                            flexShrink: 1,
                         }}
                     >
                         {vetVisit.vet?.name}
@@ -97,7 +102,7 @@ export const VetVisit = ({
                     {dashboardView ? (
                         <Typography
                             sx={{
-                                width: "10%",
+                                flexBasis: "10%",
                                 flexShrink: 0,
                                 color: "text.secondary",
                             }}
@@ -107,15 +112,24 @@ export const VetVisit = ({
                     ) : (
                         ""
                     )}
-                    <IconButton onClick={starUnstar}>
-                        {vetVisit.starred ? <StarIcon /> : <StarBorderIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={deleteVetVisit}
-                        sx={{ marginRight: "1em" }}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexWrap: "no-wrap",
+                            flexBasis: "10%",
+                        }}
                     >
-                        <DeleteIcon />
-                    </IconButton>
+                        <IconButton onClick={starUnstar}>
+                            {vetVisit.starred ? (
+                                <StarIcon />
+                            ) : (
+                                <StarBorderIcon />
+                            )}
+                        </IconButton>
+                        <IconButton onClick={deleteVetVisit}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>{vetVisit.description}</Typography>

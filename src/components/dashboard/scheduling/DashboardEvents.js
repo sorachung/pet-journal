@@ -50,6 +50,7 @@ export const DashboardEvents = ({ user }) => {
                             handleChange={handleChange}
                             expanded={expanded}
                             syncPetEvents={syncEvents}
+                            dashboardView={true}
                         />
                     );
                 })}

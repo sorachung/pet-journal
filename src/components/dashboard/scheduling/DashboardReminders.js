@@ -55,6 +55,7 @@ export const DashboardReminders = ({ user }) => {
                             handleChange={handleChange}
                             expanded={expanded}
                             syncPetReminders={syncMyReminders}
+                            dashboardView={true}
                         />
                     );
                 })}

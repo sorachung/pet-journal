@@ -6,6 +6,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -51,7 +52,6 @@ export const Vaccination = ({
 
     return (
         <>
-            <Typography variant="string" color="text.secondary"></Typography>
             <Accordion
                 expanded={expanded === `panel${petVax.id}`}
                 onChange={handleChange(`panel${petVax.id}`)}
@@ -60,15 +60,19 @@ export const Vaccination = ({
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${petVax.id}-content`}
                     id={`panel${petVax.id}-header`}
+                    sx={{
+                        ".MuiAccordionSummary-content": {
+                            justifyContent: "space-between",
+                        },
+                    }}
                 >
-                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                    <Typography sx={{ flexShrink: 0, flexBasis: "20%" }}>
                         {petVax.date}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "50%",
-                            flexShrink: 0,
-                            color: "text.secondary",
+                            flexShrink: 1,
+                            flexBasis: "30%"
                         }}
                     >
                         {petVax.vaccination?.shot}
@@ -76,7 +80,7 @@ export const Vaccination = ({
                     {dashboardView ? (
                         <Typography
                             sx={{
-                                width: "20%",
+                                flexBasis: "10%",
                                 flexShrink: 0,
                                 color: "text.secondary",
                             }}
@@ -86,15 +90,20 @@ export const Vaccination = ({
                     ) : (
                         ""
                     )}
-                    <IconButton onClick={starUnstar}>
-                        {petVax.starred ? <StarIcon /> : <StarBorderIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={deletePetVax}
-                        sx={{ marginRight: "1em" }}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexWrap: "no-wrap",
+                            flexBasis: "10%",
+                        }}
                     >
-                        <DeleteIcon />
-                    </IconButton>
+                        <IconButton onClick={starUnstar}>
+                            {petVax.starred ? <StarIcon /> : <StarBorderIcon />}
+                        </IconButton>
+                        <IconButton onClick={deletePetVax}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Button onClick={handleClickOpen}>Edit</Button>

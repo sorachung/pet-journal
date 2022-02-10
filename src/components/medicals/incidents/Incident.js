@@ -6,6 +6,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -19,9 +20,8 @@ export const Incident = ({
     handleChange,
     expanded,
     incidentTypes,
-    dashboardView
+    dashboardView,
 }) => {
-
     const [open, setOpen] = useState(false);
 
     const starUnstar = (event) => {
@@ -55,47 +55,71 @@ export const Incident = ({
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${incident.id}-content`}
                     id={`panel${incident.id}-header`}
+                    sx={{
+                        ".MuiAccordionSummary-content": {
+                            justifyContent: "space-between",
+                        },
+                    }}
                 >
-                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                    <Typography sx={{ flexBasis: "20%", flexShrink: 0 }}>
                         {incident.date}
                     </Typography>
-                    <Typography sx={{ width: "25%", flexShrink: 0 }}>
+                    <Typography sx={{ flexBasis: "20%", flexShrink: 1 }}>
                         {incident.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "20%",
-                            flexShrink: 0,
+                            flexBasis: "20%",
+                            flexShrink: 1,
                             color: "text.secondary",
                         }}
                     >
                         {incident.incidentType?.label}
                     </Typography>
-                    {dashboardView ? <Typography
+                    {dashboardView ? (
+                        <Typography
+                            sx={{
+                                flexBasis: "10%",
+                                flexShrink: 0,
+                                color: "text.secondary",
+                            }}
+                        >
+                            {incident.pet.name}
+                        </Typography>
+                    ) : (
+                        ""
+                    )}
+                    <Box
                         sx={{
-                            width: "10%",
-                            flexShrink: 0,
-                            color: "text.secondary",
+                            display: "flex",
+                            flexWrap: "no-wrap",
+                            flexBasis: "10%",
                         }}
                     >
-                        {incident.pet.name}
-                    </Typography> : ""}
-                    <IconButton onClick={starUnstar}>
-                        {incident.starred ? <StarIcon /> : <StarBorderIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={deleteIncident}
-                        sx={{ marginRight: "1em" }}
-                    >
-                        <DeleteIcon />
-                    </IconButton>
+                        <IconButton onClick={starUnstar}>
+                            {incident.starred ? (
+                                <StarIcon />
+                            ) : (
+                                <StarBorderIcon />
+                            )}
+                        </IconButton>
+                        <IconButton onClick={deleteIncident}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                     <p>{incident.description}</p>
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>
-            <EditIncidentDialog open={open} setOpen={setOpen} incident={incident} syncIncidents={syncIncidents} incidentTypes={incidentTypes}/>
+            <EditIncidentDialog
+                open={open}
+                setOpen={setOpen}
+                incident={incident}
+                syncIncidents={syncIncidents}
+                incidentTypes={incidentTypes}
+            />
         </>
     );
 };
