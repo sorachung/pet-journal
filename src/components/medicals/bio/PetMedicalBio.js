@@ -10,12 +10,14 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
+import { AddAllergyDialog } from "./AddAllergyDialog";
 
 export const PetMedicalBio = ({ pet, syncPets }) => {
     const [birthdate, setBirthdate] = useState("");
     const [chronicIllnesses, setChronicIllnesses] = useState([]);
     const [allergies, setAllergies] = useState([]);
     const [open, setOpen] = useState(false);
+    const [openAllergy, setOpenAllergy] = useState(false);
 
     const syncAllergies = () => {
         MedicalRepository.getPetAllergiesByPet(pet?.id).then((data) =>
@@ -49,6 +51,10 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
 
     const handleClickOpen = () => {
         setOpen(true);
+    };
+
+    const handleClickOpenAllergy = () => {
+        setOpenAllergy(true);
     };
 
     return (
@@ -102,6 +108,9 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
                         <Button size="small" onClick={handleClickOpen}>
                             Edit
                         </Button>
+                        <Button size="small" onClick={handleClickOpenAllergy}>
+                            Add allergy
+                        </Button>
                     </CardActions>
                 </Card>
             </Box>
@@ -113,6 +122,7 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
                 allergies={allergies}
                 syncAllergies={syncAllergies}
             />
+            <AddAllergyDialog openAllergy={openAllergy} setOpenAllergy={setOpenAllergy} pet={pet} syncAllergies={syncAllergies}/>
         </Container>
     );
 };
