@@ -11,7 +11,6 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
 
-
 export const PetMedicalBio = ({ pet, syncPets }) => {
     const [birthdate, setBirthdate] = useState("");
     const [chronicIllnesses, setChronicIllnesses] = useState([]);
@@ -46,35 +45,39 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
     };
 
     return (
-        <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
+        <Container maxWidth="sm">
+            <Box >
                 <Card>
                     <CardContent>
-                        <CardHeader title="Medical bio" />
-                        <Typography variant="string" color="text.secondary">
-                            <p>Species: {pet?.specie?.type}</p>
-                            <p>Breed: {pet?.breed}</p>
-                            <p>Sex: {pet?.sex?.label}</p>
-                            <p>Age: {birthdate}</p>
-                            <p>
-                                Weight:
-                                {pet?.weight
-                                    ? pet.weight + " lbs"
-                                    : " none entered"}
-                            </p>
-                            <p>
-                                Microchip:
-                                {pet?.microchipNumber
-                                    ? pet.microchipNumber
-                                    : " none"}
-                            </p>
-                            <p>Fixed: {pet?.isFixed ? "Yes" : "No"}</p>
-                            <p>Chronic illnesses:</p>
-                            <ul>
-                                {chronicIllnesses.map((ill) => (
-                                    <li key={ill.id}>{ill.name}</li>
-                                ))}
-                            </ul>
+                        <CardHeader title="Medical bio" sx={{textAlign:"center"}}/>
+                        <Typography variant="body1" color="text.secondary">
+                            Species: {pet?.specie?.type}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Breed: {pet?.breed}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Sex: {pet?.sex?.label}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Age: {birthdate}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Weight:
+                            {pet?.weight
+                                ? pet.weight + " lbs"
+                                : " none entered"}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Microchip: {pet?.microchipNumber
+                                ? pet.microchipNumber
+                                : " none"}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Fixed: {pet?.isFixed ? "Yes" : "No"}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Chronic illnesses: {chronicIllnesses.map((ill) => ill.name).join(", ")}
                         </Typography>
                     </CardContent>
                     <CardActions>
