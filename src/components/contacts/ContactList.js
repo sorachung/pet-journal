@@ -34,7 +34,7 @@ export const ContactList = () => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h1" gutterBottom align="center" fontSize="3em">
+            <Typography variant="h3" gutterBottom align="center" >
                 My Contacts
             </Typography>
             <ContactsAddDialog
