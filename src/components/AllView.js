@@ -28,7 +28,7 @@ export const AllView = () => {
     };
 
     const syncPets = () => {
-        PetRepository.getAllExpandAllByUser(user.id).then((data) => {
+        PetRepository.getAllExpandAllByUser(getCurrentUser().id).then((data) => {
             data.sort((el1) => {
                 if (el1.id === user.defaultPetId) {
                     return -1;
@@ -50,9 +50,6 @@ export const AllView = () => {
 
     useEffect(() => {
         setDefaultPet(myPets.find((pet) => user.defaultPetId === pet.id));
-        return () => {
-            setDefaultPet({})
-        }
     }, [myPets]);
 
 

@@ -20,9 +20,9 @@ export const Medication = ({
     expanded,
     dashboardView,
 }) => {
+    
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {}, [myPetMed]);
 
     const deletePetMed = (event) => {
         event.stopPropagation();

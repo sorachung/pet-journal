@@ -12,13 +12,18 @@ export const DashboardMedications = ({ myPets }) => {
 
     const syncPetMedications = () => {
         const medsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
-                data = data.filter((med) => med.starred);
-                medsOfAllPets.push(...data);
-            });
+            promisesArray.push(MedicalRepository.getMedicationsByPet(pet.id));
         });
-        setMyPetsMedications(medsOfAllPets);
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
+                data.filter((med) => med.starred);
+                medsOfAllPets.push(...data);
+            })
+            setMyPetsMedications(medsOfAllPets);
+        });
+        
     };
 
     useEffect(() => {
