@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PetRepository from "../../../repositories/PetRepository";
 
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,8 +10,18 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import IconButton from "@mui/material/IconButton";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
+import MedicalRepository from "../../../repositories/MedicalRepository";
 
-export const EditBioDialog = ({ pet, syncPets, open, setOpen }) => {
+export const EditBioDialog = ({
+    pet,
+    syncPets,
+    open,
+    setOpen,
+    allergies,
+    syncAllergies,
+}) => {
     const [editedPet, setEditedPet] = useState(pet);
 
     const editBio = (event) => {
@@ -24,13 +35,19 @@ export const EditBioDialog = ({ pet, syncPets, open, setOpen }) => {
         PetRepository.editPet(copy).then(() => syncPets());
     };
 
+    const removeAllergy = (allergy) => {
+        MedicalRepository.deletePetAllergy(allergy.id).then((data) =>
+            syncAllergies()
+        );
+    };
+
     const handleClose = () => {
         setOpen(false);
     };
 
-    useEffect( () => {
-        setEditedPet(pet)
-    },[pet])
+    useEffect(() => {
+        setEditedPet(pet);
+    }, [pet]);
 
     return (
         <Dialog open={open} onClose={handleClose}>
@@ -38,6 +55,7 @@ export const EditBioDialog = ({ pet, syncPets, open, setOpen }) => {
                 <DialogTitle>Edit Bio</DialogTitle>
                 <DialogContent>
                     <TextField
+                        autoFocus
                         margin="dense"
                         id="weight"
                         label="Weight in lbs"
@@ -51,7 +69,6 @@ export const EditBioDialog = ({ pet, syncPets, open, setOpen }) => {
                         }}
                     />
                     <TextField
-                        autoFocus
                         margin="dense"
                         id="microchip"
                         label="Microchip #"
@@ -73,6 +90,37 @@ export const EditBioDialog = ({ pet, syncPets, open, setOpen }) => {
                             setEditedPet(copy);
                         }}
                     />
+                    {allergies.map((allergy) => {
+                        return (
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexWrap: "nowrap",
+                                    alignItems: "center",
+                                }}
+                                key={allergy.id}
+                            >
+                                <TextField
+                                    key={allergy.id}
+                                    margin="dense"
+                                    id="allergy"
+                                    label="Allergy"
+                                    type="text"
+                                    value={allergy.thing}
+                                    fullWidth
+                                    disabled
+                                />
+                                <IconButton
+                                    edge="end"
+                                    onClick={(event) => {
+                                        removeAllergy(allergy);
+                                    }}
+                                >
+                                    <RemoveCircleIcon />
+                                </IconButton>
+                            </Box>
+                        );
+                    })}
 
                     <FormControlLabel
                         control={

@@ -97,6 +97,11 @@ export default {
             `${Settings.remoteURL}/petAllergies/${id}?_expand=pet`
         );
     },
+    async getPetAllergiesByPet(petId) {
+        return await fetchIt(
+            `${Settings.remoteURL}/petAllergies?petId=${petId}`
+        );
+    },
     async getAllPetAllergies() {
         return await fetchIt(`${Settings.remoteURL}/petAllergies?_expand=pet`);
     },
