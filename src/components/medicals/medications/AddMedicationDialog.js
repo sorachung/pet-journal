@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
 
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import CardHeader from "@mui/material/CardHeader";
-import { Medication } from "./Medication";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -18,11 +9,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 export const AddMedicationDialog = ({ pet, syncPetMedications }) => {
     const [newPetMed, setNewPetMed] = useState({ isCurrent: false });
     const [open, setOpen] = useState(false);
-
 
     const addPetMed = (event) => {
         event.preventDefault();
@@ -45,13 +36,15 @@ export const AddMedicationDialog = ({ pet, syncPetMedications }) => {
 
     return (
         <>
-            <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                sx={{ marginBottom: "2em" }}
-            >
-                Add med
-            </Button>
+            <Typography align="center">
+                <Button
+                    variant="contained"
+                    onClick={handleClickOpen}
+                    sx={{ marginBottom: "2em" }}
+                >
+                    Add med
+                </Button>
+            </Typography>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetMed}>
                     <DialogTitle>Add Medication Record</DialogTitle>
