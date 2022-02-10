@@ -45,7 +45,7 @@ export const DashboardIncidents = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Incidents
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box>
                 {myPetsIncidents.map((incident) => (
                     <Incident
                         key={incident.id}

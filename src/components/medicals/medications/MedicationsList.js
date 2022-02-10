@@ -33,7 +33,6 @@ export const MedicationsList = ({ pet, dashboardView }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h5" gutterBottom align="center">
                     Medications
                 </Typography>
@@ -41,6 +40,7 @@ export const MedicationsList = ({ pet, dashboardView }) => {
                     syncPetMedications={syncPetMedications}
                     pet={pet}
                 />
+            <Box >
                 {myPetMedications.map((myPetMed) => (
                     <Medication
                         key={myPetMed.id}

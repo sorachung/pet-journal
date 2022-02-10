@@ -59,7 +59,7 @@ export const Incident = ({
                     <Typography sx={{ width: "20%", flexShrink: 0 }}>
                         {incident.date}
                     </Typography>
-                    <Typography sx={{ width: "40%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "25%", flexShrink: 0 }}>
                         {incident.name}
                     </Typography>
                     <Typography

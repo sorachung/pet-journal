@@ -37,15 +37,15 @@ export const VaccinationsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h5" gutterBottom align="center">
-                    Vaccinations
-                </Typography>
-                <AddVaccinationDialog
-                    vaccinations={vaccinations}
-                    pet={pet}
-                    syncPetVax={syncPetVax}
-                />
+            <Typography variant="h5" gutterBottom align="center">
+                Vaccinations
+            </Typography>
+            <AddVaccinationDialog
+                vaccinations={vaccinations}
+                pet={pet}
+                syncPetVax={syncPetVax}
+            />
+            <Box>
                 {myPetVax.map((petVax) => (
                     <Vaccination
                         key={petVax.id}

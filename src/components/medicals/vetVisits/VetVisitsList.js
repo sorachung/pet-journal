@@ -35,7 +35,6 @@ export const VetVisitsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
                 <AddVetVisitDialog
                     pet={pet}
                     vets={vets}
@@ -44,6 +43,7 @@ export const VetVisitsList = ({ pet }) => {
                 <Typography variant="h5" gutterBottom align="center">
                     Vet Visits
                 </Typography>
+            <Box >
                 {myPetVetVisits?.map((vetVisit) => (
                     <VetVisit
                         key={vetVisit.id}

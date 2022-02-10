@@ -39,7 +39,7 @@ export const DashboardMedications = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Medications
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box >
                 {myPetsMedications.map((myPetMed) => (
                     <Medication
                         key={myPetMed.id}
