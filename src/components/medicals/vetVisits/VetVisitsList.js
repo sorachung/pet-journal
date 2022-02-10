@@ -13,10 +13,16 @@ export const VetVisitsList = ({ pet }) => {
     const [expanded, setExpanded] = useState(false);
 
     const syncVetVisits = () => {
-        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
-            setMyPetVetVisits(data);
-        });
+        if(pet?.id) {
+            MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+                setMyPetVetVisits(data);
+            });
+        }
     };
+
+    useEffect(() => {
+        syncVetVisits();
+    },[pet])
 
     useEffect(() => {
         syncVetVisits();
