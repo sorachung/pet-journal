@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MedicalRepository from "../../../repositories/MedicalRepository";
 import { EditVetVisitDialog } from "./EditVetVisitDialog";
 
@@ -12,6 +12,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ViewInvoiceDialog } from "./ViewInvoiceDialog";
 
 export const VetVisit = ({
     vetVisit,
@@ -22,6 +23,7 @@ export const VetVisit = ({
     dashboardView,
 }) => {
     const [open, setOpen] = useState(false);
+    const [openInv, setOpenInv] = useState(false);
 
     const starUnstar = (event) => {
         event.stopPropagation();
@@ -40,6 +42,34 @@ export const VetVisit = ({
     };
     const handleClickOpen = () => {
         setOpen(true);
+    };
+
+    const handleClickOpenInv = () => {
+        setOpenInv(true);
+    };
+
+    const uploadImage = (image) => {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "xrfxvojq");
+        data.append("cloud_name", "sorachung");
+        //data.append("resource_type", "image");
+
+        fetch("https://api.cloudinary.com/v1_1/sorachung/upload", {
+            method: "POST",
+            body: data,
+        })
+            .then((resp) => resp.json())
+            .then((data) => {
+                const copy = { ...vetVisit };
+                delete copy.pet;
+                delete copy.vet;
+                copy.invoicePicURL = data.url;
+                MedicalRepository.editVetVisit(copy).then(() =>
+                    syncVetVisits()
+                );
+            })
+            .catch((err) => console.log(err));
     };
 
     return (
@@ -90,6 +120,34 @@ export const VetVisit = ({
                 <AccordionDetails>
                     <Typography>{vetVisit.description}</Typography>
                     <Button onClick={handleClickOpen}>Edit</Button>
+                    {vetVisit.invoicePicURL ? (
+                        <Button onClick={handleClickOpenInv}>
+                            View Invoice
+                        </Button>
+                    ) : (
+                        ""
+                    )}
+                    {vetVisit.invoicePicURL ? (
+                        ""
+                    ) : (
+                        <Button component="label">
+                            Upload invoice
+                            <input
+                                type="file"
+                                hidden
+                                accept="image/*"
+                                onChange={(event) =>
+                                    uploadImage(event.target.files[0])
+                                }
+                            />
+                        </Button>
+                    )}
+                    <ViewInvoiceDialog
+                        vetVisit={vetVisit}
+                        syncVetVisits={syncVetVisits}
+                        openInv={openInv}
+                        setOpenInv={setOpenInv}
+                    />
                 </AccordionDetails>
             </Accordion>
             <EditVetVisitDialog
