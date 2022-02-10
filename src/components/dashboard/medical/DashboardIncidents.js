@@ -15,13 +15,13 @@ export const DashboardIncidents = ({ myPets }) => {
         const incidentsOfAllPets = [];
         const promisesArray = [];
         myPets.forEach((pet) => {
-            promisesArray.push(MedicalRepository.getAllIncidentsByPet(pet.id))
+            promisesArray.push(MedicalRepository.getAllIncidentsByPet(pet.id));
         });
         Promise.all(promisesArray).then((dataArr) => {
             dataArr.forEach((data) => {
                 data = data.filter((incident) => incident.starred);
-            incidentsOfAllPets.push(...data);
-            })
+                incidentsOfAllPets.push(...data);
+            });
             setMyPetsIncidents(incidentsOfAllPets);
         });
     };
