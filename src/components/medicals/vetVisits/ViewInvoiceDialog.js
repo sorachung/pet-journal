@@ -8,17 +8,20 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export const ViewInvoiceDialog = ({ vetVisit, syncVetVisits, openInv, setOpenInv }) => {
-   
+export const ViewInvoiceDialog = ({
+    vetVisit,
+    syncVetVisits,
+    openInv,
+    setOpenInv,
+}) => {
     const removeInvoice = () => {
         handleClose();
-        const copy = {...vetVisit}
+        const copy = { ...vetVisit };
         copy.invoicePicURL = null;
         delete copy.pet;
-        delete copy.vet
+        delete copy.vet;
         MedicalRepository.editVetVisit(copy).then(() => syncVetVisits());
-    }
-
+    };
 
     const handleClose = () => {
         setOpenInv(false);
@@ -26,20 +29,19 @@ export const ViewInvoiceDialog = ({ vetVisit, syncVetVisits, openInv, setOpenInv
 
     return (
         <>
-            
-            <Dialog open={openInv} onClose={handleClose} maxWidth={false}>
-                    <DialogTitle>Inovice</DialogTitle>
-                    <DialogContent>
-                        <Box sx={{maxWidth:"100%"}}>
-                            <img src={vetVisit.invoicePicURL} alt="vet visit invoice" />
-                        </Box>
-                    </DialogContent>
-                    <DialogActions>
-
-                        <Button onClick={removeInvoice}>Remove</Button>
-                        <Button onClick={handleClose}>Cancel</Button>
-
-                    </DialogActions>
+            <Dialog open={openInv} onClose={handleClose} maxWidth="xl">
+                <DialogTitle>Invoice</DialogTitle>
+                <DialogContent>
+                    <img
+                        src={vetVisit.invoicePicURL}
+                        alt="vet visit invoice"
+                        style={{ maxWidth: "100%" }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={removeInvoice}>Remove</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                </DialogActions>
             </Dialog>
         </>
     );
