@@ -23,6 +23,7 @@ export const EditEventDialog = ({
         event.preventDefault();
         handleClose();
         const copy = { ...editedPetEvent };
+        delete copy.pet;
         SchedulingRepository.editEvent(copy).then(() => syncPetEvents());
     };
 

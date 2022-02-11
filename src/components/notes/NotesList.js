@@ -29,7 +29,7 @@ export const NotesList = ({ user, defaultPet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h1" gutterBottom align="center" fontSize="3em">
+            <Typography variant="h3" gutterBottom align="center">
                 {defaultPet?.name}'s Notes
             </Typography>
             <Typography align="center">

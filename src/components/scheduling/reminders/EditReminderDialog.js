@@ -24,6 +24,7 @@ export const EditReminderDialog = ({
         event.preventDefault();
         handleClose();
         const copy = { ...editedPetReminder };
+        delete copy.pet;
         SchedulingRepository.editReminder(copy).then(() => syncPetReminders());
     };
 

@@ -35,7 +35,7 @@ export const EventsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h1" gutterBottom align="center" fontSize="3em">
+            <Typography variant="h5" gutterBottom align="center">
                 Events
             </Typography>
             <AddEventDialog

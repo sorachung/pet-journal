@@ -70,16 +70,29 @@ export const EditVaccinationDialog = ({
                                 setEditedPetVax(copy);
                             }}
                         >
-                            {vaccinations.map((vax) => (
+                            {vaccinations?.map((vax) => (
                                 <MenuItem
                                     key={`vaccination--${vax.id}`}
-                                    value={editedPetVax?.vaccinationId}
+                                    value={vax.id}
                                 >
                                     {vax.shot}
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
+                    <TextField
+                        margin="dense"
+                        id="details"
+                        label="details"
+                        type="details"
+                        value={editedPetVax?.details}
+                        multiline
+                        onChange={(event) => {
+                            const copy = { ...editedPetVax };
+                            copy.details = event.target.value;
+                            setEditedPetVax(copy);
+                        }}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

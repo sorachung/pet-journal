@@ -43,7 +43,7 @@ export const DashboardReminders = ({ user }) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h3" gutterBottom align="center">
+            <Typography variant="h5" gutterBottom align="center">
                 Reminders
             </Typography>
             <Box>
@@ -55,6 +55,7 @@ export const DashboardReminders = ({ user }) => {
                             handleChange={handleChange}
                             expanded={expanded}
                             syncPetReminders={syncMyReminders}
+                            dashboardView={true}
                         />
                     );
                 })}

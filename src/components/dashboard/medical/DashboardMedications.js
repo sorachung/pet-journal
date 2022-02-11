@@ -12,13 +12,18 @@ export const DashboardMedications = ({ myPets }) => {
 
     const syncPetMedications = () => {
         const medsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getMedicationsByPet(pet.id).then((data) => {
+            promisesArray.push(MedicalRepository.getMedicationsByPet(pet.id));
+        });
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
                 data = data.filter((med) => med.starred);
                 medsOfAllPets.push(...data);
-            });
+            })
+            setMyPetsMedications(medsOfAllPets);
         });
-        setMyPetsMedications(medsOfAllPets);
+        
     };
 
     useEffect(() => {
@@ -34,7 +39,7 @@ export const DashboardMedications = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Medications
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box >
                 {myPetsMedications.map((myPetMed) => (
                     <Medication
                         key={myPetMed.id}

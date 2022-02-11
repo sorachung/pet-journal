@@ -38,7 +38,6 @@ export const IncidentsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
                 <Typography variant="h5" gutterBottom align="center">
                     Incidents
                 </Typography>
@@ -49,6 +48,7 @@ export const IncidentsList = ({ pet }) => {
                     incidentTypes={incidentTypes}
                     syncIncidents={syncIncidents}
                 />
+            <Box >
                 {myPetsIncidents.map((incident) => (
                     <Incident
                         key={incident.id}

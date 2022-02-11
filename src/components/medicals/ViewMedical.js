@@ -13,7 +13,7 @@ export const ViewMedical = ({pet, syncPets}) => {
 
     return (
         <Container maxWidth="lg">
-            <Typography variant="h1" gutterBottom align="center" fontSize="3em">
+            <Typography variant="h3" gutterBottom align="center" >
                 {pet ? pet.name + "'s " : ""} Medical
             </Typography>
             {(pet) ?

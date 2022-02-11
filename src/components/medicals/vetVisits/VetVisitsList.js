@@ -13,10 +13,16 @@ export const VetVisitsList = ({ pet }) => {
     const [expanded, setExpanded] = useState(false);
 
     const syncVetVisits = () => {
-        MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
-            setMyPetVetVisits(data);
-        });
+        if (pet?.id) {
+            MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+                setMyPetVetVisits(data);
+            });
+        }
     };
+
+    useEffect(() => {
+        syncVetVisits();
+    }, [pet]);
 
     useEffect(() => {
         syncVetVisits();
@@ -29,16 +35,16 @@ export const VetVisitsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <AddVetVisitDialog
-                    pet={pet}
-                    vets={vets}
-                    syncVetVisits={syncVetVisits}
-                />
-                <Typography variant="h5" gutterBottom align="center">
-                    Vet Visits
-                </Typography>
-                {myPetVetVisits.map((vetVisit) => (
+            <Typography variant="h5" gutterBottom align="center">
+                Vet Visits
+            </Typography>
+            <AddVetVisitDialog
+                pet={pet}
+                vets={vets}
+                syncVetVisits={syncVetVisits}
+            />
+            <Box>
+                {myPetVetVisits?.map((vetVisit) => (
                     <VetVisit
                         key={vetVisit.id}
                         vetVisit={vetVisit}

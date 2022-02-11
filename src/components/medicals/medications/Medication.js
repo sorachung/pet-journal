@@ -7,6 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -21,8 +22,6 @@ export const Medication = ({
     dashboardView,
 }) => {
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {}, [myPetMed]);
 
     const deletePetMed = (event) => {
         event.stopPropagation();
@@ -55,24 +54,29 @@ export const Medication = ({
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${myPetMed.id}-content`}
                     id={`panel${myPetMed.id}-header`}
+                    sx={{
+                        ".MuiAccordionSummary-content": {
+                            justifyContent: "space-between",
+                        },
+                    }}
                 >
-                    <Typography sx={{ width: "20%", flexShrink: 0 }}>
+                    <Typography sx={{ flexShrink: 0, flexBasis: "25%" }}>
                         {myPetMed.name}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "30%",
                             flexShrink: 0,
                             color: "text.secondary",
+                            flexBasis: "10%",
                         }}
                     >
                         {myPetMed.dosage}
                     </Typography>
                     <Typography
                         sx={{
-                            width: "30%",
-                            flexShrink: 0,
+                            flexShrink: 1,
                             color: "text.secondary",
+                            flexBasis: "20%",
                         }}
                     >
                         Current? {myPetMed.isCurrent ? "Yes" : "No"}
@@ -80,7 +84,7 @@ export const Medication = ({
                     {dashboardView ? (
                         <Typography
                             sx={{
-                                width: "10%",
+                                flexBasis: "10%",
                                 flexShrink: 0,
                                 color: "text.secondary",
                             }}
@@ -90,15 +94,24 @@ export const Medication = ({
                     ) : (
                         ""
                     )}
-                    <IconButton onClick={starUnstar}>
-                        {myPetMed.starred ? <StarIcon /> : <StarBorderIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={deletePetMed}
-                        sx={{ marginRight: "1em" }}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexWrap: "no-wrap",
+                            flexBasis: "10%",
+                        }}
                     >
-                        <DeleteIcon />
-                    </IconButton>
+                        <IconButton onClick={starUnstar}>
+                            {myPetMed.starred ? (
+                                <StarIcon />
+                            ) : (
+                                <StarBorderIcon />
+                            )}
+                        </IconButton>
+                        <IconButton onClick={deletePetMed}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Button onClick={handleClickOpen}>Edit</Button>

@@ -12,13 +12,19 @@ export const DashboardVaccinations = ({ myPets }) => {
 
     const syncPetVax = () => {
         const vaxOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getPetVaccinationsByPet(pet.id).then((data) => {
+            promisesArray.push(
+                MedicalRepository.getPetVaccinationsByPet(pet.id)
+            );
+        });
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
                 data = data.filter((vax) => vax.starred);
                 vaxOfAllPets.push(...data);
             });
+            setMyPetsVax(vaxOfAllPets);
         });
-        setMyPetsVax(vaxOfAllPets);
     };
 
     useEffect(() => {
@@ -34,7 +40,7 @@ export const DashboardVaccinations = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Vaccinations
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box >
                 {myPetsVax.map((petVax) => (
                     <Vaccination
                         key={petVax.id}

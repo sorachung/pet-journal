@@ -14,13 +14,18 @@ export const DashboardVetVisits = ({ myPets }) => {
 
     const syncVetVisits = () => {
         const vetVisitsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getAllVetVisitsByPet(pet.id).then((data) => {
+            promisesArray.push(MedicalRepository.getAllVetVisitsByPet(pet.id));
+        });
+
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
                 data = data.filter((visit) => visit.starred);
                 vetVisitsOfAllPets.push(...data);
             });
+            setMyPetsVetVisits(vetVisitsOfAllPets);
         });
-        setMyPetsVetVisits(vetVisitsOfAllPets);
     };
 
     useEffect(() => {
@@ -37,7 +42,7 @@ export const DashboardVetVisits = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Vet Visits
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box >
                 {myPetsVetVisits.map((vetVisit) => (
                     <VetVisit
                         key={vetVisit.id}

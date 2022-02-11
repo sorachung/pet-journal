@@ -7,6 +7,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -52,25 +53,39 @@ export const Contact = ({
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls={`panel${contact.id}-content`}
                     id={`panel${contact.id}-header`}
+                    sx={{
+                        ".MuiAccordionSummary-content": {
+                            justifyContent: "space-between",
+                        },
+                    }}
                 >
-                    <Typography sx={{ width: "15%", flexShrink: 0 }}>
+                    <Typography sx={{ flexBasis: "20%", flexShrink: 0 }}>
                         {contact.contactsType?.type}
                     </Typography>
-                    <Typography sx={{ width: "50%", flexShrink: 0 }}>
+                    <Typography sx={{ width: "50%", flexShrink: 1 }}>
                         {contact.name}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary", width: "25%" }}>
+                    <Typography sx={{ color: "text.secondary", flexShrink: 0, flexBasis: "20%" }}>
                         {contact.phoneNumber}
                     </Typography>
-                    <IconButton onClick={starUnstar}>
-                        {contact.starred ? <StarIcon /> : <StarBorderIcon />}
-                    </IconButton>
-                    <IconButton
-                        onClick={deleteContact}
-                        sx={{ marginRight: "1em" }}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexWrap: "no-wrap",
+                            flexBasis: "10%",
+                        }}
                     >
-                        <DeleteIcon />
-                    </IconButton>
+                        <IconButton onClick={starUnstar}>
+                            {contact.starred ? (
+                                <StarIcon />
+                            ) : (
+                                <StarBorderIcon />
+                            )}
+                        </IconButton>
+                        <IconButton onClick={deleteContact}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails>
                     <Typography>

@@ -11,6 +11,7 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import Typography from "@mui/material/Typography";
 
 export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
     const [newPetVax, setNewPetVax] = useState({ vaccinationId: "" });
@@ -37,13 +38,15 @@ export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
 
     return (
         <>
-            <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                sx={{ marginBottom: "2em" }}
-            >
-                Add vaccination
-            </Button>
+            <Typography align="center">
+                <Button
+                    variant="contained"
+                    onClick={handleClickOpen}
+                    sx={{ marginBottom: "2em" }}
+                >
+                    Add vaccination
+                </Button>
+            </Typography>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addPetVax}>
                     <DialogTitle>Add Vaccination Record</DialogTitle>
@@ -77,7 +80,7 @@ export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
                                     setNewPetVax(copy);
                                 }}
                             >
-                                {vaccinations.map((vax) => (
+                                {vaccinations?.map((vax) => (
                                     <MenuItem
                                         key={`vaccination--${vax.id}`}
                                         value={vax.id}
@@ -87,6 +90,18 @@ export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
                                 ))}
                             </Select>
                         </FormControl>
+                        <TextField
+                            margin="dense"
+                            id="details"
+                            label="details"
+                            type="details"
+                            multiline
+                            onChange={(event) => {
+                                const copy = { ...newPetVax };
+                                copy.details = event.target.value;
+                                setNewPetVax(copy);
+                            }}
+                        />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>

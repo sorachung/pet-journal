@@ -26,10 +26,12 @@ export const VaccinationsList = ({ pet }) => {
     }, [pet]);
 
     useEffect(() => {
-        MedicalRepository.getAllVaccinations().then((data) =>
-            setVaccinations(data)
-        );
-    }, []);
+        if (pet?.specieId) {
+            MedicalRepository.getAllVaccinationsBySpecies(pet.specieId).then((data) =>
+                setVaccinations(data)
+            );
+        }
+    }, [pet]);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -37,15 +39,15 @@ export const VaccinationsList = ({ pet }) => {
 
     return (
         <Container maxWidth="lg">
-            <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h5" gutterBottom align="center">
-                    Vaccinations
-                </Typography>
-                <AddVaccinationDialog
-                    vaccinations={vaccinations}
-                    pet={pet}
-                    syncPetVax={syncPetVax}
-                />
+            <Typography variant="h5" gutterBottom align="center">
+                Vaccinations
+            </Typography>
+            <AddVaccinationDialog
+                vaccinations={vaccinations}
+                pet={pet}
+                syncPetVax={syncPetVax}
+            />
+            <Box>
                 {myPetVax.map((petVax) => (
                     <Vaccination
                         key={petVax.id}
@@ -53,6 +55,7 @@ export const VaccinationsList = ({ pet }) => {
                         syncPetVax={syncPetVax}
                         handleChange={handleChange}
                         expanded={expanded}
+                        vaccinations={vaccinations}
                     />
                 ))}
             </Box>

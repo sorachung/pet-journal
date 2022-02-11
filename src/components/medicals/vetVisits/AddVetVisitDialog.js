@@ -11,6 +11,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 export const AddVetVisitDialog = ({ pet, vets, syncVetVisits }) => {
     const [newVetVisit, setNewVetVisit] = useState({ vetId: "" });
@@ -36,13 +37,15 @@ export const AddVetVisitDialog = ({ pet, vets, syncVetVisits }) => {
 
     return (
         <>
-            <Button
-                variant="contained"
-                onClick={handleClickOpen}
-                sx={{ marginBottom: "2em" }}
-            >
-                Add vet visit
-            </Button>
+            <Typography align="center">
+                <Button
+                    variant="contained"
+                    onClick={handleClickOpen}
+                    sx={{ marginBottom: "2em" }}
+                >
+                    Add vet visit
+                </Button>
+            </Typography>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={addVetVisit}>
                     <DialogTitle>Add Vet Visit</DialogTitle>

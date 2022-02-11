@@ -13,13 +13,17 @@ export const DashboardIncidents = ({ myPets }) => {
 
     const syncIncidents = () => {
         const incidentsOfAllPets = [];
+        const promisesArray = [];
         myPets.forEach((pet) => {
-            MedicalRepository.getAllIncidentsByPet(pet.id).then((data) => {
+            promisesArray.push(MedicalRepository.getAllIncidentsByPet(pet.id));
+        });
+        Promise.all(promisesArray).then((dataArr) => {
+            dataArr.forEach((data) => {
                 data = data.filter((incident) => incident.starred);
                 incidentsOfAllPets.push(...data);
             });
+            setMyPetsIncidents(incidentsOfAllPets);
         });
-        setMyPetsIncidents(incidentsOfAllPets);
     };
 
     useEffect(() => {
@@ -41,7 +45,7 @@ export const DashboardIncidents = ({ myPets }) => {
             <Typography variant="h5" gutterBottom align="center">
                 Incidents
             </Typography>
-            <Box sx={{ textAlign: "center" }}>
+            <Box>
                 {myPetsIncidents.map((incident) => (
                     <Incident
                         key={incident.id}
