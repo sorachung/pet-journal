@@ -46,7 +46,7 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
             age--;
             month--;
         }
-        return age + " and " + ((12 + month) % 12) + " months";
+        return age + " years and " + ((12 + month) % 12) + " months old";
     };
 
     const handleClickOpen = () => {

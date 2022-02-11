@@ -20,15 +20,9 @@ export const Vaccination = ({
     handleChange,
     expanded,
     dashboardView,
+    vaccinations
 }) => {
-    const [vaccinations, setVaccinations] = useState([]);
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        MedicalRepository.getAllVaccinations().then((data) =>
-            setVaccinations(data)
-        );
-    }, []);
 
     const deletePetVax = (event) => {
         event.stopPropagation();
@@ -72,7 +66,7 @@ export const Vaccination = ({
                     <Typography
                         sx={{
                             flexShrink: 1,
-                            flexBasis: "30%"
+                            flexBasis: "30%",
                         }}
                     >
                         {petVax.vaccination?.shot}
@@ -106,6 +100,7 @@ export const Vaccination = ({
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>
+                    <Typography>{petVax.details}</Typography>
                     <Button onClick={handleClickOpen}>Edit</Button>
                 </AccordionDetails>
             </Accordion>

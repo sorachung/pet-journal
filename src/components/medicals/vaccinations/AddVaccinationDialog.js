@@ -80,7 +80,7 @@ export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
                                     setNewPetVax(copy);
                                 }}
                             >
-                                {vaccinations.map((vax) => (
+                                {vaccinations?.map((vax) => (
                                     <MenuItem
                                         key={`vaccination--${vax.id}`}
                                         value={vax.id}
@@ -90,6 +90,18 @@ export const AddVaccinationDialog = ({ pet, vaccinations, syncPetVax }) => {
                                 ))}
                             </Select>
                         </FormControl>
+                        <TextField
+                            margin="dense"
+                            id="details"
+                            label="details"
+                            type="details"
+                            multiline
+                            onChange={(event) => {
+                                const copy = { ...newPetVax };
+                                copy.details = event.target.value;
+                                setNewPetVax(copy);
+                            }}
+                        />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>

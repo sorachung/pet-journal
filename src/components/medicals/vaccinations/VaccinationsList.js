@@ -26,10 +26,12 @@ export const VaccinationsList = ({ pet }) => {
     }, [pet]);
 
     useEffect(() => {
-        MedicalRepository.getAllVaccinations().then((data) =>
-            setVaccinations(data)
-        );
-    }, []);
+        if (pet?.specieId) {
+            MedicalRepository.getAllVaccinationsBySpecies(pet.specieId).then((data) =>
+                setVaccinations(data)
+            );
+        }
+    }, [pet]);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -53,6 +55,7 @@ export const VaccinationsList = ({ pet }) => {
                         syncPetVax={syncPetVax}
                         handleChange={handleChange}
                         expanded={expanded}
+                        vaccinations={vaccinations}
                     />
                 ))}
             </Box>

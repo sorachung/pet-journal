@@ -27,6 +27,9 @@ export default {
     async getAllVaccinations() {
         return await fetchIt(`${Settings.remoteURL}/vaccinations`);
     },
+    async getAllVaccinationsBySpecies(specieId) {
+        return await fetchIt(`${Settings.remoteURL}/vaccinations?specieId=${specieId}`);
+    },
 
     async getPetVaccinationsByPet(petId) {
         return await fetchIt(
