@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 import { Dashboard } from "./dashboard/Dashboard";
 import { ContactRoutes } from "./routes/ContactRoutes";
 import { MedicalRoutes } from "./routes/MedicalRoutes";
+import { MemoryRoutes } from "./routes/MemoryRoutes";
 import { NoteRoutes } from "./routes/NoteRoutes";
 import { PetRoutes } from "./routes/PetRoutes";
 import { SchedulingRoutes } from "./routes/SchedulingRoutes";
@@ -18,6 +19,7 @@ export const ApplicationView = ({user, updateUser, pet, myPets, setMyPets, defau
             <ContactRoutes />
             <NoteRoutes user={user} defaultPet={defaultPet} />
             <SchedulingRoutes pet={pet}/>
+            <MemoryRoutes user={user} defaultPet={defaultPet} myPets={myPets} />
         </>
     )
 }

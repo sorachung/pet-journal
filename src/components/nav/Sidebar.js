@@ -21,6 +21,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import StickyNote2Icon from "@mui/icons-material/StickyNote2";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 
 const drawerWidth = 240;
 
@@ -239,6 +240,19 @@ export const Sidebar = ({ open, setOpen }) => {
                         </ListItemButton>
                     </List>
                 </Collapse>
+                <ListItem
+                    button
+                    key={"Memories"}
+                    onClick={() => {
+                        handleDrawerClose();
+                        history.push("/memories");
+                    }}
+                >
+                    <ListItemIcon>
+                        <PhotoLibraryIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={"Memories"} />
+                </ListItem>
             </List>
         </Drawer>
     );
