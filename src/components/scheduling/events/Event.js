@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { seeIfPast } from "../../time/TimeFormatting";
+import { seeIfPast } from "../../../time/TimeFormatting";
 
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
