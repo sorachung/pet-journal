@@ -21,9 +21,9 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
 
     return (
         <>
-            <Container maxWidth="lg">
+            <Container maxWidth="sm">
                 {myMemories.map((memory) => (
-                    <Memory memory={memory} />
+                    <Memory memory={memory} syncMyMemories={syncMyMemories}/>
                 ))}
             </Container>
         </>
