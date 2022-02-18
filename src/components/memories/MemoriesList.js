@@ -23,7 +23,7 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
         <>
             <Container maxWidth="sm">
                 {myMemories.map((memory) => (
-                    <Memory memory={memory} syncMyMemories={syncMyMemories} />
+                    <Memory key={memory.id} memory={memory} syncMyMemories={syncMyMemories} />
                 ))}
             </Container>
         </>
