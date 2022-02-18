@@ -10,9 +10,9 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
     const { getCurrentUser } = useSimpleAuth();
 
     const syncMyMemories = () => {
-        MemoriesRepository.findMemoriesByUser(getCurrentUser().id).then(
-            (data) => setMyMemories(data)
-        );
+        MemoriesRepository.findMemoriesByUserEmbedTags(
+            getCurrentUser().id
+        ).then((data) => setMyMemories(data));
     };
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
         <>
             <Container maxWidth="sm">
                 {myMemories.map((memory) => (
-                    <Memory memory={memory} syncMyMemories={syncMyMemories}/>
+                    <Memory memory={memory} syncMyMemories={syncMyMemories} />
                 ))}
             </Container>
         </>

@@ -16,6 +16,7 @@ export const EditMemoryDialog = ({ open, setOpen, syncMyMemories, memory }) => {
         handleClose();
         const copy = { ...editedMemory };
         copy.timestamp = Date.now();
+        delete copy.memoriesTags;
         MemoriesRepository.editMemory(copy).then(() => syncMyMemories());
     };
     const handleClose = () => {

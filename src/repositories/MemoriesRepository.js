@@ -11,8 +11,8 @@ export default {
     async editMemory(memory) {
         return await fetchIt(`${Settings.remoteURL}/memories/${memory.id}`, "PUT", JSON.stringify(memory))
     },
-    async findMemoriesByUser(userId) {
-        return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}`)
+    async findMemoriesByUserEmbedTags(userId) {
+        return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}&_embed=memoriesTags`)
     },
     async findStarredMemoriesByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}&starred=true`)
