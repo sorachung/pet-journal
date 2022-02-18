@@ -1,7 +1,10 @@
 import React from "react";
 
-export const Memory = () => {
+export const Memory = ({memory={memory}}) => {
     return (
-        <h1>Memory component</h1>
+        <p>
+            {memory?.title}
+        </p>
+
     )
 }

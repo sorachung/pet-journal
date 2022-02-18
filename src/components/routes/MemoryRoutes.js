@@ -6,7 +6,7 @@ export const MemoryRoutes = ({user, defaultPet, myPets}) => {
     return (
         <>
             <Route exact path="/memories">
-                <MemoriesList user={user} defaultPet={defaultPet} myPets={myPets}/>
+                <MemoriesList user={user} myPets={myPets}/>
             </Route>
         </>
     )
