@@ -26,7 +26,7 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/memoriesTags/${id}`)
     },
     async addTag(tag) {
-        return await fetchIt(`${Settings.remoteURL}/memoriesTags`, "POST", JSON.stringify(memory))
+        return await fetchIt(`${Settings.remoteURL}/memoriesTags`, "POST", JSON.stringify(tag))
     },
     async editTag(tag) {
         return await fetchIt(`${Settings.remoteURL}/memoriesTags/${tag.id}`, "PUT", JSON.stringify(tag))
