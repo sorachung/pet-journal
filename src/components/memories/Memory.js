@@ -12,15 +12,17 @@ import MemoriesRepository from "../../repositories/MemoriesRepository";
 import PetRepository from "../../repositories/PetRepository";
 import { EditMemoryDialog } from "./EditMemoryDialog";
 
-export const Memory = ({ memory, syncMyMemories }) => {
+export const Memory = ({ memory, syncMyMemories, setTagView }) => {
     const [open, setOpen] = useState(false);
-    const [tags, setTags] = useState([])
+    const [tags, setTags] = useState([]);
 
     useEffect(() => {
-        Promise.all(memory.memoriesTags.map(tag => PetRepository.get(tag.petId)))
-            .then(dataArr => setTags(dataArr))
-
-    }, [memory])
+        MemoriesRepository.findTagsByMemory(memory.id)
+            .then((tagsArr) =>
+                Promise.all(tagsArr.map((tag) => PetRepository.get(tag.petId)))
+            )
+            .then((dataArr) => setTags(dataArr));
+    }, [memory]);
 
     const deleteMemory = () => [
         MemoriesRepository.delete(memory.id).then(() => syncMyMemories()),
@@ -48,7 +50,18 @@ export const Memory = ({ memory, syncMyMemories }) => {
                 <Typography variant="caption" color="text.secondary">
                     {new Date(memory.timestamp).toLocaleString()}
                 </Typography>
-                {tags.map(tag => <Button key={tag.id} variant="outlined" size="small" color="secondary" sx={{ml:"1em"}}>{tag.name}</Button>)}
+                {tags.map((tag) => (
+                    <Button
+                        key={tag.id}
+                        variant="outlined"
+                        size="small"
+                        color="secondary"
+                        sx={{ ml: "1em" }}
+                        onClick={() => setTagView(tag)}
+                    >
+                        {tag.name}
+                    </Button>
+                ))}
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={handleClickOpen}>

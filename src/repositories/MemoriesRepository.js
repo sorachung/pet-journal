@@ -11,8 +11,8 @@ export default {
     async editMemory(memory) {
         return await fetchIt(`${Settings.remoteURL}/memories/${memory.id}`, "PUT", JSON.stringify(memory))
     },
-    async findMemoriesByUserEmbedTags(userId) {
-        return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}&_embed=memoriesTags`)
+    async findMemoriesByUser(userId) {
+        return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}`)
     },
     async findStarredMemoriesByUser(userId) {
         return await fetchIt(`${Settings.remoteURL}/memories?userId=${userId}&starred=true`)
@@ -32,7 +32,10 @@ export default {
         return await fetchIt(`${Settings.remoteURL}/memoriesTags/${tag.id}`, "PUT", JSON.stringify(tag))
     },
     async findTagsByPetExpandMemories(petId) {
-        return await fetchIt(`${Settings.remoteURL}/memoriesTags?userId=${petId}&_expand=memory`)
+        return await fetchIt(`${Settings.remoteURL}/memoriesTags?petId=${petId}&_expand=memory`)
+    },
+    async findTagsByMemory(memoryId) {
+        return await fetchIt(`${Settings.remoteURL}/memoriesTags?memoryId=${memoryId}`)
     },
     async deleteTags(id) {
         return await fetchIt(`${Settings.remoteURL}/memoriesTags/${id}`, "DELETE")
