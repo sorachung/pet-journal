@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useSimpleAuth from "../../../hooks/ui/useSimpleAuth";
 import { Reminder } from "../../scheduling/reminders/Reminder";
-import { convertToTimestamp } from "../../time/TimeFormatting";
+import { convertToTimestamp } from "../../../time/TimeFormatting";
 
 
 export const DashboardReminders = ({ user }) => {

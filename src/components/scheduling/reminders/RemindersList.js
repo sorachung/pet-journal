@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SchedulingRepository from "../../../repositories/SchedulingRepository";
-import { convertToTimestamp } from "../../time/TimeFormatting";
+import { convertToTimestamp } from "../../../time/TimeFormatting";
 
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
