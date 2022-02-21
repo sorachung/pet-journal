@@ -39,9 +39,9 @@ export const Pet = ({ pet, syncPets, user, updateUser, sexes }) => {
             <Card sx={{ minWidth: 200 }}>
                 <CardMedia
                     component="img"
-                    image="https://cdn-icons-png.flaticon.com/512/12/12638.png"
+                    image={pet.photoURL ? pet.photoURL : "https://cdn-icons-png.flaticon.com/512/12/12638.png"}
                     alt="paw print"
-                    sx={{width: "100%", height: "auto"}}
+                    sx={{width: "100%", height: "300px"}}
                 />
                 <CardContent>
                     <Typography
