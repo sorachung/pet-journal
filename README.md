@@ -9,8 +9,22 @@ Pet Journal is a webapp for tracking and logging information related to your pet
 ### Features
 
 * Add pets to your profile - dogs, cats, rabbits, reptiles, etc
-* Choose default pet view
-* 
+* Choose default pet view for Medical, Notes, and Scheduling - you only see the information for the chosen pet
+* Dashboard view - see starred info for all of your pets
+* Ablility to star any data to show up on dashboard
+* Contacts - where you can save information such as phone numbers, addresses, etc for vets, groomers, sitters, etc
+* Scheduling - such as events and reminders. 
+  * Events and reminders grey out when the datetime has passed
+  * Reminders can be checked to indicate that they are complete
+* Notes - a place where you can write anything about your pet
+* Memories - where you can upload photos with titles and captions of your pets
+  * you can filter posts by pet and/or by starred status
+* Compile your pets' medical information under Medical
+  * Bio - save your pets weight, microchip, allergies, and other basic information
+  * Medications - track any medications your pets take or have taken in the past
+  * Incidents - track any incidents or illnessees your pets have gone through or are going through
+  * Vet Visits - track vet visits for your pets and save any details about the visit, including uploading a picture of the vet invoice
+  * Vaccinations - track vaccinations your pet has taken by shot and by date
 
 
 ## How To Use
@@ -30,7 +44,7 @@ Pet Journal is a webapp for tracking and logging information related to your pet
 
 #### Demo
 * existing user login email: sora@chung.com
-* can also register as new user
+* can also register as new user and start by adding a pet
 
 ## Planning Docs
 * [ERD](https://dbdiagram.io/d/61e1fd3f4bca010ae98dbe93)
