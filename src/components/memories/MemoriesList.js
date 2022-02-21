@@ -6,6 +6,7 @@ import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import { Typography } from "@mui/material";
+import { AddMemoryDialog } from "./AddMemoryDialog";
 
 export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
     const [myMemories, setMyMemories] = useState([]);
@@ -35,6 +36,11 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
     return (
         <>
             <Container maxWidth="sm">
+                <AddMemoryDialog
+                    syncMyMemories={syncMyMemories}
+                    myPets={myPets}
+                    userId={getCurrentUser().id}
+                />
                 {tagView ? (
                     <Typography>
                         Viewing {tagView.name}.{" "}
