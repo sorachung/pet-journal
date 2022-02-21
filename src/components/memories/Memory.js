@@ -12,7 +12,7 @@ import MemoriesRepository from "../../repositories/MemoriesRepository";
 import PetRepository from "../../repositories/PetRepository";
 import { EditMemoryDialog } from "./EditMemoryDialog";
 
-export const Memory = ({ memory, syncMyMemories, setTagView }) => {
+export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
     const [open, setOpen] = useState(false);
     const [tags, setTags] = useState([]);
 
@@ -20,8 +20,14 @@ export const Memory = ({ memory, syncMyMemories, setTagView }) => {
         MemoriesRepository.findTagsByMemory(memory.id)
             .then((tagsArr) =>
                 Promise.all(tagsArr.map((tag) => PetRepository.get(tag.petId)))
+                .then((dataArr) => {
+                    for (let i = 0; i < dataArr.length; i++) {
+                        tagsArr[i].pet = dataArr[i];
+                    }
+                    setTags(tagsArr)
+                })
             )
-            .then((dataArr) => setTags(dataArr));
+            
     }, [memory]);
 
     const deleteMemory = () => [
@@ -52,14 +58,14 @@ export const Memory = ({ memory, syncMyMemories, setTagView }) => {
                 </Typography>
                 {tags.map((tag) => (
                     <Button
-                        key={tag.id}
+                        key={tag.petId}
                         variant="outlined"
                         size="small"
                         color="secondary"
                         sx={{ ml: "1em" }}
-                        onClick={() => setTagView(tag)}
+                        onClick={() => setTagView(tag.pet)}
                     >
-                        {tag.name}
+                        {tag.pet.name}
                     </Button>
                 ))}
             </CardContent>
@@ -79,6 +85,8 @@ export const Memory = ({ memory, syncMyMemories, setTagView }) => {
                 memory={memory}
                 open={open}
                 setOpen={setOpen}
+                tags={tags}
+                myPets={myPets}
             />
         </Card>
     );
