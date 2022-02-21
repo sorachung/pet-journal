@@ -57,6 +57,7 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
                         memory={memory}
                         syncMyMemories={syncMyMemories}
                         setTagView={setTagView}
+                        myPets={myPets}
                     />
                 ))}
             </Container>

@@ -41,7 +41,7 @@ export const AddMemoryDialog = ({ syncMyMemories, myPets, userId }) => {
         });
     };
     const handleClose = () => {
-        updateNewMemory({})
+        updateNewMemory({});
         setOpen(false);
     };
 
@@ -166,9 +166,6 @@ export const AddMemoryDialog = ({ syncMyMemories, myPets, userId }) => {
                                                                 copy
                                                             );
                                                         }
-                                                        console.log(
-                                                            newTagPetIds
-                                                        );
                                                     }}
                                                     name={pet.name}
                                                 />

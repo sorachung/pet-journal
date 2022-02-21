@@ -16,7 +16,7 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
     const [open, setOpen] = useState(false);
     const [tags, setTags] = useState([]);
 
-    useEffect(() => {
+    const syncTags = () => {
         MemoriesRepository.findTagsByMemory(memory.id)
             .then((tagsArr) =>
                 Promise.all(tagsArr.map((tag) => PetRepository.get(tag.petId)))
@@ -27,7 +27,10 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
                     setTags(tagsArr)
                 })
             )
-            
+    }
+    
+    useEffect(() => {
+        syncTags()
     }, [memory]);
 
     const deleteMemory = () => [
@@ -86,6 +89,7 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
                 open={open}
                 setOpen={setOpen}
                 tags={tags}
+                syncTags={syncTags}
                 myPets={myPets}
             />
         </Card>
