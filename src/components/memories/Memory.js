@@ -17,20 +17,20 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
     const [tags, setTags] = useState([]);
 
     const syncTags = () => {
-        MemoriesRepository.findTagsByMemory(memory.id)
-            .then((tagsArr) =>
-                Promise.all(tagsArr.map((tag) => PetRepository.get(tag.petId)))
-                .then((dataArr) => {
-                    for (let i = 0; i < dataArr.length; i++) {
-                        tagsArr[i].pet = dataArr[i];
-                    }
-                    setTags(tagsArr)
-                })
-            )
-    }
-    
+        MemoriesRepository.findTagsByMemory(memory.id).then((tagsArr) =>
+            Promise.all(
+                tagsArr.map((tag) => PetRepository.get(tag.petId))
+            ).then((dataArr) => {
+                for (let i = 0; i < dataArr.length; i++) {
+                    tagsArr[i].pet = dataArr[i];
+                }
+                setTags(tagsArr);
+            })
+        );
+    };
+
     useEffect(() => {
-        syncTags()
+        syncTags();
     }, [memory]);
 
     const deleteMemory = () => [
@@ -59,18 +59,20 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
                 <Typography variant="caption" color="text.secondary">
                     {new Date(memory.timestamp).toLocaleString()}
                 </Typography>
-                {tags.map((tag) => (
-                    <Button
-                        key={tag.petId}
-                        variant="outlined"
-                        size="small"
-                        color="secondary"
-                        sx={{ ml: "1em" }}
-                        onClick={() => setTagView(tag.pet)}
-                    >
-                        {tag.pet.name}
-                    </Button>
-                ))}
+                {setTagView
+                    ? tags.map((tag) => (
+                          <Button
+                              key={tag.petId}
+                              variant="outlined"
+                              size="small"
+                              color="secondary"
+                              sx={{ ml: "1em" }}
+                              onClick={() => setTagView(tag.pet)}
+                          >
+                              {tag.pet.name}
+                          </Button>
+                      ))
+                    : ""}
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={handleClickOpen}>
