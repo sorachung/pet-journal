@@ -11,11 +11,17 @@ import { AddMemoryDialog } from "./AddMemoryDialog";
 export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
     const [myMemories, setMyMemories] = useState([]);
     const [tagView, setTagView] = useState(null);
+    const [starredView, setStarredView] = useState(false);
     const { getCurrentUser } = useSimpleAuth();
 
     const syncMyMemories = () => {
         MemoriesRepository.findMemoriesByUser(getCurrentUser().id).then(
-            (data) => setMyMemories(data)
+            (data) => {
+                if (starredView) {
+                    data = data.filter((memory) => memory.starred);
+                }
+                setMyMemories(data);
+            }
         );
     };
 
@@ -26,12 +32,20 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
     useEffect(() => {
         if (tagView) {
             MemoriesRepository.findTagsByPetExpandMemories(tagView.id).then(
-                (tagsArr) => setMyMemories(tagsArr.map((tag) => tag.memory))
+                (tagsArr) => {
+                    let memoriesArr = tagsArr.map((tag) => tag.memory);
+                    if (starredView) {
+                        memoriesArr = memoriesArr.filter(
+                            (memory) => memory.starred
+                        );
+                    }
+                    setMyMemories(memoriesArr);
+                }
             );
         } else {
             syncMyMemories();
         }
-    }, [tagView]);
+    }, [tagView, starredView]);
 
     return (
         <>
@@ -41,16 +55,36 @@ export const MemoriesList = ({ user = { user }, myPets = { myPets } }) => {
                     myPets={myPets}
                     userId={getCurrentUser().id}
                 />
-                {tagView ? (
-                    <Typography>
-                        Viewing {tagView.name}.{" "}
-                        <Button onClick={() => setTagView(null)}>
-                            View all
-                        </Button>
-                    </Typography>
-                ) : (
-                    ""
-                )}
+                {myPets.map((pet) => (
+                    <Button
+                        key={pet.id}
+                        disableElevation={true}
+                        variant={
+                            tagView && tagView.id === pet.id
+                                ? "contained"
+                                : "outlined"
+                        }
+                        onClick={() => {
+                            if (tagView && tagView.id === pet.id) {
+                                setTagView(null);
+                            } else {
+                                setTagView(pet);
+                            }
+                        }}
+                    >
+                        {pet.name}
+                    </Button>
+                ))}
+                <Button
+                    sx={{ ml: "2em" }}
+                    disableElevation={true}
+                    variant={starredView ? "contained" : "outlined"}
+                    onClick={() => {
+                        setStarredView(!starredView);
+                    }}
+                >
+                    Starred
+                </Button>
                 {myMemories.map((memory) => (
                     <Memory
                         key={memory.id}
