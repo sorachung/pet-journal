@@ -50,6 +50,7 @@ export const Incident = ({
             <Accordion
                 expanded={expanded === `panel${incident.id}`}
                 onChange={handleChange(`panel${incident.id}`)}
+                sx={{ backgroundColor: "white" }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

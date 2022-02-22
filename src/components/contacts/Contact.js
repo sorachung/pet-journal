@@ -48,6 +48,7 @@ export const Contact = ({
             <Accordion
                 expanded={expanded === `panel${contact.id}`}
                 onChange={handleChange(`panel${contact.id}`)}
+                sx={{ backgroundColor: "white" }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
@@ -65,7 +66,13 @@ export const Contact = ({
                     <Typography sx={{ width: "50%", flexShrink: 1 }}>
                         {contact.name}
                     </Typography>
-                    <Typography sx={{ color: "text.secondary", flexShrink: 0, flexBasis: "20%" }}>
+                    <Typography
+                        sx={{
+                            color: "text.secondary",
+                            flexShrink: 0,
+                            flexBasis: "20%",
+                        }}
+                    >
                         {contact.phoneNumber}
                     </Typography>
                     <Box

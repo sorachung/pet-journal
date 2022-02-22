@@ -49,6 +49,7 @@ export const Medication = ({
             <Accordion
                 expanded={expanded === `panel${myPetMed.id}`}
                 onChange={handleChange(`panel${myPetMed.id}`)}
+                sx={{ backgroundColor: "white" }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}

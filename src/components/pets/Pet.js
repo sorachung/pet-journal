@@ -36,7 +36,7 @@ export const Pet = ({ pet, syncPets, user, updateUser, sexes }) => {
 
     return (
         <Container maxWidth="md">
-            <Card sx={{ minWidth: 200 }}>
+            <Card sx={{ minWidth: 200, backgroundColor:"white" }}>
                 <CardMedia
                     component="img"
                     image={pet.photoURL ? pet.photoURL : "https://cdn-icons-png.flaticon.com/512/12/12638.png"}

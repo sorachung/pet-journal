@@ -49,7 +49,7 @@ export const Memory = ({ memory, syncMyMemories, setTagView, myPets }) => {
     };
 
     return (
-        <Card sx={{ minWidth: 200 }}>
+        <Card sx={{ minWidth: 200, backgroundColor:"white" }}>
             <CardContent>
                 <Typography gutterBottom variant="h2" fontSize="1.5em">
                     {memory.title}
