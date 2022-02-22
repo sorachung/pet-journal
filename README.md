@@ -37,7 +37,7 @@ Pet Journal is a webapp for tracking and logging information related to your pet
 #### Installation/Starting the app
 * clone the repository
 * install necessary files with `npm install` in root directory of repo
-* clone the API
+* clone the [API](https://github.com/sorachung/pet-journal-api)
 * install JSON Server with `npm install json-server` in API directory (add the -g flag if you'd like to install it globally)
 * host the api on port 8088 with `json-server -p 8088 database.json`
 * in root directory of repo, start the app with `npm start`
