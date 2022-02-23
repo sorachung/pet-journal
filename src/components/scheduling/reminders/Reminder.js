@@ -57,7 +57,7 @@ export const Reminder = ({
         ? "success.main"
         : seeIfPast(petReminder.date, petReminder.time)
         ? "grey.400"
-        : "";
+        : "white";
     const color = petReminder.complete ? "primary.contrastText" : "";
 
     return (

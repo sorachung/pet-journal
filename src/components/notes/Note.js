@@ -30,7 +30,7 @@ export const Note = ({ note, syncNotes }) => {
     };
 
     return (
-        <Card sx={{ minWidth: 200 }}>
+        <Card sx={{ minWidth: 200, backgroundColor:"info.main"}}>
             <CardContent>
                 <Typography gutterBottom variant="h2" fontSize="1.5em">
                     {note.subject}
@@ -41,10 +41,10 @@ export const Note = ({ note, syncNotes }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" onClick={handleClickOpen}>
+                <Button size="small" variant="outlined" sx={{color:"info.contrastText"}} onClick={handleClickOpen}>
                     Edit
                 </Button>
-                <Button size="small" onClick={deleteNote}>
+                <Button size="small" variant="outlined" sx={{color:"info.contrastText"}} onClick={deleteNote}>
                     Delete
                 </Button>
                 <IconButton onClick={starUnstar}>

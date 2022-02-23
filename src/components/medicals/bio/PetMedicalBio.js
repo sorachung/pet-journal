@@ -60,7 +60,7 @@ export const PetMedicalBio = ({ pet, syncPets }) => {
     return (
         <Container maxWidth="sm">
             <Box>
-                <Card>
+                <Card sx={{backgroundColor:"white"}}>
                     <CardContent>
                         <CardHeader
                             title="Medical bio"
